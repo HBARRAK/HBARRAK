@@ -1,1547 +1,1106 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl" class="h-full">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>البراق | الفضاء التفاعلي للفكر والجمال</title>
-
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        paper: {
-                            50: '#FAF8F5',
-                            100: '#F4F0E8',
-                            200: '#E8E1D5',
-                            300: '#D6CBB8',
-                            800: '#262320',
-                            900: '#1C1917'
-                        },
-                        ink: {
-                            500: '#78716C',
-                            700: '#44403C',
-                            800: '#292524',
-                            900: '#0C0A09'
-                        },
-                        brass: {
-                            400: '#E5C158',
-                            500: '#B8860B',
-                            600: '#996515',
-                            700: '#784E0C'
-                        },
-                        crimson: {
-                            600: '#991B1B'
-                        }
+<script>
+    tailwind.config = {
+        darkMode: 'class',
+        theme: {
+            extend: {
+                colors: {
+                    paper: {
+                        50: '#FAF7F2',
+                        100: '#F4EFE6',
+                        200: '#E8DFC8',
+                        300: '#D9CBAB',
                     },
-                    fontFamily: {
-                        serif: ['Amiri', 'Traditional Arabic', 'serif'],
-                        sans: ['Cairo', 'sans-serif']
+                    ink: {
+                        900: '#0F172A',
+                        800: '#1E293B',
+                        700: '#334155',
+                        600: '#475569',
+                    },
+                    brass: {
+                        400: '#EAB308',
+                        500: '#C59B27',
+                        600: '#A37F1F',
+                        700: '#806214',
+                    },
+                    crimson: {
+                        700: '#8C2525',
+                        800: '#6E1B1B',
                     }
+                },
+                fontFamily: {
+                    serif: ['Amiri', 'serif'],
+                    sans: ['Cairo', 'sans-serif'],
                 }
             }
         }
-    </script>
+    }
+</script>
+<style>
+    body {
+        background-color: #FAF7F2;
+        color: #0F172A;
+        font-family: 'Cairo', sans-serif;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    .dark body {
+        background-color: #0B1120;
+        color: #F4EFE6;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.05);
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #C59B27;
+        border-radius: 4px;
+    }
+    .canvas-bg {
+        background-image: radial-gradient(rgba(197, 155, 39, 0.15) 1.5px, transparent 1.5px);
+        background-size: 28px 28px;
+    }
+    .dark .canvas-bg {
+        background-image: radial-gradient(rgba(234, 179, 8, 0.1) 1.5px, transparent 1.5px);
+        background-size: 28px 28px;
+    }
+</style>
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
-    
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <style>
-        body {
-            font-family: 'Cairo', sans-serif;
-            overflow-x: hidden;
-        }
-        .font-serif {
-            font-family: 'Amiri', serif;
-        }
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: rgba(0,0,0,0.05);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: rgba(184, 134, 11, 0.4);
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(184, 134, 11, 0.7);
-        }
-        .canvas-bg {
-            background-color: #FAF8F5;
-            background-image: 
-                radial-gradient(circle at 50% 50%, rgba(184, 134, 11, 0.05) 0%, transparent 70%),
-                radial-gradient(circle, rgba(184, 134, 11, 0.12) 1px, transparent 1px);
-            background-size: 100% 100%, 36px 36px;
-        }
-        .dark .canvas-bg {
-            background-color: #1C1917;
-            background-image: 
-                radial-gradient(circle at 50% 50%, rgba(229, 193, 88, 0.06) 0%, transparent 70%),
-                radial-gradient(circle, rgba(229, 193, 88, 0.12) 1px, transparent 1px);
-        }
-        @keyframes pulse-subtle {
-            0%, 100% { opacity: 0.4; transform: scale(1); }
-            50% { opacity: 0.8; transform: scale(1.02); }
-        }
-        .animate-subtle {
-            animation: pulse-subtle 4s infinite ease-in-out;
-        }
-    </style>
-</head>
-<body class="bg-paper-50 dark:bg-ink-900 text-ink-900 dark:text-paper-50 transition-colors duration-300 min-h-screen flex flex-col">
-
-    <header class="sticky top-0 z-40 bg-paper-50/90 dark:bg-ink-900/90 backdrop-blur-md border-b border-paper-200 dark:border-ink-800 px-4 py-3 flex items-center justify-between">
-        <div class="flex items-center gap-3">
-            <h1 class="font-serif text-2xl font-bold tracking-wide text-brass-600 dark:text-brass-400 flex items-center gap-2">
-                <i class="fa-solid fa-feather-pointed text-xl"></i>
-                <span>البُرَاق</span>
-            </h1>
-            <span class="text-xs px-2.5 py-1 rounded-full bg-brass-500/10 text-brass-700 dark:text-brass-400 font-bold border border-brass-500/20 hidden sm:inline-block">الفضاء التفاعلي للفكر والجمال</span>
-        </div>
-
-        <!-- View Switcher -->
-        <div class="flex items-center bg-paper-100 dark:bg-ink-800 p-1 rounded-xl border border-paper-200 dark:border-ink-700 text-xs sm:text-sm shadow-inner">
-            <button id="view-canvas-btn" onclick="switchMainView('canvas')" class="px-3.5 py-1.5 rounded-lg font-bold bg-brass-500 text-paper-50 shadow transition-all flex items-center gap-1.5">
-                <i class="fa-solid fa-compass text-xs"></i>
-                <span>الفضاء الفلسفي التفاعلي</span>
-            </button>
-            <button id="view-editorial-btn" onclick="switchMainView('editorial')" class="px-3.5 py-1.5 rounded-lg font-semibold text-ink-700 dark:text-paper-300 hover:text-brass-500 transition-all flex items-center gap-1.5">
-                <i class="fa-solid fa-box-archive text-xs"></i>
-                <span>الأرشيف المقالي</span>
-            </button>
-        </div>
-
-        <!-- Utility Buttons -->
-        <div class="flex items-center gap-2">
-            <button onclick="toggleSearchModal()" class="p-2.5 rounded-xl bg-paper-100 dark:bg-ink-800 hover:bg-paper-200 dark:hover:bg-ink-700 text-ink-700 dark:text-paper-300 transition-all shadow-sm" title="بحث في الفضاء">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
-
-            <button onclick="openAdminAuth()" class="p-2.5 rounded-xl bg-brass-500/10 hover:bg-brass-500/20 text-brass-600 dark:text-brass-400 border border-brass-500/30 transition-all shadow-sm" title="لوحة التحكم الإدارية السرية">
-                <i class="fa-solid fa-key"></i>
-            </button>
-
-            <button onclick="toggleDarkMode()" class="p-2.5 rounded-xl bg-paper-100 dark:bg-ink-800 hover:bg-paper-200 dark:hover:bg-ink-700 text-ink-700 dark:text-paper-300 transition-all shadow-sm" title="تغيير المظهر">
-                <i id="theme-icon" class="fa-solid fa-moon"></i>
-            </button>
-        </div>
-    </header>
-
-    <main class="flex-1 relative overflow-hidden flex flex-col">
+<!-- Navbar -->
+<header class="sticky top-0 z-40 bg-paper-50/90 dark:bg-ink-900/90 backdrop-blur-md border-b border-paper-200 dark:border-ink-800 transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
         
-        <!-- CANVAS VIEW -->
-        <div id="main-view-canvas" class="w-full h-[calc(100vh-61px)] relative canvas-bg overflow-hidden cursor-grab active:cursor-grabbing">
-            
-            <!-- Category Quick Filter Overlay on Canvas -->
-            <div class="absolute top-4 right-4 left-4 z-10 flex flex-wrap items-center justify-between gap-2 pointer-events-none">
-                <div class="bg-paper-50/95 dark:bg-ink-900/95 backdrop-blur-md border border-paper-200 dark:border-ink-800 p-2 rounded-2xl shadow-xl flex items-center gap-1.5 overflow-x-auto max-w-full pointer-events-auto">
-                    <span class="text-xs font-bold text-brass-600 dark:text-brass-400 px-2 flex items-center gap-1">
-                        <i class="fa-solid fa-filter"></i> تصفية الفضاء:
+        <!-- Logo & Brand -->
+        <div class="flex items-center gap-4">
+            <a href="#" onclick="switchView('editorial'); return false;" class="flex items-center gap-3 group">
+                <div class="w-11 h-11 rounded-full border-2 border-brass-500/60 bg-paper-100 dark:bg-ink-800 flex items-center justify-center font-serif font-bold text-2xl text-brass-600 dark:text-brass-400 group-hover:bg-brass-500 group-hover:text-paper-50 transition-all duration-300 shadow-sm">
+                    ب
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-serif font-bold text-2xl tracking-tight text-ink-900 dark:text-paper-50 group-hover:text-brass-600 dark:group-hover:text-brass-400 transition-colors">
+                        البراق
                     </span>
-                    <button onclick="filterCanvasCategory('all')" class="canvas-cat-btn px-3 py-1 text-xs rounded-xl font-bold bg-brass-500 text-white transition-all">الكل</button>
-                    <button onclick="filterCanvasCategory('دين وعرفان')" class="canvas-cat-btn px-3 py-1 text-xs rounded-xl font-semibold bg-paper-100 dark:bg-ink-800 text-ink-700 dark:text-paper-300 hover:text-brass-500 transition-all">دين وعرفان</button>
-                    <button onclick="filterCanvasCategory('علوم إنسانية')" class="canvas-cat-btn px-3 py-1 text-xs rounded-xl font-semibold bg-paper-100 dark:bg-ink-800 text-ink-700 dark:text-paper-300 hover:text-brass-500 transition-all">علوم إنسانية</button>
-                    <button onclick="filterCanvasCategory('أدب ونقد')" class="canvas-cat-btn px-3 py-1 text-xs rounded-xl font-semibold bg-paper-100 dark:bg-ink-800 text-ink-700 dark:text-paper-300 hover:text-brass-500 transition-all">أدب ونقد</button>
-                    <button onclick="filterCanvasCategory('تحليلات سياسية')" class="canvas-cat-btn px-3 py-1 text-xs rounded-xl font-semibold bg-paper-100 dark:bg-ink-800 text-ink-700 dark:text-paper-300 hover:text-brass-500 transition-all">تحليلات سياسية</button>
-                    <button onclick="filterCanvasCategory('فنون وجمال')" class="canvas-cat-btn px-3 py-1 text-xs rounded-xl font-semibold bg-paper-100 dark:bg-ink-800 text-ink-700 dark:text-paper-300 hover:text-brass-500 transition-all">فنون وجمال</button>
-                    <button onclick="filterCanvasCategory('إقتباسات')" class="canvas-cat-btn px-3 py-1 text-xs rounded-xl font-semibold bg-paper-100 dark:bg-ink-800 text-ink-700 dark:text-paper-300 hover:text-brass-500 transition-all">إقتباسات</button>
+                    <span class="text-[10px] tracking-widest text-brass-600 dark:text-brass-400 uppercase font-sans font-semibold">
+                        للقراءة والكتابة
+                    </span>
                 </div>
-
-                <!-- Canvas Info Card -->
-                <div class="bg-paper-50/90 dark:bg-ink-900/90 backdrop-blur border border-paper-200 dark:border-ink-800 px-3 py-1.5 rounded-xl text-[11px] text-ink-700 dark:text-paper-300 hidden md:flex items-center gap-2 pointer-events-auto shadow-md">
-                    <i class="fa-solid fa-circle-info text-brass-500"></i>
-                    <span>اسحب العُقد للتنقل الفكري • انقر لفتح المقال الكامل</span>
-                </div>
-            </div>
-
-            <!-- Floating Hover Tooltip -->
-            <div id="canvas-tooltip" class="absolute z-30 pointer-events-none opacity-0 transition-opacity duration-200 bg-ink-900/95 dark:bg-paper-50/95 backdrop-blur-md text-paper-50 dark:text-ink-900 p-3 rounded-2xl shadow-2xl space-y-2 border border-brass-500/30 max-w-xs">
-                <div id="tooltip-img-box" class="h-24 w-full rounded-xl overflow-hidden bg-ink-800 hidden">
-                    <img id="tooltip-img" src="" class="w-full h-full object-cover">
-                </div>
-                <div>
-                    <div id="tooltip-title" class="font-bold font-serif text-sm leading-snug"></div>
-                    <div id="tooltip-meta" class="text-[11px] opacity-80 flex items-center gap-2 mt-1"></div>
-                </div>
-            </div>
-
-            <!-- Canvas Action Controls -->
-            <div class="absolute bottom-6 right-6 z-10 flex flex-col gap-2">
-                <button onclick="zoomCanvas(1.25)" class="w-11 h-11 rounded-2xl bg-paper-50 dark:bg-ink-800 shadow-xl border border-paper-200 dark:border-ink-700 flex items-center justify-center hover:bg-brass-500 hover:text-white transition-all text-sm font-bold" title="تكبير"><i class="fa-solid fa-plus"></i></button>
-                <button onclick="zoomCanvas(0.8)" class="w-11 h-11 rounded-2xl bg-paper-50 dark:bg-ink-800 shadow-xl border border-paper-200 dark:border-ink-700 flex items-center justify-center hover:bg-brass-500 hover:text-white transition-all text-sm font-bold" title="تصغير"><i class="fa-solid fa-minus"></i></button>
-                <button onclick="resetCanvasView()" class="w-11 h-11 rounded-2xl bg-paper-50 dark:bg-ink-800 shadow-xl border border-paper-200 dark:border-ink-700 flex items-center justify-center hover:bg-brass-500 hover:text-white transition-all text-sm font-bold" title="إعادة التمركز"><i class="fa-solid fa-rotate"></i></button>
-            </div>
-
-            <!-- Canvas Element -->
-            <canvas id="interactive-canvas" class="w-full h-full block"></canvas>
+            </a>
         </div>
 
-        <!-- EDITORIAL VIEW -->
-        <div id="main-view-editorial" class="hidden flex-1 overflow-y-auto max-w-6xl w-full mx-auto p-4 sm:p-8 space-y-8">
-            <div class="border-b border-paper-200 dark:border-ink-800 pb-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div>
-                    <h2 class="font-serif text-3xl font-bold text-brass-600 dark:text-brass-400">الأرشيف المقالي والمعرفي</h2>
-                    <p class="text-sm text-ink-700 dark:text-paper-300 mt-1">قائمة موثقة وشاملة بالدراسات والنصوص الأدبية والفلسفية.</p>
-                </div>
-                <div class="flex gap-2 text-xs overflow-x-auto pb-1" id="category-filters">
-                    <!-- Dynamic Category Filters -->
-                </div>
-            </div>
+        <!-- Main Navigation Links -->
+        <nav class="hidden md:flex items-center gap-8 text-sm font-semibold text-ink-700 dark:text-paper-200">
+            <a href="#hero" class="hover:text-brass-600 dark:hover:text-brass-400 transition-colors py-1">الرئيسية</a>
+            <a href="#writings" class="hover:text-brass-600 dark:hover:text-brass-400 transition-colors py-1">الكتابات والأبحاث</a>
+            <a href="#library" class="hover:text-brass-600 dark:hover:text-brass-400 transition-colors py-1">المكتبة الشخصية</a>
+            <a href="#quotes" class="hover:text-brass-600 dark:hover:text-brass-400 transition-colors py-1">الاقتباسات</a>
+            <a href="#about" class="hover:text-brass-600 dark:hover:text-brass-400 transition-colors py-1">عن الكاتب</a>
+            <a href="#contact" class="hover:text-brass-600 dark:hover:text-brass-400 transition-colors py-1">تواصل</a>
+        </nav>
 
-            <div id="editorial-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Dynamic Article Cards -->
-            </div>
-        </div>
-
-    </main>
-
-    <!-- ARTICLE READER MODAL -->
-    <div id="article-reader-modal" class="fixed inset-0 z-50 bg-black/65 backdrop-blur-sm hidden flex justify-end">
-        <div class="w-full max-w-3xl bg-paper-50 dark:bg-ink-900 h-full overflow-y-auto shadow-2xl flex flex-col border-r border-paper-200 dark:border-ink-800">
-            
-            <div class="sticky top-0 z-10 bg-paper-50/95 dark:bg-ink-900/95 backdrop-blur border-b border-paper-200 dark:border-ink-800 px-6 py-4 flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                    <button onclick="closeReaderModal()" class="p-2 rounded-xl bg-paper-200 dark:bg-ink-800 hover:bg-brass-500 hover:text-white transition-all">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
-                    <span id="reader-category" class="px-3 py-0.5 rounded-full text-xs font-bold bg-brass-500/20 text-brass-700 dark:text-brass-400">تصنيف</span>
-                </div>
-                <div class="flex items-center gap-2 text-xs">
-                    <button onclick="changeFontSize(-1)" class="px-3 py-1.5 bg-paper-100 dark:bg-ink-800 rounded-lg hover:bg-brass-500 hover:text-white font-bold" title="تصغير الخط"><i class="fa-solid fa-font"></i> -</button>
-                    <button onclick="changeFontSize(1)" class="px-3 py-1.5 bg-paper-100 dark:bg-ink-800 rounded-lg hover:bg-brass-500 hover:text-white font-bold" title="تكبير الخط"><i class="fa-solid fa-font"></i> +</button>
-                </div>
-            </div>
-
-            <div class="p-6 sm:p-10 space-y-8 flex-1 max-w-2xl mx-auto w-full">
-                
-                <!-- Article Header Banner Image -->
-                <div id="reader-image-container" class="hidden rounded-2xl overflow-hidden shadow-lg border border-paper-200 dark:border-ink-800 max-h-96">
-                    <img id="reader-image" src="" alt="صورة المقال" class="w-full h-full object-cover">
-                </div>
-
-                <div class="space-y-3">
-                    <h2 id="reader-title" class="font-serif text-3xl sm:text-4xl font-bold leading-relaxed text-ink-900 dark:text-paper-50">عنوان المقال</h2>
-                    <h3 id="reader-subtitle" class="text-base text-ink-700 dark:text-paper-300 font-medium leading-relaxed">العنوان الفرعي للمقال</h3>
-                    <div class="flex items-center gap-4 text-xs text-ink-700 dark:text-paper-300 pt-3 border-t border-paper-200 dark:border-ink-800">
-                        <span><i class="fa-solid fa-user-pen ml-1 text-brass-500"></i> <span id="reader-author">البراق</span></span>
-                        <span><i class="fa-solid fa-calendar-days ml-1 text-brass-500"></i> <span id="reader-date">التاريخ</span></span>
-                        <span><i class="fa-solid fa-clock ml-1 text-brass-500"></i> <span id="reader-readtime">5 دقائق</span></span>
-                    </div>
-                </div>
-
-                <div id="reader-content" class="font-serif text-lg leading-loose space-y-6 text-ink-800 dark:text-paper-200 pt-4 border-t border-paper-200 dark:border-ink-800">
-                    <!-- Article Content Body -->
-                </div>
-
-                <div id="reader-references-container" class="pt-6 border-t border-paper-200 dark:border-ink-800 space-y-3">
-                    <h4 class="font-bold text-sm text-brass-600 dark:text-brass-400 flex items-center gap-2">
-                        <i class="fa-solid fa-book-bookmark"></i>
-                        <span>المراجع والهوامش:</span>
-                    </h4>
-                    <ul id="reader-references" class="text-xs text-ink-700 dark:text-paper-300 space-y-1.5 list-disc list-inside">
-                    </ul>
-                </div>
-
-                <!-- READER INTERACTION & COMMENTS SECTION -->
-                <div class="pt-8 border-t border-paper-200 dark:border-ink-800 space-y-6">
-                    <div class="flex items-center justify-between">
-                        <h4 class="font-serif text-xl font-bold text-ink-900 dark:text-paper-50 flex items-center gap-2">
-                            <i class="fa-solid fa-comments text-brass-500 text-lg"></i>
-                            <span>تفاعلات وقراءات القراء</span>
-                        </h4>
-                        <span id="reader-comments-count" class="text-xs bg-brass-500/20 text-brass-700 dark:text-brass-400 font-bold px-3 py-1 rounded-full">0 تفاعل</span>
-                    </div>
-
-                    <!-- Add Comment Form -->
-                    <form onsubmit="handleAddComment(event)" class="bg-paper-100 dark:bg-ink-800 p-4 rounded-2xl border border-paper-200 dark:border-ink-700 space-y-3 shadow-inner">
-                        <div class="font-bold text-xs text-brass-600 dark:text-brass-400 flex items-center gap-1.5">
-                            <i class="fa-solid fa-pen-fancy"></i>
-                            <span>شاركنا قراءتك ورأيك حول النص:</span>
-                        </div>
-                        <input type="text" id="comment-author-input" required placeholder="اسمك أو لقبك الأدبي..." 
-                            class="w-full px-3.5 py-2.5 text-xs rounded-xl bg-paper-50 dark:bg-ink-900 border border-paper-300 dark:border-ink-700 text-ink-900 dark:text-paper-50 focus:outline-none focus:border-brass-500">
-                        <textarea id="comment-text-input" required rows="3" placeholder="اكتب تأملاتك أو قراءتك أو تعقيبك هنا..." 
-                            class="w-full px-3.5 py-2.5 text-xs rounded-xl bg-paper-50 dark:bg-ink-900 border border-paper-300 dark:border-ink-700 text-ink-900 dark:text-paper-50 focus:outline-none focus:border-brass-500 leading-relaxed"></textarea>
-                        <button type="submit" class="w-full py-2.5 bg-brass-500 hover:bg-brass-600 text-white font-bold rounded-xl text-xs transition-all flex items-center justify-center gap-2 shadow-md">
-                            <i class="fa-solid fa-paper-plane"></i>
-                            <span>إرسال التعليق والتفاعل</span>
-                        </button>
-                    </form>
-
-                    <!-- Approved Reader Comments List -->
-                    <div id="reader-comments-list" class="space-y-3">
-                        <!-- Dynamic Comments injected here -->
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-    <!-- SECRET ADMIN MODAL -->
-    <div id="admin-modal" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-md hidden flex items-center justify-center p-4">
-        <div class="w-full max-w-4xl bg-ink-900 border border-brass-500/40 text-paper-50 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
-            
-            <!-- Admin Header -->
-            <div class="px-6 py-4 bg-ink-800 border-b border-brass-500/30 flex items-center justify-between">
-                <div class="flex items-center gap-2.5">
-                    <i class="fa-solid fa-user-shield text-brass-400 text-xl"></i>
-                    <div>
-                        <h3 class="font-bold text-base text-brass-400">لوحة التحكم السريّة</h3>
-                        <p class="text-[11px] text-paper-300">إدارة المقالات، رفع الصور، والتحكم التام بتفاعلات القرّاء</p>
-                    </div>
-                </div>
-                <button onclick="closeAdminModal()" class="text-paper-300 hover:text-crimson-600 transition-all">
-                    <i class="fa-solid fa-xmark text-xl"></i>
+        <!-- Tools & Controls -->
+        <div class="flex items-center gap-3">
+            <!-- View Mode Switcher Button -->
+            <div class="bg-paper-200/60 dark:bg-ink-800 p-1 rounded-lg border border-paper-300/40 dark:border-ink-700 flex items-center">
+                <button id="btn-view-editorial" onclick="switchView('editorial')" class="px-3 py-1.5 text-xs font-bold rounded-md transition-all bg-brass-500 text-paper-50 shadow-sm">
+                    <i class="fa-solid fa-newspaper ml-1.5"></i> التحريري
+                </button>
+                <button id="btn-view-canvas" onclick="switchView('canvas')" class="px-3 py-1.5 text-xs font-bold rounded-md transition-all text-ink-700 dark:text-paper-200 hover:text-brass-600">
+                    <i class="fa-solid fa-circle-nodes ml-1.5"></i> الفضاء
                 </button>
             </div>
 
-            <!-- Admin Content Body -->
-            <div class="flex-1 overflow-y-auto p-6 space-y-6">
-                
-                <!-- Admin Navigation Tabs -->
-                <div class="flex gap-2 border-b border-ink-700 pb-3 text-xs overflow-x-auto">
-                    <button id="admin-tab-art-btn" onclick="switchAdminTab('article')" class="px-4 py-2.5 rounded-xl bg-brass-500 text-ink-900 font-bold whitespace-nowrap transition-all shadow-md">إضافة / تعديل مقال</button>
-                    <button id="admin-tab-manage-art-btn" onclick="switchAdminTab('manage-articles')" class="px-4 py-2.5 rounded-xl bg-ink-800 font-semibold text-paper-300 hover:text-brass-400 whitespace-nowrap transition-all">إدارة المقالات المنشورة</button>
-                    <button id="admin-tab-comments-btn" onclick="switchAdminTab('comments')" class="px-4 py-2.5 rounded-xl bg-ink-800 font-semibold text-paper-300 hover:text-brass-400 whitespace-nowrap transition-all">إدارة التعليقات والتفاعلات (إظهار/إخفاء/حذف)</button>
-                    <button id="admin-tab-export-btn" onclick="switchAdminTab('export')" class="px-4 py-2.5 rounded-xl bg-ink-800 font-semibold text-paper-300 hover:text-brass-400 whitespace-nowrap transition-all">تحديث كود GitHub</button>
-                    <button id="admin-tab-pass-btn" onclick="switchAdminTab('password')" class="px-4 py-2.5 rounded-xl bg-ink-800 font-semibold text-paper-300 hover:text-brass-400 whitespace-nowrap transition-all">تغيير كلمة السر</button>
-                </div>
+            <!-- Search Trigger -->
+            <button onclick="openSearchModal()" class="w-9 h-9 rounded-lg border border-paper-200 dark:border-ink-700 flex items-center justify-center text-ink-700 dark:text-paper-200 hover:border-brass-500 hover:text-brass-600 transition-colors" title="البحث الحثيث">
+                <i class="fa-solid fa-magnifying-glass text-sm"></i>
+            </button>
 
-                <!-- TAB 1: MANAGE ARTICLES -->
-                <div id="admin-tab-manage-articles" class="hidden space-y-4 text-xs">
-                    <div class="flex items-center justify-between pb-2 border-b border-ink-800">
-                        <h4 class="font-bold text-sm text-brass-400">قائمة المقالات بالمنصة</h4>
-                        <span class="text-paper-300">تعديل المحتوى أو حذف المقال</span>
-                    </div>
-                    <div id="admin-articles-list" class="space-y-3 max-h-96 overflow-y-auto pr-1">
-                        <!-- Articles injected dynamically -->
-                    </div>
-                </div>
+            <!-- Dark Mode Toggle -->
+            <button onclick="toggleDarkMode()" class="w-9 h-9 rounded-lg border border-paper-200 dark:border-ink-700 flex items-center justify-center text-ink-700 dark:text-paper-200 hover:border-brass-500 hover:text-brass-600 transition-colors" title="وضع القراءة الليلي">
+                <i id="theme-icon" class="fa-solid fa-moon text-sm"></i>
+            </button>
 
-                <!-- TAB 2: ADD / EDIT ARTICLE FORM WITH IMAGE UPLOADER -->
-                <form id="admin-form-article" onsubmit="handleCreateArticle(event)" class="space-y-4 text-xs">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block mb-1.5 font-semibold text-brass-400">عنوان المقال *</label>
-                            <input type="text" id="admin-art-title" required placeholder="مثال: في عرفان المعرفة والإشراق" 
-                                class="w-full px-3.5 py-2.5 rounded-xl bg-ink-800 border border-ink-700 text-paper-50 focus:outline-none focus:border-brass-400">
-                        </div>
-                        <div>
-                            <label class="block mb-1.5 font-semibold text-brass-400">العنوان الفرعي</label>
-                            <input type="text" id="admin-art-subtitle" placeholder="مثال: تأملات في فلسفة الجمال والوجود" 
-                                class="w-full px-3.5 py-2.5 rounded-xl bg-ink-800 border border-ink-700 text-paper-50 focus:outline-none focus:border-brass-400">
-                        </div>
-                    </div>
+            <!-- Admin Key (Secret Button) -->
+            <button onclick="promptAdminPass()" class="w-9 h-9 rounded-lg border border-brass-500/40 bg-brass-500/10 text-brass-600 dark:text-brass-400 flex items-center justify-center hover:bg-brass-500 hover:text-paper-50 transition-all" title="لوحة التحكم السرية">
+                <i class="fa-solid fa-key text-xs"></i>
+            </button>
+        </div>
+    </div>
+</header>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                        <div>
-                            <label class="block mb-1.5 font-semibold text-brass-400">التصنيف الرئيسي *</label>
-                            <select id="admin-art-category" class="w-full px-3.5 py-2.5 rounded-xl bg-ink-800 border border-ink-700 text-paper-50 focus:outline-none focus:border-brass-400">
-                                <option value="دين وعرفان">دين وعرفان</option>
-                                <option value="علوم إنسانية">علوم إنسانية</option>
-                                <option value="أدب ونقد">أدب ونقد</option>
-                                <option value="تحليلات سياسية">تحليلات سياسية</option>
-                                <option value="فنون وجمال">فنون وجمال</option>
-                                <option value="إقتباسات">إقتباسات</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block mb-1.5 font-semibold text-brass-400">الكاتب</label>
-                            <input type="text" id="admin-art-author" value="البراق" 
-                                class="w-full px-3.5 py-2.5 rounded-xl bg-ink-800 border border-ink-700 text-paper-50 focus:outline-none focus:border-brass-400">
-                        </div>
-                        <div>
-                            <label class="block mb-1.5 font-semibold text-brass-400">زمن القراءة</label>
-                            <input type="text" id="admin-art-readtime" value="5 دقائق" 
-                                class="w-full px-3.5 py-2.5 rounded-xl bg-ink-800 border border-ink-700 text-paper-50 focus:outline-none focus:border-brass-400">
-                        </div>
-                    </div>
-
-                    <!-- IMAGE UPLOAD FEATURE -->
-                    <div class="bg-ink-800/80 p-4 rounded-xl border border-brass-500/20 space-y-3">
-                        <label class="block font-bold text-brass-400 flex items-center gap-2">
-                            <i class="fa-solid fa-image"></i>
-                            <span>صورة المقال (رابط مباشر أو رفع ملف محلي)</span>
-                        </label>
-                        <div class="flex flex-col sm:flex-row gap-2">
-                            <input type="text" id="admin-art-image-url" placeholder="ضع رابط الصورة هنا..." 
-                                class="flex-1 px-3.5 py-2.5 rounded-xl bg-ink-900 border border-ink-700 text-paper-50 focus:outline-none focus:border-brass-400">
-                            <label class="px-4 py-2.5 bg-brass-500/20 text-brass-400 border border-brass-500/40 hover:bg-brass-500 hover:text-ink-900 rounded-xl cursor-pointer font-bold flex items-center justify-center gap-2 transition-all whitespace-nowrap">
-                                <i class="fa-solid fa-cloud-arrow-up"></i>
-                                <span>رفع صورة من الجهاز</span>
-                                <input type="file" accept="image/*" onchange="handleAdminImageUpload(event)" class="hidden">
-                            </label>
-                        </div>
-                        <div id="admin-art-image-preview" class="hidden flex items-center gap-3 pt-2">
-                            <img id="admin-art-preview-img" src="" class="h-20 w-32 rounded-xl object-cover border border-brass-500/40">
-                            <span class="text-paper-400 text-[11px]">معاينة الصورة المرفقة للمقال</span>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="block mb-1.5 font-semibold text-brass-400">موقع العقدة الفلسفية (س / X)</label>
-                            <input type="number" id="admin-art-x" value="200" 
-                                class="w-full px-3.5 py-2.5 rounded-xl bg-ink-800 border border-ink-700 text-paper-50 focus:outline-none focus:border-brass-400">
-                        </div>
-                        <div>
-                            <label class="block mb-1.5 font-semibold text-brass-400">موقع العقدة الفلسفية (ص / Y)</label>
-                            <input type="number" id="admin-art-y" value="-150" 
-                                class="w-full px-3.5 py-2.5 rounded-xl bg-ink-800 border border-ink-700 text-paper-50 focus:outline-none focus:border-brass-400">
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block mb-1.5 font-semibold text-brass-400">نص المقال الكامل (افصل بين الفقرات بسطر فارغ) *</label>
-                        <textarea id="admin-art-content" required rows="6" placeholder="اكتب نص المقال الفلسفي أو الأدبي هنا..." 
-                            class="w-full px-3.5 py-2.5 rounded-xl bg-ink-800 border border-ink-700 text-paper-50 focus:outline-none focus:border-brass-400 font-serif leading-relaxed"></textarea>
-                    </div>
-
-                    <div>
-                        <label class="block mb-1.5 font-semibold text-brass-400">الهوامش والمراجع (مرجع واحد في كل سطر)</label>
-                        <textarea id="admin-art-refs" rows="2" placeholder="أبو حيان التوحيدي - الإشارات الإلهية" 
-                            class="w-full px-3.5 py-2.5 rounded-xl bg-ink-800 border border-ink-700 text-paper-50 focus:outline-none focus:border-brass-400"></textarea>
-                    </div>
-
-                    <button type="submit" class="w-full py-3 bg-brass-500 text-ink-900 font-bold rounded-xl hover:bg-brass-400 transition-all text-sm flex items-center justify-center gap-2 shadow-lg">
-                        <i class="fa-solid fa-floppy-disk"></i>
-                        <span id="admin-art-submit-text">نشر المقال وتعديل الفضاء</span>
-                    </button>
-                </form>
-
-                <!-- TAB 3: READER COMMENTS MODERATION (SHOW / HIDE / DELETE) -->
-                <div id="admin-tab-comments" class="hidden space-y-4 text-xs">
-                    <div class="flex items-center justify-between pb-2 border-b border-ink-800">
-                        <div>
-                            <h4 class="font-bold text-sm text-brass-400">لوحة التحكم في تفاعلات وقراءات القراء</h4>
-                            <p class="text-paper-300 text-[11px] mt-0.5">يمكنك التحكم الفوري بإظهار التعليق للعموم أو إخفائه أو حذفه تماماً.</p>
-                        </div>
-                    </div>
-                    <div id="admin-comments-list" class="space-y-3 max-h-[450px] overflow-y-auto pr-1">
-                        <!-- Comments injected dynamically -->
-                    </div>
-                </div>
-
-                <!-- TAB 4: EXPORT CODE -->
-                <div id="admin-tab-export" class="hidden space-y-4 text-xs">
-                    <p class="text-paper-300 leading-relaxed">انسخ الكود أدناه واستبدل به محتوى ملف <code class="bg-ink-800 px-1.5 py-0.5 rounded text-brass-400 font-mono">index.html</code> في GitHub ليتم حفظ وتعميم مقالاتك وتعديلاتك للعموم:</p>
-                    <textarea id="admin-export-code" readonly rows="8" class="w-full px-3.5 py-2.5 rounded-xl bg-ink-800 border border-ink-700 text-paper-50 font-mono text-[11px] leading-tight select-all"></textarea>
-                    <button onclick="copyExportCode()" class="w-full py-3 bg-brass-500 text-ink-900 font-bold rounded-xl hover:bg-brass-400 transition-all flex items-center justify-center gap-2 shadow-lg">
-                        <i class="fa-solid fa-copy"></i>
-                        <span>نسخ كود index.html بالكامل</span>
-                    </button>
-                </div>
-
-                <!-- TAB 5: CHANGE PASSWORD -->
-                <form id="admin-form-pass" onsubmit="handleChangePassword(event)" class="hidden space-y-4 text-xs">
-                    <div>
-                        <label class="block mb-1.5 font-semibold text-brass-400">كلمة السر الجديدة للمدير</label>
-                        <input type="password" id="admin-new-pass" required placeholder="أدخل كلمة السر الجديدة..." 
-                            class="w-full px-3.5 py-2.5 rounded-xl bg-ink-800 border border-ink-700 text-paper-50 focus:outline-none focus:border-brass-400">
-                    </div>
-                    <button type="submit" class="w-full py-3 bg-brass-500 text-ink-900 font-bold rounded-xl hover:bg-brass-400 transition-all">حفظ كلمة السر الجديدة</button>
-                </form>
-
+<!-- MAIN EDITORIAL CONTAINER -->
+<main id="view-editorial" class="flex-1">
+    
+    <!-- Hero Section -->
+    <section id="hero" class="relative py-20 md:py-32 border-b border-paper-200 dark:border-ink-800 bg-gradient-to-b from-paper-100/60 to-transparent dark:from-ink-900/40">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <span class="inline-block px-4 py-1.5 rounded-full bg-brass-500/10 border border-brass-500/30 text-brass-700 dark:text-brass-400 text-xs font-bold tracking-widest uppercase mb-6">
+                فضاء نقد، مطالعة، وأرشيف كتابة شخصي
+            </span>
+            <h1 class="font-serif text-4xl sm:text-6xl font-bold leading-tight mb-8 text-ink-900 dark:text-paper-50 tracking-tight">
+                البراق للقراءة والكتابة
+            </h1>
+            <p class="text-lg md:text-2xl text-ink-700 dark:text-paper-200 leading-relaxed font-light max-w-3xl mx-auto mb-10 font-serif">
+                "منصة تُعنى بإعادة بناء فعل القراءة المتأملة، ونشر المقالات الفكرية، التحليلات السياسية، والدراسات الثقافية بأسلوب تحريري رصين."
+            </p>
+            <div class="flex flex-wrap items-center justify-center gap-4">
+                <a href="#writings" class="px-8 py-3.5 bg-ink-900 dark:bg-paper-50 text-paper-50 dark:text-ink-900 text-sm font-bold rounded-lg hover:bg-brass-600 dark:hover:bg-brass-400 transition-all shadow-md">
+                    استكشف الأرشيف المقالي
+                </a>
+                <a href="#library" class="px-8 py-3.5 border border-ink-900/20 dark:border-paper-200/20 text-ink-900 dark:text-paper-50 text-sm font-bold rounded-lg hover:border-brass-500 hover:text-brass-600 transition-all">
+                    تصفح خزانة الكتب
+                </a>
             </div>
+        </div>
+    </section>
+
+    <!-- Featured Article (المقال الرئيس) -->
+    <section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between mb-8 border-b border-paper-200 dark:border-ink-800 pb-4">
+            <h2 class="font-serif text-2xl font-bold flex items-center gap-3">
+                <span class="w-3 h-3 rounded-full bg-crimson-700 inline-block"></span>
+                كتابة مختارة
+            </h2>
+            <span class="text-xs font-semibold text-ink-600 dark:text-paper-300">مقال رئيسي ومطالعة موسعة</span>
+        </div>
+
+        <div id="featured-article-container" class="bg-paper-100/80 dark:bg-ink-800/50 rounded-2xl border border-paper-200 dark:border-ink-700/60 p-6 md:p-10 grid md:grid-cols-12 gap-8 items-center shadow-sm">
+            <!-- Inserted Dynamically -->
+        </div>
+    </section>
+
+    <!-- Main Articles Grid & Filter -->
+    <section id="writings" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10 border-b border-paper-200 dark:border-ink-800 pb-6">
+            <div>
+                <h2 class="font-serif text-3xl font-bold mb-2">الأرشيف والدراسات</h2>
+                <p class="text-sm text-ink-600 dark:text-paper-300">تصفّح جميع المقالات والبحوث حسب التصنيف الموضوعي</p>
+            </div>
+
+            <!-- Categories Bar -->
+            <div class="flex items-center gap-2 overflow-x-auto custom-scrollbar pb-2" id="category-filters">
+                <!-- Filter Buttons Dynamically Added -->
+            </div>
+        </div>
+
+        <!-- Articles Cards Grid -->
+        <div id="articles-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Articles Dynamically Inserted -->
+        </div>
+    </section>
+
+    <!-- Personal Library Section (المكتبة) -->
+    <section id="library" class="py-20 bg-paper-100/70 dark:bg-ink-800/30 border-y border-paper-200 dark:border-ink-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-14">
+                <span class="text-xs font-bold text-brass-600 dark:text-brass-400 tracking-widest uppercase block mb-2">المطالعات الشخصية</span>
+                <h2 class="font-serif text-3xl md:text-4xl font-bold mb-4">خزانة الكتب والمراجعات</h2>
+                <p class="text-sm text-ink-600 dark:text-paper-300">سجل متجدد للكتب التي أقرأها حالياً، أو تمت قراءتها ومراجعتها نقدياً.</p>
+            </div>
+
+            <div id="library-grid" class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <!-- Dynamic Books -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Quotes Section (الاقتباسات) -->
+    <section id="quotes" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between mb-12 border-b border-paper-200 dark:border-ink-800 pb-4">
+            <h2 class="font-serif text-2xl font-bold flex items-center gap-3">
+                <i class="fa-solid fa-quote-right text-brass-500"></i>
+                شذرات واقتباسات فكرية
+            </h2>
+        </div>
+
+        <div id="quotes-grid" class="grid md:grid-cols-2 gap-8">
+            <!-- Dynamic Quotes -->
+        </div>
+    </section>
+
+    <!-- About Author Section -->
+    <section id="about" class="py-20 bg-paper-100/50 dark:bg-ink-800/20 border-t border-paper-200 dark:border-ink-800">
+        <div class="max-w-4xl mx-auto px-6 grid md:grid-cols-12 gap-10 items-center">
+            <div class="md:col-span-4 text-center">
+                <div class="w-40 h-40 mx-auto rounded-full border-4 border-brass-500/40 bg-paper-200 dark:bg-ink-800 flex items-center justify-center font-serif text-6xl text-brass-600 font-bold shadow-lg">
+                    البراق
+                </div>
+            </div>
+            <div class="md:col-span-8 space-y-4">
+                <span class="text-xs font-bold text-brass-600 dark:text-brass-400 uppercase tracking-widest">نبذة عن الكاتب والفضاء</span>
+                <h2 class="font-serif text-3xl font-bold">عن مشروع البراق</h2>
+                <p class="text-ink-700 dark:text-paper-200 leading-relaxed text-sm font-serif">
+                    البراق هو مشروع شخصي وأرشيف فكري مستقل يُعنى بالكتابة التأملية والدراسات السياسية والثقافية ومراجعات الكتب. يسعى الفضاء إلى تجميع الأفكار المقالية والرؤى الفلسفية ضمن بيئة قرائية هادئة بعيدة عن التشتيت الرقمي السريع.
+                </p>
+                <div class="flex gap-4 pt-2 text-sm">
+                    <span class="px-3 py-1 bg-brass-500/10 text-brass-700 dark:text-brass-400 rounded-md border border-brass-500/20 font-semibold">النقد الفكري</span>
+                    <span class="px-3 py-1 bg-brass-500/10 text-brass-700 dark:text-brass-400 rounded-md border border-brass-500/20 font-semibold">التحليل السياسي</span>
+                    <span class="px-3 py-1 bg-brass-500/10 text-brass-700 dark:text-brass-400 rounded-md border border-brass-500/20 font-semibold">الأدب والقراءة</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-16 max-w-3xl mx-auto px-6">
+        <div class="text-center mb-10">
+            <h2 class="font-serif text-3xl font-bold mb-3">تواصل مع الكاتب</h2>
+            <p class="text-sm text-ink-600 dark:text-paper-300">لإرسال الملاحظات، النقاشات الفكرية، أو المقترحات الكتابية</p>
+        </div>
+        <form onsubmit="handleContactSubmit(event)" class="space-y-4 bg-paper-100 dark:bg-ink-800 p-8 rounded-2xl border border-paper-200 dark:border-ink-700 shadow-sm">
+            <div class="grid sm:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs font-bold mb-1.5">الاسم الكامل</label>
+                    <input type="text" required class="w-full px-4 py-2.5 rounded-lg border border-paper-300 dark:border-ink-700 bg-paper-50 dark:bg-ink-900 text-sm focus:outline-none focus:border-brass-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold mb-1.5">البريد الإلكتروني</label>
+                    <input type="email" required class="w-full px-4 py-2.5 rounded-lg border border-paper-300 dark:border-ink-700 bg-paper-50 dark:bg-ink-900 text-sm focus:outline-none focus:border-brass-500">
+                </div>
+            </div>
+            <div>
+                <label class="block text-xs font-bold mb-1.5">موضوع الرسالة</label>
+                <input type="text" required class="w-full px-4 py-2.5 rounded-lg border border-paper-300 dark:border-ink-700 bg-paper-50 dark:bg-ink-900 text-sm focus:outline-none focus:border-brass-500">
+            </div>
+            <div>
+                <label class="block text-xs font-bold mb-1.5">الرسالة</label>
+                <textarea rows="4" required class="w-full px-4 py-2.5 rounded-lg border border-paper-300 dark:border-ink-700 bg-paper-50 dark:bg-ink-900 text-sm focus:outline-none focus:border-brass-500"></textarea>
+            </div>
+            <button type="submit" class="w-full py-3 bg-ink-900 dark:bg-paper-50 text-paper-50 dark:text-ink-900 text-sm font-bold rounded-lg hover:bg-brass-600 dark:hover:bg-brass-400 transition-all shadow-md">
+                إرسال الرسالة
+            </button>
+        </form>
+    </section>
+
+</main>
+
+<!-- ALTERNATIVE CANVAS VIEW (Interactive Intellectual Map) -->
+<div id="view-canvas" class="hidden fixed inset-0 top-20 bg-paper-50 dark:bg-ink-900 z-30 canvas-bg overflow-hidden">
+    
+    <!-- Canvas Control Overlay -->
+    <div class="absolute top-6 right-6 z-20 bg-paper-100/90 dark:bg-ink-800/90 backdrop-blur-md p-4 rounded-xl border border-paper-300 dark:border-ink-700 max-w-xs shadow-lg">
+        <h3 class="font-serif font-bold text-sm mb-1 text-ink-900 dark:text-paper-50 flex items-center gap-2">
+            <i class="fa-solid fa-compass text-brass-500"></i> خريطة المعرفة التفاعلية
+        </h3>
+        <p class="text-[11px] text-ink-600 dark:text-paper-300 leading-relaxed mb-3">
+            اسحب الفضاء للتنقل بين العقد الفكرية، وانقر فوق أي بطاقة لمعاينة وقراءة المقال كاملاً.
+        </p>
+        <div class="flex items-center gap-2 text-xs">
+            <button onclick="zoomCanvas(1.1)" class="p-1.5 rounded border border-paper-300 dark:border-ink-700 hover:bg-brass-500 hover:text-paper-50 transition-colors" title="تكبير"><i class="fa-solid fa-plus"></i></button>
+            <button onclick="zoomCanvas(0.9)" class="p-1.5 rounded border border-paper-300 dark:border-ink-700 hover:bg-brass-500 hover:text-paper-50 transition-colors" title="تصغير"><i class="fa-solid fa-minus"></i></button>
+            <button onclick="resetCanvas()" class="p-1.5 rounded border border-paper-300 dark:border-ink-700 hover:bg-brass-500 hover:text-paper-50 transition-colors font-bold text-[10px]" title="إعادة ضبط">إعادة المركز</button>
         </div>
     </div>
 
-    <!-- SEARCH MODAL -->
-    <div id="search-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-start justify-center pt-20 p-4">
-        <div class="w-full max-w-xl bg-paper-50 dark:bg-ink-900 border border-paper-200 dark:border-ink-700 rounded-2xl shadow-2xl overflow-hidden">
-            <div class="p-4 border-b border-paper-200 dark:border-ink-800 flex items-center gap-3">
-                <i class="fa-solid fa-magnifying-glass text-brass-500"></i>
-                <input type="text" id="search-input" oninput="handleSearch(this.value)" placeholder="ابحث عن عنوان، أو تصنيف، أو فكرة..." 
-                    class="w-full bg-transparent focus:outline-none text-sm text-ink-900 dark:text-paper-50">
-                <button onclick="toggleSearchModal()" class="text-xs text-ink-500 hover:text-ink-900 dark:hover:text-paper-50">إلغاء</button>
-            </div>
-            <div id="search-results" class="max-h-80 overflow-y-auto p-4 space-y-2 text-xs">
-                <p class="text-ink-500 text-center py-4">اكتب شيئاً للبدء في البحث...</p>
-            </div>
+    <!-- Canvas Drag Stage -->
+    <div id="canvas-stage" class="absolute w-[3000px] h-[3000px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-transform duration-75 cursor-grab active:cursor-grabbing">
+        
+        <!-- SVG Connecting Lines -->
+        <svg id="canvas-svg" class="absolute inset-0 w-full h-full pointer-events-none">
+            <!-- Lines generated by JS -->
+        </svg>
+
+        <!-- Canvas Nodes Container -->
+        <div id="canvas-nodes" class="relative w-full h-full">
+            <!-- Dynamic Floating Cards -->
         </div>
     </div>
+</div>
 
-    <!-- TOAST NOTIFICATION -->
-    <div id="toast" class="fixed bottom-6 left-6 z-50 px-4 py-3 rounded-xl shadow-xl bg-brass-600 text-white font-semibold text-xs transition-all duration-300 transform translate-y-20 opacity-0 flex items-center gap-2">
-        <i class="fa-solid fa-circle-check"></i>
-        <span id="toast-message">تمت العملية بنجاح</span>
+<!-- Footer -->
+<footer class="border-t border-paper-200 dark:border-ink-800 py-12 bg-paper-100/50 dark:bg-ink-900/60 transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-12 gap-8 text-sm">
+        <div class="md:col-span-6 space-y-3">
+            <div class="font-serif font-bold text-xl text-ink-900 dark:text-paper-50">البراق للقراءة والكتابة</div>
+            <p class="text-xs text-ink-600 dark:text-paper-300 max-w-sm leading-relaxed font-serif">
+                مشروع فكري وأرشيف كتابة شخصي يُعنى بالدراسات، مراجعات الكتب، والمقالة النقدية في الشأن الثقافي والسياسي.
+            </p>
+        </div>
+        <div class="md:col-span-3 space-y-2">
+            <div class="font-bold text-xs uppercase tracking-wider text-brass-600 dark:text-brass-400">روابط سريعة</div>
+            <ul class="space-y-1 text-xs text-ink-700 dark:text-paper-200">
+                <li><a href="#writings" class="hover:text-brass-500">الأرشيف المقالي</a></li>
+                <li><a href="#library" class="hover:text-brass-500">المكتبة الرقمية</a></li>
+                <li><a href="#quotes" class="hover:text-brass-500">شذرات واقتباسات</a></li>
+            </ul>
+        </div>
+        <div class="md:col-span-3 space-y-2">
+            <div class="font-bold text-xs uppercase tracking-wider text-brass-600 dark:text-brass-400">الحقوق والمعلومات</div>
+            <p class="text-xs text-ink-600 dark:text-paper-300">
+                جميع الحقوق محفوظة © <span id="year"></span> البراق للقراءة والكتابة.
+            </p>
+        </div>
     </div>
+</footer>
 
-    <script>
-        // STRICT 6 CATEGORIES REQUIREMENTS
-        const CATEGORIES = [
-            'دين وعرفان',
-            'علوم إنسانية',
-            'أدب ونقد',
-            'تحليلات سياسية',
-            'فنون وجمال',
-            'إقتباسات'
-        ];
+<!-- MODAL 1: Reader Modal (Deep Reading Mode) -->
+<div id="reader-modal" class="fixed inset-0 z-50 bg-ink-900/80 backdrop-blur-sm hidden items-center justify-center p-4 sm:p-6 overflow-y-auto">
+    <div class="bg-paper-50 dark:bg-ink-900 border border-paper-300 dark:border-ink-700 rounded-2xl max-w-3xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
+        <!-- Reader Bar Header -->
+        <div class="p-4 border-b border-paper-200 dark:border-ink-800 flex items-center justify-between bg-paper-100 dark:bg-ink-800">
+            <div class="flex items-center gap-3">
+                <span id="reader-category" class="text-xs font-bold text-crimson-700 dark:text-brass-400 px-2.5 py-1 rounded bg-crimson-700/10"></span>
+                <span id="reader-time" class="text-xs text-ink-600 dark:text-paper-300"></span>
+            </div>
+            <div class="flex items-center gap-2">
+                <button onclick="adjustFontSize(1)" class="px-2 py-1 border border-paper-300 dark:border-ink-700 rounded text-xs hover:bg-brass-500 hover:text-paper-50" title="تكبير الخط">أ+</button>
+                <button onclick="adjustFontSize(-1)" class="px-2 py-1 border border-paper-300 dark:border-ink-700 rounded text-xs hover:bg-brass-500 hover:text-paper-50" title="تصغير الخط">أ-</button>
+                <button onclick="closeReaderModal()" class="w-8 h-8 rounded-full flex items-center justify-center text-ink-700 dark:text-paper-200 hover:bg-paper-200 dark:hover:bg-ink-700"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+        </div>
 
-        const defaultDB = {
-            adminPassword: "buraq2026",
-            articles: [
-                {
-                    id: 'root',
-                    slug: 'intro-buraq',
-                    title: 'البراق: أفلاك الفكر والجمال',
-                    subtitle: 'مدخل فلسفي في بنية القراءة التفاعلية وأفق المعنى',
-                    author: 'البراق',
-                    date: '25 أغسطس 2026',
-                    category: 'دين وعرفان',
-                    readTime: '6 دقائق',
-                    image: 'https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=80&w=1000&auto=format&fit=crop',
-                    x: 0,
-                    y: 0,
-                    content: [
-                        'أن نكتب، يعني أن ننتشل الفكرة من سديم الصمت، ونمنحها جسداً في الفضاء الرقمي المتسارع. البراق ليس مجرد منصة للنشر الكلاسيكي، بل هو فضاء تفاعلي يهدف إلى إعادة بناء العلاقة الروحية والجمالية بين القارئ والنص.',
-                        'من خلال هذه الشاشة التفاعلية، تلتقي الأفكار في هيئة أفلاك معرفية مترابطة، تتيح للمتصفح التنقل بين الدراسات والنصوص كمن يتجول في أرض الأفكار والتأملات.'
-                    ],
-                    references: [
-                        'أبو حيان التوحيدي - الإشارات الإلهية',
-                        'ابن عربي - الفتوحات المكية'
-                    ],
-                    connections: [],
-                    comments: [
-                        {
-                            id: 'c1',
-                            author: 'د. طه عبد الرحمن',
-                            date: '25 أغسطس 2026',
-                            text: 'مبادرة فكرية وجمالية متميزة تجمع بين تأصيل الكلمة وعصرانية العرض.',
-                            approved: true
-                        }
-                    ]
-                },
-                {
-                    id: 'art-humanities',
-                    slug: 'critique-digital-reason',
-                    title: 'نقد العقل الرقمي وحيرة المعنى',
-                    subtitle: 'كيف تُعيد الشاشات تشكيل الوعي والإدراك البشري؟',
-                    author: 'البراق',
-                    date: '24 أغسطس 2026',
-                    category: 'علوم إنسانية',
-                    readTime: '8 دقائق',
-                    image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1000&auto=format&fit=crop',
-                    x: 240,
-                    y: -140,
-                    content: [
-                        'في عصر التشتت الذهني والتنقل السريع بين الروابط، يفقد النص عمقه التاريخي والفلسفي لصالح السرعة والانطباعية. تحاول هذه المقالة فحص التغيرات التي طرأت على فعل القراءة مع انتقال المعرفة من الأوراق إلى الخوارزميات.',
-                        'إن استعادة الدهشة التأملية تتطلب منا خلق مساحات رقمية جديدة تُشجع على التمهل والغوص في أعماق المفاهيم.'
-                    ],
-                    references: [
-                        'ماكس هوركايمر - كسوف العقل',
-                        'بيونغ تشول هان - في السرب: صور الرقمية'
-                    ],
-                    connections: ['root'],
-                    comments: []
-                },
-                {
-                    id: 'art-literature',
-                    slug: 'poetics-of-space',
-                    title: 'جماليّات المكان والذاكرة في النص الأدبي',
-                    subtitle: 'تأملات في الأثر الفلسفي للشعر والرواية',
-                    author: 'البراق',
-                    date: '22 أغسطس 2026',
-                    category: 'أدب ونقد',
-                    readTime: '6 دقائق',
-                    image: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=1000&auto=format&fit=crop',
-                    x: -240,
-                    y: 150,
-                    content: [
-                        'المكان في النص الأدبي ليس مجرد مسرح للأحداث، بل هو شخصية قائمة بذاتها تؤثر وتتأثر بالحالة الشعورية للكاتب والقارئ.',
-                        'من أطلال الشعر العربي القديم إلى المدينة الحديثة في الرواية المعاصرة، يظل المكان خزاناً رمزيّاً للذاكرة والهوية والبحث عن المعنى.'
-                    ],
-                    references: [
-                        'غاستون باشلار - شعرية الفضاء'
-                    ],
-                    connections: ['root'],
-                    comments: []
-                },
-                {
-                    id: 'art-politics',
-                    slug: 'politics-and-philosophy',
-                    title: 'تحليلات في فلسفة السياسة والمجتمع',
-                    subtitle: 'تحولات العقد الاجتماعي في العصر المعاصر',
-                    author: 'البراق',
-                    date: '21 أغسطس 2026',
-                    category: 'تحليلات سياسية',
-                    readTime: '9 دقائق',
-                    image: 'https://images.unsplash.com/photo-1541872703-74c5e44368f9?q=80&w=1000&auto=format&fit=crop',
-                    x: -250,
-                    y: -160,
-                    content: [
-                        'الفكر السياسي الفلسفي يسعى دائماً للإجابة عن أسئلة العدالة والحرية والشرعية في مجتمعات دائمة التغير.',
-                        'قراءة في التحديات السياسية الحديثة وتأثير المجال العام المفتوح على صنع القرار والاستقرار الاجتماعي.'
-                    ],
-                    references: [
-                        'يورغن هابيلماس - التحول الهيكلي للمجال العام'
-                    ],
-                    connections: ['root'],
-                    comments: []
-                },
-                {
-                    id: 'art-arts',
-                    slug: 'art-and-sublime',
-                    title: 'فلسفة الجمال والسامي عند كانط',
-                    subtitle: 'الفرق بين اللذة الجمالية والانبهار الروحي',
-                    author: 'البراق',
-                    date: '20 أغسطس 2026',
-                    category: 'فنون وجمال',
-                    readTime: '7 دقائق',
-                    image: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?q=80&w=1000&auto=format&fit=crop',
-                    x: 250,
-                    y: 160,
-                    content: [
-                        'الجميل يبعث السكينة والطمأنينة في النفس، أما السامي (The Sublime) فهو ذلك الجمال الكوني العارم الذي يولد الهيبة والرهبة في نفس الوقت.',
-                        'تتناول هذه الدراسة التحولات الجمالية في الفن الفلسفي وكيف يخاطب الإحساس الإنساني.'
-                    ],
-                    references: [
-                        'إيمانويل كانط - نقد ملكة الحكم'
-                    ],
-                    connections: ['root'],
-                    comments: []
-                },
-                {
-                    id: 'art-quotes',
-                    slug: 'quote-ibn-arabi',
-                    title: 'حكمة العارفين: المكان والزمان',
-                    subtitle: 'إقتباس عرفاني في الزمان والمكان والوجدان',
-                    author: 'محيي الدين بن عربي',
-                    date: '18 أغسطس 2026',
-                    category: 'إقتباسات',
-                    readTime: '2 دقيقة',
-                    image: 'https://images.unsplash.com/photo-1516979187457-637abb4f9353?q=80&w=1000&auto=format&fit=crop',
-                    x: 0,
-                    y: -260,
-                    content: [
-                        '«المكان الذي لا يُؤنَّث لا يُعوَّل عليه، والزمان الذي لا يُشْرِق لا يُعْتَدُّ به.»'
-                    ],
-                    references: [
-                        'ابن عربي - الإشارات العرفانية'
-                    ],
-                    connections: ['root'],
-                    comments: []
-                }
-            ]
-        };
-
-        let DB = JSON.parse(localStorage.getItem('alburaq_db')) || defaultDB;
-        let currentView = 'canvas';
-        let isDarkMode = false;
-        let readerFontSize = 18;
-        let activeReaderArtId = null;
-        let editingArticleId = null;
-        let canvasCategoryFilter = 'all';
-
-        let canvas, ctx;
-        let scale = 1;
-        let panX = 0, panY = 0;
-        let isPanning = false;
-        let isDraggingNode = false;
-        let draggedNode = null;
-        let hoveredNode = null;
-        let startMouseX = 0, startMouseY = 0;
-        let allNodes = [];
-
-        window.onload = () => {
-            initCanvas();
-            initNodesData();
-            renderEditorialView();
-            updateCategoryFilters();
-            
-            // Center Canvas View
-            panX = canvas.clientWidth / 2;
-            panY = canvas.clientHeight / 2;
-            
-            // Start Animation Loop
-            requestAnimationFrame(renderLoop);
-            window.addEventListener('resize', handleResize);
-        };
-
-        function saveDBToLocalStorage() {
-            localStorage.setItem('alburaq_db', JSON.stringify(DB));
-        }
-
-        /* --- VIEWS SWITCHING --- */
-        function switchMainView(view) {
-            currentView = view;
-            const canvasView = document.getElementById('main-view-canvas');
-            const editView = document.getElementById('main-view-editorial');
-            const btnCanvas = document.getElementById('view-canvas-btn');
-            const btnEdit = document.getElementById('view-editorial-btn');
-
-            if (view === 'canvas') {
-                canvasView.classList.remove('hidden');
-                editView.classList.add('hidden');
-                btnCanvas.className = "px-3.5 py-1.5 rounded-lg font-bold bg-brass-500 text-paper-50 shadow transition-all flex items-center gap-1.5";
-                btnEdit.className = "px-3.5 py-1.5 rounded-lg font-semibold text-ink-700 dark:text-paper-300 hover:text-brass-500 transition-all flex items-center gap-1.5";
-                handleResize();
-            } else {
-                canvasView.classList.add('hidden');
-                editView.classList.remove('hidden');
-                btnEdit.className = "px-3.5 py-1.5 rounded-lg font-bold bg-brass-500 text-paper-50 shadow transition-all flex items-center gap-1.5";
-                btnCanvas.className = "px-3.5 py-1.5 rounded-lg font-semibold text-ink-700 dark:text-paper-300 hover:text-brass-500 transition-all flex items-center gap-1.5";
-            }
-        }
-
-        /* --- PHILOSOPHICAL CANVAS ENGINE --- */
-        function initCanvas() {
-            canvas = document.getElementById('interactive-canvas');
-            ctx = canvas.getContext('2d');
-            handleResize();
-
-            // MOUSE & TOUCH EVENTS
-            canvas.addEventListener('mousedown', (e) => {
-                const rect = canvas.getBoundingClientRect();
-                const mouseX = e.clientX - rect.left;
-                const mouseY = e.clientY - rect.top;
-
-                const targetNode = getNodeAt(mouseX, mouseY);
-
-                if (targetNode) {
-                    if (e.button === 0) {
-                        isDraggingNode = true;
-                        draggedNode = targetNode;
-                        startMouseX = mouseX;
-                        startMouseY = mouseY;
-                    }
-                } else {
-                    isPanning = true;
-                    startMouseX = mouseX - panX;
-                    startMouseY = mouseY - panY;
-                }
-            });
-
-            window.addEventListener('mousemove', (e) => {
-                if (!canvas) return;
-                const rect = canvas.getBoundingClientRect();
-                const mouseX = e.clientX - rect.left;
-                const mouseY = e.clientY - rect.top;
-
-                if (isDraggingNode && draggedNode) {
-                    draggedNode.x += (e.movementX / scale);
-                    draggedNode.y += (e.movementY / scale);
-                    
-                    const artIndex = DB.articles.findIndex(a => a.id === draggedNode.id);
-                    if (artIndex !== -1) {
-                        DB.articles[artIndex].x = Math.round(draggedNode.x);
-                        DB.articles[artIndex].y = Math.round(draggedNode.y);
-                        saveDBToLocalStorage();
-                    }
-                    return;
-                }
-
-                if (isPanning) {
-                    panX = mouseX - startMouseX;
-                    panY = mouseY - startMouseY;
-                    return;
-                }
-
-                const foundHover = getNodeAt(mouseX, mouseY);
-                if (foundHover !== hoveredNode) {
-                    hoveredNode = foundHover;
-                    canvas.style.cursor = hoveredNode ? 'pointer' : 'grab';
-                    updateTooltip(hoveredNode, e.clientX, e.clientY);
-                } else if (hoveredNode) {
-                    updateTooltip(hoveredNode, e.clientX, e.clientY);
-                }
-            });
-
-            window.addEventListener('mouseup', (e) => {
-                if (isDraggingNode && draggedNode) {
-                    const rect = canvas.getBoundingClientRect();
-                    const mouseX = e.clientX - rect.left;
-                    const mouseY = e.clientY - rect.top;
-                    const distMoved = Math.hypot(mouseX - startMouseX, mouseY - startMouseY);
-
-                    if (distMoved < 5) {
-                        openArticleReader(draggedNode.id);
-                    }
-                }
-                isPanning = false;
-                isDraggingNode = false;
-                draggedNode = null;
-            });
-
-            canvas.addEventListener('wheel', (e) => {
-                e.preventDefault();
-                const zoomFactor = e.deltaY < 0 ? 1.08 : 0.92;
-                zoomCanvas(zoomFactor);
-            }, { passive: false });
-        }
-
-        function filterCanvasCategory(cat) {
-            canvasCategoryFilter = cat;
-            document.querySelectorAll('.canvas-cat-btn').forEach(btn => {
-                if (btn.innerText === (cat === 'all' ? 'الكل' : cat)) {
-                    btn.className = "canvas-cat-btn px-3 py-1 text-xs rounded-xl font-bold bg-brass-500 text-white transition-all";
-                } else {
-                    btn.className = "canvas-cat-btn px-3 py-1 text-xs rounded-xl font-semibold bg-paper-100 dark:bg-ink-800 text-ink-700 dark:text-paper-300 hover:text-brass-500 transition-all";
-                }
-            });
-        }
-
-        function updateTooltip(node, mouseX, mouseY) {
-            const tooltip = document.getElementById('canvas-tooltip');
-            if (!node) {
-                tooltip.classList.add('opacity-0');
-                return;
-            }
-
-            const imgBox = document.getElementById('tooltip-img-box');
-            const imgEl = document.getElementById('tooltip-img');
-            if (node.image) {
-                imgEl.src = node.image;
-                imgBox.classList.remove('hidden');
-            } else {
-                imgBox.classList.add('hidden');
-            }
-
-            document.getElementById('tooltip-title').innerText = node.title;
-            document.getElementById('tooltip-meta').innerHTML = `
-                <span class="text-brass-600 dark:text-brass-400 font-bold"><i class="fa-solid fa-tag"></i> ${node.category}</span>
+        <!-- Reader Article Content -->
+        <div class="p-6 md:p-10 overflow-y-auto custom-scrollbar flex-1 space-y-6">
+            <h1 id="reader-title" class="font-serif text-3xl md:text-5xl font-bold text-ink-900 dark:text-paper-50 leading-tight"></h1>
+            <p id="reader-subtitle" class="text-lg text-ink-600 dark:text-paper-300 font-serif border-r-2 border-brass-500 pr-4 italic"></p>
+            <div class="text-xs text-ink-500 dark:text-paper-400 pb-4 border-b border-paper-200 dark:border-ink-800 flex items-center gap-4">
+                <span>بقلم: <strong id="reader-author" class="text-ink-800 dark:text-paper-100"></strong></span>
                 <span>•</span>
-                <span><i class="fa-solid fa-clock"></i> ${node.readTime || '5 دقائق'}</span>
-            `;
-            tooltip.style.left = `${mouseX + 15}px`;
-            tooltip.style.top = `${mouseY + 15}px`;
-            tooltip.classList.remove('opacity-0');
-        }
+                <span id="reader-date"></span>
+            </div>
 
-        function handleResize() {
-            if (!canvas) return;
-            const container = canvas.parentElement;
-            const dpr = window.devicePixelRatio || 1;
-            canvas.width = container.clientWidth * dpr;
-            canvas.height = container.clientHeight * dpr;
-            ctx.scale(dpr, dpr);
-        }
+            <div id="reader-body" class="prose dark:prose-invert max-w-none text-base md:text-lg leading-loose space-y-6 text-ink-900 dark:text-paper-100 font-serif">
+                <!-- Article Body Inserted Here -->
+            </div>
+        </div>
+    </div>
+</div>
 
-        function initNodesData() {
-            allNodes = DB.articles.map(art => ({
-                id: art.id,
-                title: art.title,
-                category: art.category,
-                readTime: art.readTime,
-                image: art.image,
-                x: art.x || 0,
-                y: art.y || 0,
-                radius: art.id === 'root' ? 54 : (art.category === 'إقتباسات' ? 34 : 42),
-                connections: art.connections || []
-            }));
-        }
+<!-- MODAL 2: Search Modal -->
+<div id="search-modal" class="fixed inset-0 z-50 bg-ink-900/80 backdrop-blur-sm hidden items-start justify-center pt-20 p-4">
+    <div class="bg-paper-50 dark:bg-ink-900 border border-paper-300 dark:border-ink-700 rounded-2xl max-w-2xl w-full p-6 shadow-2xl">
+        <div class="flex items-center justify-between mb-4 pb-3 border-b border-paper-200 dark:border-ink-800">
+            <h3 class="font-serif font-bold text-lg"><i class="fa-solid fa-magnifying-glass text-brass-500 ml-2"></i> البحث الحثيث في الأرشيف</h3>
+            <button onclick="closeSearchModal()" class="text-ink-500 hover:text-ink-900"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <input type="text" id="search-input" oninput="performSearch()" placeholder="اكتب بحثاً عن عنوان، فكرة، مؤلف، أو تصنيف..." class="w-full px-4 py-3 rounded-xl border border-paper-300 dark:border-ink-700 bg-paper-100 dark:bg-ink-800 text-sm focus:outline-none focus:border-brass-500 mb-4">
+        <div id="search-results" class="max-h-80 overflow-y-auto space-y-2 custom-scrollbar">
+            <!-- Dynamic Results -->
+        </div>
+    </div>
+</div>
 
-        let pulseTime = 0;
-        function renderLoop() {
-            if (currentView === 'canvas' && ctx) {
-                pulseTime += 0.025;
-                drawCanvas();
-            }
-            requestAnimationFrame(renderLoop);
-        }
+<!-- MODAL 3: Secret Admin Dashboard (لوحة التحكم السرية) -->
+<div id="admin-modal" class="fixed inset-0 z-50 bg-ink-900/90 backdrop-blur-md hidden items-center justify-center p-4 sm:p-6 overflow-y-auto">
+    <div class="bg-ink-900 border border-brass-500/30 rounded-2xl max-w-4xl w-full max-h-[90vh] flex flex-col shadow-2xl text-paper-50 overflow-hidden">
+        
+        <!-- Dashboard Header -->
+        <div class="p-5 border-b border-ink-800 bg-ink-950 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-lg bg-brass-500/20 text-brass-400 border border-brass-500/30 flex items-center justify-center font-bold">
+                    <i class="fa-solid fa-user-gear"></i>
+                </div>
+                <div>
+                    <h3 class="font-serif font-bold text-lg text-paper-50">لوحة التحكم السرية | البراق</h3>
+                    <span class="text-[10px] text-brass-400">إدارة الأرشيف، التعديل، الحذف، واستخراج الكود</span>
+                </div>
+            </div>
+            <button onclick="closeAdminModal()" class="w-8 h-8 rounded-lg bg-ink-800 hover:bg-crimson-800 text-paper-200 flex items-center justify-center transition-colors">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
 
-        function drawCanvas() {
-            const width = canvas.clientWidth;
-            const height = canvas.clientHeight;
-            ctx.clearRect(0, 0, width, height);
+        <!-- Tabs Navbar -->
+        <div class="flex border-b border-ink-800 bg-ink-900 px-4 gap-2 pt-2 text-xs font-semibold overflow-x-auto">
+            <button onclick="switchAdminTab('add-article')" id="tab-btn-add-article" class="px-4 py-2.5 rounded-t-lg bg-brass-500 text-ink-900 font-bold transition-all">
+                <i class="fa-solid fa-pen-to-square ml-1.5"></i> إضافة / تعديل مقال
+            </button>
+            <button onclick="switchAdminTab('manage-articles')" id="tab-btn-manage-articles" class="px-4 py-2.5 rounded-t-lg bg-ink-800 text-paper-200 hover:text-paper-50 transition-all">
+                <i class="fa-solid fa-list-check ml-1.5"></i> إدارة المقالات (تعديل/حذف)
+            </button>
+            <button onclick="switchAdminTab('add-book')" id="tab-btn-add-book" class="px-4 py-2.5 rounded-t-lg bg-ink-800 text-paper-200 hover:text-paper-50 transition-all">
+                <i class="fa-solid fa-book ml-1.5"></i> إضافة كتاب
+            </button>
+            <button onclick="switchAdminTab('change-pass')" id="tab-btn-change-pass" class="px-4 py-2.5 rounded-t-lg bg-ink-800 text-paper-200 hover:text-paper-50 transition-all">
+                <i class="fa-solid fa-key ml-1.5"></i> تغيير كلمة السر
+            </button>
+            <button onclick="switchAdminTab('export-code')" id="tab-btn-export-code" class="px-4 py-2.5 rounded-t-lg bg-ink-800 text-paper-200 hover:text-paper-50 transition-all">
+                <i class="fa-solid fa-code ml-1.5"></i> نسخ الكود لـ GitHub
+            </button>
+        </div>
 
-            ctx.save();
-            ctx.translate(panX, panY);
-            ctx.scale(scale, scale);
-
-            // Philosophical Concentric Orbits
-            const rootNode = allNodes.find(n => n.id === 'root');
-            const centerX = rootNode ? rootNode.x : 0;
-            const centerY = rootNode ? rootNode.y : 0;
-
-            [220, 380, 540].forEach((r) => {
-                ctx.beginPath();
-                ctx.arc(centerX, centerY, r, 0, Math.PI * 2);
-                ctx.strokeStyle = isDarkMode ? 'rgba(229, 193, 88, 0.08)' : 'rgba(184, 134, 11, 0.08)';
-                ctx.lineWidth = 1;
-                ctx.setLineDash([4, 8]);
-                ctx.stroke();
-                ctx.setLineDash([]);
-            });
-
-            // Draw Connection Curves & Starlight Particles
-            allNodes.forEach(node => {
-                if (canvasCategoryFilter !== 'all' && node.category !== canvasCategoryFilter && node.id !== 'root') return;
-
-                node.connections.forEach(targetId => {
-                    const targetNode = allNodes.find(n => n.id === targetId);
-                    if (targetNode) {
-                        ctx.beginPath();
-                        ctx.moveTo(node.x, node.y);
-                        
-                        const midX = (node.x + targetNode.x) / 2;
-                        const midY = (node.y + targetNode.y) / 2 - 25;
-                        ctx.quadraticCurveTo(midX, midY, targetNode.x, targetNode.y);
-
-                        ctx.strokeStyle = isDarkMode ? 'rgba(229, 193, 88, 0.35)' : 'rgba(184, 134, 11, 0.35)';
-                        ctx.lineWidth = 2;
-                        ctx.stroke();
-
-                        // Floating energy particle along curve
-                        const t = (pulseTime * 0.4 + (node.x % 5)) % 1;
-                        const px = (1 - t) * (1 - t) * node.x + 2 * (1 - t) * t * midX + t * t * targetNode.x;
-                        const py = (1 - t) * (1 - t) * node.y + 2 * (1 - t) * t * midY + t * t * targetNode.y;
-
-                        ctx.beginPath();
-                        ctx.arc(px, py, 3, 0, Math.PI * 2);
-                        ctx.fillStyle = isDarkMode ? '#E5C158' : '#B8860B';
-                        ctx.fill();
-                    }
-                });
-            });
-
-            // Draw Nodes
-            allNodes.forEach(node => {
-                if (canvasCategoryFilter !== 'all' && node.category !== canvasCategoryFilter && node.id !== 'root') return;
-
-                const isRoot = node.id === 'root';
-                const isQuote = node.category === 'إقتباسات';
-                const isHovered = hoveredNode && hoveredNode.id === node.id;
-
-                // Glowing Halo
-                const auraRadius = node.radius + (isRoot ? 14 + Math.sin(pulseTime) * 4 : (isHovered ? 12 : 5));
-                ctx.beginPath();
-                ctx.arc(node.x, node.y, auraRadius, 0, Math.PI * 2);
-                ctx.fillStyle = isRoot 
-                    ? (isDarkMode ? 'rgba(229, 193, 88, 0.22)' : 'rgba(184, 134, 11, 0.22)')
-                    : (isQuote ? 'rgba(184, 134, 11, 0.14)' : 'rgba(120, 113, 108, 0.12)');
-                ctx.fill();
-
-                // Main Node Circle
-                ctx.beginPath();
-                ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
-                ctx.fillStyle = isRoot 
-                    ? (isDarkMode ? '#D4AF37' : '#B8860B') 
-                    : (isQuote ? (isDarkMode ? '#332610' : '#FFF9E6') : (isDarkMode ? '#262320' : '#FAF8F5'));
-                ctx.shadowColor = 'rgba(0, 0, 0, 0.25)';
-                ctx.shadowBlur = isHovered ? 18 : 8;
-                ctx.fill();
-
-                ctx.lineWidth = isHovered ? 3.5 : 2.5;
-                ctx.strokeStyle = isQuote ? '#D4AF37' : (isDarkMode ? '#E5C158' : '#B8860B');
-                ctx.stroke();
-
-                // Node Title Text
-                ctx.shadowBlur = 0;
-                ctx.font = isRoot ? 'bold 13px Amiri, serif' : (isQuote ? 'italic 11px Amiri, serif' : 'bold 11px Cairo, sans-serif');
-                ctx.fillStyle = isRoot 
-                    ? '#FFFFFF' 
-                    : (isDarkMode ? '#FAF8F5' : '#1C1917');
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-
-                let text = node.title;
-                if (text.length > 14) text = text.substring(0, 12) + '..';
-                ctx.fillText(text, node.x, node.y);
-            });
-
-            ctx.restore();
-        }
-
-        function getNodeAt(mouseX, mouseY) {
-            const worldX = (mouseX - panX) / scale;
-            const worldY = (mouseY - panY) / scale;
-
-            return allNodes.find(node => {
-                if (canvasCategoryFilter !== 'all' && node.category !== canvasCategoryFilter && node.id !== 'root') return false;
-                const dx = worldX - node.x;
-                const dy = worldY - node.y;
-                return Math.hypot(dx, dy) <= node.radius + 6;
-            });
-        }
-
-        function zoomCanvas(factor) {
-            scale = Math.min(Math.max(0.4, scale * factor), 2.5);
-        }
-
-        function resetCanvasView() {
-            scale = 1;
-            panX = canvas.clientWidth / 2;
-            panY = canvas.clientHeight / 2;
-        }
-
-        /* --- EDITORIAL ARCHIVE VIEW --- */
-        function renderEditorialView(filterCat = 'all') {
-            const grid = document.getElementById('editorial-grid');
-            grid.innerHTML = '';
-
-            const filtered = filterCat === 'all' 
-                ? DB.articles 
-                : DB.articles.filter(a => a.category === filterCat);
-
-            if (filtered.length === 0) {
-                grid.innerHTML = '<div class="col-span-full py-12 text-center text-ink-500">لا توجد مقالات مضافة في هذا التصنيف حالياً.</div>';
-                return;
-            }
-
-            filtered.forEach(art => {
-                const card = document.createElement('div');
-                card.className = "bg-paper-100 dark:bg-ink-800 border border-paper-200 dark:border-ink-700 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all flex flex-col justify-between cursor-pointer group";
-                card.onclick = () => openArticleReader(art.id);
-
-                const imageHtml = art.image 
-                    ? `<div class="h-48 w-full overflow-hidden bg-ink-900 relative"><img src="${art.image}" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500 opacity-90 group-hover:opacity-100"></div>`
-                    : `<div class="h-28 w-full bg-brass-500/10 border-b border-paper-200 dark:border-ink-700 flex items-center justify-center text-brass-500/40 text-3xl"><i class="fa-solid fa-feather-pointed"></i></div>`;
-
-                const commentCount = (art.comments || []).filter(c => c.approved !== false).length;
-
-                card.innerHTML = `
-                    ${imageHtml}
-                    <div class="p-5 space-y-3 flex-1 flex flex-col justify-between">
-                        <div class="space-y-2">
-                            <div class="flex items-center justify-between">
-                                <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-brass-500/20 text-brass-700 dark:text-brass-400">${art.category}</span>
-                                <span class="text-xs text-ink-700 dark:text-paper-300">${art.date}</span>
-                            </div>
-                            <h3 class="font-serif text-xl font-bold text-ink-900 dark:text-paper-50 leading-snug group-hover:text-brass-600 dark:group-hover:text-brass-400 transition-colors">${art.title}</h3>
-                            <p class="text-xs text-ink-700 dark:text-paper-300 line-clamp-2 leading-relaxed">${art.subtitle || ''}</p>
-                        </div>
-                        <div class="flex items-center justify-between text-xs text-brass-600 dark:text-brass-400 font-bold pt-3 border-t border-paper-200 dark:border-ink-700">
-                            <span class="flex items-center gap-1.5"><i class="fa-solid fa-comments"></i> ${commentCount} تفاعل</span>
-                            <span class="flex items-center gap-1">قراءة النص <i class="fa-solid fa-arrow-left group-hover:-translate-x-1 transition-transform"></i></span>
-                        </div>
-                    </div>
-                `;
-                grid.appendChild(card);
-            });
-        }
-
-        function updateCategoryFilters() {
-            const container = document.getElementById('category-filters');
-            const categories = ['all', ...CATEGORIES];
-
-            container.innerHTML = categories.map(cat => `
-                <button onclick="filterEditorial('${cat}')" 
-                    class="cat-filter-btn px-3.5 py-1.5 rounded-xl bg-paper-100 dark:bg-ink-800 font-semibold text-ink-700 dark:text-paper-300 hover:text-brass-500 whitespace-nowrap transition-all border border-transparent hover:border-brass-500/30">
-                    ${cat === 'all' ? 'الكل' : cat}
-                </button>
-            `).join('');
-        }
-
-        function filterEditorial(category) {
-            renderEditorialView(category);
-        }
-
-        /* --- ARTICLE READER & COMMENTS SYSTEM --- */
-        function openArticleReader(artId) {
-            const art = DB.articles.find(a => a.id === artId);
-            if (!art) return;
-
-            activeReaderArtId = artId;
-
-            document.getElementById('reader-category').innerText = art.category;
-            document.getElementById('reader-title').innerText = art.title;
-            document.getElementById('reader-subtitle').innerText = art.subtitle || '';
-            document.getElementById('reader-author').innerText = art.author || 'البراق';
-            document.getElementById('reader-date').innerText = art.date || '';
-            document.getElementById('reader-readtime').innerText = art.readTime || '5 دقائق';
-
-            // Image Display
-            const imgContainer = document.getElementById('reader-image-container');
-            const imgEl = document.getElementById('reader-image');
-            if (art.image) {
-                imgEl.src = art.image;
-                imgContainer.classList.remove('hidden');
-            } else {
-                imgContainer.classList.add('hidden');
-            }
-
-            // Article Content Paragraphs
-            const contentDiv = document.getElementById('reader-content');
-            contentDiv.innerHTML = art.content.map(p => `<p class="leading-relaxed">${p}</p>`).join('');
-
-            // References
-            const refsContainer = document.getElementById('reader-references-container');
-            const refsList = document.getElementById('reader-references');
-            if (art.references && art.references.length > 0) {
-                refsContainer.classList.remove('hidden');
-                refsList.innerHTML = art.references.map(r => `<li>${r}</li>`).join('');
-            } else {
-                refsContainer.classList.add('hidden');
-            }
-
-            // Render Reader Comments
-            renderArticleComments(art);
-
-            document.getElementById('article-reader-modal').classList.remove('hidden');
-        }
-
-        function closeReaderModal() {
-            document.getElementById('article-reader-modal').classList.add('hidden');
-            activeReaderArtId = null;
-        }
-
-        function renderArticleComments(art) {
-            const commentsList = document.getElementById('reader-comments-list');
-            const countSpan = document.getElementById('reader-comments-count');
+        <!-- Dashboard Content Container -->
+        <div class="p-6 overflow-y-auto custom-scrollbar flex-1 space-y-6">
             
-            const comments = art.comments || [];
-            const approvedComments = comments.filter(c => c.approved !== false);
-
-            countSpan.innerText = `${approvedComments.length} تفاعل`;
-
-            if (approvedComments.length === 0) {
-                commentsList.innerHTML = '<p class="text-xs text-ink-500 text-center py-4">كن أول من يشارك بتأمل أو قراءة حول هذا النص...</p>';
-                return;
-            }
-
-            commentsList.innerHTML = approvedComments.map(c => `
-                <div class="p-4 bg-paper-100 dark:bg-ink-800 rounded-xl border border-paper-200 dark:border-ink-700 space-y-1.5 text-xs">
-                    <div class="flex items-center justify-between font-bold text-brass-600 dark:text-brass-400">
-                        <span class="flex items-center gap-1.5"><i class="fa-solid fa-user-circle text-sm"></i> ${c.author}</span>
-                        <span class="text-[10px] text-ink-500 font-normal">${c.date}</span>
-                    </div>
-                    <p class="text-ink-800 dark:text-paper-200 leading-relaxed font-serif text-sm pt-1">${c.text}</p>
-                </div>
-            `).join('');
-        }
-
-        function handleAddComment(e) {
-            e.preventDefault();
-            if (!activeReaderArtId) return;
-
-            const artIndex = DB.articles.findIndex(a => a.id === activeReaderArtId);
-            if (artIndex === -1) return;
-
-            const authorInput = document.getElementById('comment-author-input');
-            const textInput = document.getElementById('comment-text-input');
-
-            const author = authorInput.value.trim() || 'قارئ متأمل';
-            const text = textInput.value.trim();
-            if (!text) return;
-
-            if (!DB.articles[artIndex].comments) {
-                DB.articles[artIndex].comments = [];
-            }
-
-            const newComment = {
-                id: 'comm-' + Date.now(),
-                author: author,
-                date: new Date().toLocaleDateString('ar-EG', { year: 'numeric', month: 'long', day: 'numeric' }),
-                text: text,
-                approved: true // Visible by default
-            };
-
-            DB.articles[artIndex].comments.push(newComment);
-            saveDBToLocalStorage();
-
-            textInput.value = '';
-            showToast('تمت إضافة تعليقك وتفاعلك بنجاح!', 'success');
-            renderArticleComments(DB.articles[artIndex]);
-            renderEditorialView();
-        }
-
-        function changeFontSize(delta) {
-            readerFontSize = Math.min(Math.max(14, readerFontSize + delta), 28);
-            document.getElementById('reader-content').style.fontSize = `${readerFontSize}px`;
-        }
-
-        /* --- SECRET ADMIN SYSTEM & MODERATION --- */
-        function openAdminAuth() {
-            const pass = prompt("أدخل كلمة السر الخاصة بالإدارة:");
-            if (pass === (DB.adminPassword || "buraq2026")) {
-                document.getElementById('admin-modal').classList.remove('hidden');
-                switchAdminTab('article');
-            } else if (pass !== null) {
-                showToast("كلمة السر غير صحيحة!", "error");
-            }
-        }
-
-        function closeAdminModal() {
-            document.getElementById('admin-modal').classList.add('hidden');
-            resetArticleForm();
-        }
-
-        function switchAdminTab(tab) {
-            const formArt = document.getElementById('admin-form-article');
-            const tabManageArt = document.getElementById('admin-tab-manage-articles');
-            const tabComments = document.getElementById('admin-tab-comments');
-            const tabExport = document.getElementById('admin-tab-export');
-            const formPass = document.getElementById('admin-form-pass');
-
-            const btnArt = document.getElementById('admin-tab-art-btn');
-            const btnManageArt = document.getElementById('admin-tab-manage-art-btn');
-            const btnComments = document.getElementById('admin-tab-comments-btn');
-            const btnExport = document.getElementById('admin-tab-export-btn');
-            const btnPass = document.getElementById('admin-tab-pass-btn');
-
-            formArt.classList.add('hidden');
-            tabManageArt.classList.add('hidden');
-            tabComments.classList.add('hidden');
-            tabExport.classList.add('hidden');
-            formPass.classList.add('hidden');
-
-            const inactiveClass = "px-4 py-2.5 rounded-xl bg-ink-800 font-semibold text-paper-300 hover:text-brass-400 whitespace-nowrap transition-all";
-            btnArt.className = inactiveClass;
-            btnManageArt.className = inactiveClass;
-            btnComments.className = inactiveClass;
-            btnExport.className = inactiveClass;
-            btnPass.className = inactiveClass;
-
-            const activeClass = "px-4 py-2.5 rounded-xl bg-brass-500 text-ink-900 font-bold whitespace-nowrap transition-all shadow-md";
-
-            if (tab === 'article') {
-                formArt.classList.remove('hidden');
-                btnArt.className = activeClass;
-                if (!editingArticleId) resetArticleForm();
-            } else if (tab === 'manage-articles') {
-                renderAdminArticlesList();
-                tabManageArt.classList.remove('hidden');
-                btnManageArt.className = activeClass;
-            } else if (tab === 'comments') {
-                renderAdminCommentsList();
-                tabComments.classList.remove('hidden');
-                btnComments.className = activeClass;
-            } else if (tab === 'export') {
-                generateExportCode();
-                tabExport.classList.remove('hidden');
-                btnExport.className = activeClass;
-            } else if (tab === 'password') {
-                formPass.classList.remove('hidden');
-                btnPass.className = activeClass;
-            }
-        }
-
-        /* IMAGE UPLOADER HANDLER (Local Files -> Data URL) */
-        function handleAdminImageUpload(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const imgDataUrl = e.target.result;
-                document.getElementById('admin-art-image-url').value = imgDataUrl;
+            <!-- TAB 1: Add/Edit Article Form -->
+            <form id="admin-article-form" onsubmit="handleSaveArticle(event)" class="space-y-4">
+                <input type="hidden" id="admin-art-id" value="">
                 
-                const previewImg = document.getElementById('admin-art-preview-img');
-                previewImg.src = imgDataUrl;
-                document.getElementById('admin-art-image-preview').classList.remove('hidden');
-                showToast('تم رفع الصورة بنجاح!', 'success');
-            };
-            reader.readAsDataURL(file);
-        }
-
-        function resetArticleForm() {
-            editingArticleId = null;
-            document.getElementById('admin-form-article').reset();
-            document.getElementById('admin-art-image-preview').classList.add('hidden');
-            document.getElementById('admin-art-submit-text').innerText = 'نشر المقال وتعديل الفضاء';
-        }
-
-        function renderAdminArticlesList() {
-            const listContainer = document.getElementById('admin-articles-list');
-            if (!listContainer) return;
-
-            if (DB.articles.length === 0) {
-                listContainer.innerHTML = '<p class="text-paper-300 py-4 text-center">لا توجد مقالات مضافة حالياً.</p>';
-                return;
-            }
-
-            listContainer.innerHTML = DB.articles.map(art => `
-                <div class="p-3.5 bg-ink-800 rounded-xl border border-ink-700 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                    <div class="space-y-1 flex-1 min-w-0">
-                        <div class="flex items-center gap-2">
-                            <span class="px-2 py-0.5 text-[10px] font-bold rounded bg-brass-500/20 text-brass-400">${art.category}</span>
-                            <span class="text-[11px] text-paper-300">${art.date}</span>
-                        </div>
-                        <h5 class="font-serif font-bold text-sm text-paper-50 truncate">${art.title}</h5>
-                    </div>
-                    <div class="flex items-center gap-2 self-end sm:self-auto">
-                        <button onclick="editArticle('${art.id}')" class="px-3 py-1.5 bg-brass-500/20 text-brass-400 border border-brass-500/40 rounded-lg font-bold hover:bg-brass-500 hover:text-ink-900 transition-all flex items-center gap-1">
-                            <i class="fa-solid fa-pen-to-square"></i>
-                            <span>تعديل</span>
-                        </button>
-                        <button onclick="deleteArticle('${art.id}')" class="px-3 py-1.5 bg-crimson-600/20 text-crimson-400 border border-crimson-600/40 rounded-lg font-bold hover:bg-crimson-600 hover:text-white transition-all flex items-center gap-1">
-                            <i class="fa-solid fa-trash"></i>
-                            <span>حذف</span>
-                        </button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function editArticle(artId) {
-            const art = DB.articles.find(a => a.id === artId);
-            if (!art) return;
-
-            editingArticleId = artId;
-            switchAdminTab('article');
-
-            document.getElementById('admin-art-title').value = art.title || '';
-            document.getElementById('admin-art-subtitle').value = art.subtitle || '';
-            document.getElementById('admin-art-category').value = art.category || 'دين وعرفان';
-            document.getElementById('admin-art-author').value = art.author || 'البراق';
-            document.getElementById('admin-art-readtime').value = art.readTime || '5 دقائق';
-            document.getElementById('admin-art-image-url').value = art.image || '';
-            document.getElementById('admin-art-x').value = art.x !== undefined ? art.x : 200;
-            document.getElementById('admin-art-y').value = art.y !== undefined ? art.y : -140;
-            document.getElementById('admin-art-content').value = (art.content || []).join('\n\n');
-            document.getElementById('admin-art-refs').value = (art.references || []).join('\n');
-
-            if (art.image) {
-                document.getElementById('admin-art-preview-img').src = art.image;
-                document.getElementById('admin-art-image-preview').classList.remove('hidden');
-            }
-
-            document.getElementById('admin-art-submit-text').innerText = 'حفظ التعديلات على المقال';
-        }
-
-        function deleteArticle(artId) {
-            if (artId === 'root') {
-                showToast('لا يمكن حذف المقال الرئيسي لتأسيس الكانفا.', 'error');
-                return;
-            }
-
-            DB.articles = DB.articles.filter(a => a.id !== artId);
-
-            saveDBToLocalStorage();
-            initNodesData();
-            renderEditorialView();
-            updateCategoryFilters();
-            renderAdminArticlesList();
-
-            showToast('تم حذف المقال بنجاح!', 'success');
-        }
-
-        /* --- ADMIN READER COMMENTS MODERATION (SHOW / HIDE / DELETE) --- */
-        function renderAdminCommentsList() {
-            const container = document.getElementById('admin-comments-list');
-            if (!container) return;
-
-            let allComments = [];
-            DB.articles.forEach(art => {
-                (art.comments || []).forEach(comm => {
-                    allComments.push({
-                        ...comm,
-                        articleId: art.id,
-                        articleTitle: art.title
-                    });
-                });
-            });
-
-            if (allComments.length === 0) {
-                container.innerHTML = '<p class="text-paper-300 py-6 text-center">لا توجد تعليقات من القرّاء حتى الآن.</p>';
-                return;
-            }
-
-            container.innerHTML = allComments.map(c => `
-                <div class="p-4 bg-ink-800 rounded-xl border border-ink-700 flex flex-col space-y-2.5">
-                    <div class="flex items-center justify-between text-[11px]">
-                        <span class="text-brass-400 font-bold flex items-center gap-1.5"><i class="fa-solid fa-user"></i> ${c.author}</span>
-                        <span class="text-paper-400">على مقال: <strong class="text-paper-200">${c.articleTitle}</strong> (${c.date})</span>
-                    </div>
-                    <p class="text-paper-100 font-serif leading-relaxed text-xs bg-ink-900/60 p-2.5 rounded-lg border border-ink-700/50">${c.text}</p>
-                    <div class="flex items-center justify-between pt-1">
-                        <span class="px-2.5 py-0.5 text-[10px] font-bold rounded ${c.approved !== false ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-amber-500/20 text-amber-400 border border-amber-500/30'}">
-                            ${c.approved !== false ? 'ظاهر للقرّاء' : 'مخفي عن القرّاء'}
-                        </span>
-                        <div class="flex items-center gap-2">
-                            <button onclick="toggleCommentVisibility('${c.articleId}', '${c.id}')" class="px-3 py-1 bg-ink-700 hover:bg-brass-500 hover:text-ink-900 text-paper-200 font-bold rounded-lg transition-all flex items-center gap-1">
-                                <i class="fa-solid ${c.approved !== false ? 'fa-eye-slash' : 'fa-eye'}"></i>
-                                <span>${c.approved !== false ? 'إخفاء' : 'إظهار'}</span>
-                            </button>
-                            <button onclick="deleteCommentAdmin('${c.articleId}', '${c.id}')" class="px-3 py-1 bg-crimson-600/20 text-crimson-400 border border-crimson-600/40 font-bold rounded-lg hover:bg-crimson-600 hover:text-white transition-all flex items-center gap-1">
-                                <i class="fa-solid fa-trash"></i>
-                                <span>حذف</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function toggleCommentVisibility(artId, commId) {
-            const artIndex = DB.articles.findIndex(a => a.id === artId);
-            if (artIndex === -1) return;
-
-            const comm = (DB.articles[artIndex].comments || []).find(c => c.id === commId);
-            if (comm) {
-                comm.approved = comm.approved === false ? true : false;
-                saveDBToLocalStorage();
-                renderAdminCommentsList();
-                if (activeReaderArtId === artId) renderArticleComments(DB.articles[artIndex]);
-                renderEditorialView();
-                showToast('تم تغيير حالة إظهار التعليق بنجاح!', 'success');
-            }
-        }
-
-        function deleteCommentAdmin(artId, commId) {
-            const artIndex = DB.articles.findIndex(a => a.id === artId);
-            if (artIndex === -1) return;
-
-            DB.articles[artIndex].comments = (DB.articles[artIndex].comments || []).filter(c => c.id !== commId);
-            saveDBToLocalStorage();
-            renderAdminCommentsList();
-            if (activeReaderArtId === artId) renderArticleComments(DB.articles[artIndex]);
-            renderEditorialView();
-            showToast('تم حذف التعليق بنجاح!', 'success');
-        }
-
-        function handleCreateArticle(e) {
-            e.preventDefault();
-            const title = document.getElementById('admin-art-title').value.trim();
-            const subtitle = document.getElementById('admin-art-subtitle').value.trim();
-            const category = document.getElementById('admin-art-category').value;
-            const author = document.getElementById('admin-art-author').value.trim() || 'البراق';
-            const readTime = document.getElementById('admin-art-readtime').value.trim() || '5 دقائق';
-            const imageUrl = document.getElementById('admin-art-image-url').value.trim();
-            const x = parseInt(document.getElementById('admin-art-x').value) || 200;
-            const y = parseInt(document.getElementById('admin-art-y').value) || -140;
-            const contentRaw = document.getElementById('admin-art-content').value;
-            const refsRaw = document.getElementById('admin-art-refs').value;
-
-            const content = contentRaw.split('\n\n').filter(p => p.trim() !== '');
-            const references = refsRaw.split('\n').filter(r => r.trim() !== '');
-
-            if (editingArticleId) {
-                const artIndex = DB.articles.findIndex(a => a.id === editingArticleId);
-                if (artIndex !== -1) {
-                    DB.articles[artIndex] = {
-                        ...DB.articles[artIndex],
-                        title,
-                        subtitle,
-                        category,
-                        author,
-                        readTime,
-                        image: imageUrl,
-                        x,
-                        y,
-                        content,
-                        references
-                    };
-                    showToast('تم تحديث المقال بنجاح!', 'success');
-                }
-                editingArticleId = null;
-            } else {
-                const newArt = {
-                    id: 'art-' + Date.now(),
-                    slug: 'art-' + Date.now(),
-                    title,
-                    subtitle,
-                    category,
-                    author,
-                    date: new Date().toLocaleDateString('ar-EG', { year: 'numeric', month: 'long', day: 'numeric' }),
-                    readTime,
-                    image: imageUrl,
-                    x,
-                    y,
-                    content,
-                    references,
-                    connections: ['root'],
-                    comments: []
-                };
-                DB.articles.unshift(newArt);
-                showToast('تم نشر المقال الجديد بنجاح!', 'success');
-            }
-
-            saveDBToLocalStorage();
-            initNodesData();
-            renderEditorialView();
-            updateCategoryFilters();
-
-            resetArticleForm();
-            closeAdminModal();
-        }
-
-        function handleChangePassword(e) {
-            e.preventDefault();
-            const newPass = document.getElementById('admin-new-pass').value.trim();
-            if (!newPass) return;
-            DB.adminPassword = newPass;
-            saveDBToLocalStorage();
-            showToast("تم تحديث كلمة السر بنجاح!", "success");
-            document.getElementById('admin-form-pass').reset();
-        }
-
-        function generateExportCode() {
-            const htmlContent = document.documentElement.outerHTML;
-            document.getElementById('admin-export-code').value = htmlContent;
-        }
-
-        function copyExportCode() {
-            const textarea = document.getElementById('admin-export-code');
-            textarea.select();
-            document.execCommand('copy');
-            showToast('تم نسخ الكود بالكامل! قم بلصقه في GitHub الآن.', 'success');
-        }
-
-        /* --- SEARCH SYSTEM --- */
-        function toggleSearchModal() {
-            const modal = document.getElementById('search-modal');
-            modal.classList.toggle('hidden');
-            if (!modal.classList.contains('hidden')) {
-                document.getElementById('search-input').focus();
-            }
-        }
-
-        function handleSearch(query) {
-            const resultsContainer = document.getElementById('search-results');
-            if (!query.trim()) {
-                resultsContainer.innerHTML = '<p class="text-ink-500 text-center py-4">اكتب شيئاً للبدء في البحث...</p>';
-                return;
-            }
-
-            const q = query.toLowerCase();
-            const matched = DB.articles.filter(a => 
-                a.title.toLowerCase().includes(q) || 
-                a.category.toLowerCase().includes(q) || 
-                (a.subtitle && a.subtitle.toLowerCase().includes(q))
-            );
-
-            if (matched.length === 0) {
-                resultsContainer.innerHTML = '<p class="text-ink-500 text-center py-4">لم يتم العثور على نتائج مطابقة.</p>';
-                return;
-            }
-
-            resultsContainer.innerHTML = matched.map(a => `
-                <div onclick="toggleSearchModal(); openArticleReader('${a.id}')" class="p-3 bg-paper-100 dark:bg-ink-800 rounded-xl hover:bg-brass-500/10 cursor-pointer transition-all flex items-center justify-between">
+                <div class="grid sm:grid-cols-2 gap-4">
                     <div>
-                        <h5 class="font-bold text-sm text-ink-900 dark:text-paper-100">${a.title}</h5>
-                        <p class="text-[11px] text-ink-500 dark:text-paper-300">${a.subtitle || a.category}</p>
+                        <label class="block text-xs font-bold mb-1 text-brass-400">عنوان المقال الرئيسي *</label>
+                        <input type="text" id="admin-art-title" required class="w-full px-4 py-2.5 rounded-lg border border-ink-700 bg-ink-800 text-sm focus:outline-none focus:border-brass-500">
                     </div>
-                    <i class="fa-solid fa-arrow-left text-brass-500 text-xs"></i>
+                    <div>
+                        <label class="block text-xs font-bold mb-1 text-brass-400">العنوان الفرعي</label>
+                        <input type="text" id="admin-art-subtitle" class="w-full px-4 py-2.5 rounded-lg border border-ink-700 bg-ink-800 text-sm focus:outline-none focus:border-brass-500">
+                    </div>
                 </div>
-            `).join('');
-        }
 
-        /* --- DARK MODE SYSTEM --- */
-        function toggleDarkMode() {
-            isDarkMode = !isDarkMode;
-            if (isDarkMode) {
-                document.documentElement.classList.add('dark');
-                document.getElementById('theme-icon').className = 'fa-solid fa-sun';
-            } else {
-                document.documentElement.classList.remove('dark');
-                document.getElementById('theme-icon').className = 'fa-solid fa-moon';
+                <div class="grid sm:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold mb-1 text-brass-400">التصنيف الموضوعي *</label>
+                        <select id="admin-art-category" required class="w-full px-4 py-2.5 rounded-lg border border-ink-700 bg-ink-800 text-sm focus:outline-none focus:border-brass-500">
+                            <option value="نقد فكري">نقد فكري</option>
+                            <option value="دراسات وأبحاث">دراسات وأبحاث</option>
+                            <option value="تحليل سياسي">تحليل سياسي</option>
+                            <option value="مراجعات كتب">مراجعات كتب</option>
+                            <option value="أدب وتأملات">أدب وتأملات</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold mb-1 text-brass-400">زمن القراءة (مثال: 10 دقائق)</label>
+                        <input type="text" id="admin-art-readtime" value="8 دقائق" class="w-full px-4 py-2.5 rounded-lg border border-ink-700 bg-ink-800 text-sm focus:outline-none focus:border-brass-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold mb-1 text-brass-400">اسم الكاتب</label>
+                        <input type="text" id="admin-art-author" value="البراق" class="w-full px-4 py-2.5 rounded-lg border border-ink-700 bg-ink-800 text-sm focus:outline-none focus:border-brass-500">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold mb-1 text-brass-400">ملخص المقال (يظهر في البطاقة الخارجية) *</label>
+                    <textarea id="admin-art-excerpt" rows="2" required class="w-full px-4 py-2.5 rounded-lg border border-ink-700 bg-ink-800 text-sm focus:outline-none focus:border-brass-500"></textarea>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold mb-1 text-brass-400">نص المقال الكامل (اترك سطراً فارغاً بين كل فقرة والأخرى) *</label>
+                    <textarea id="admin-art-content" rows="8" required class="w-full px-4 py-2.5 rounded-lg border border-ink-700 bg-ink-800 text-sm focus:outline-none focus:border-brass-500 font-serif leading-relaxed"></textarea>
+                </div>
+
+                <div class="pt-2 flex items-center justify-between">
+                    <button type="submit" id="admin-save-btn" class="px-6 py-3 bg-brass-500 text-ink-900 font-bold text-sm rounded-lg hover:bg-brass-400 transition-all">
+                        <i class="fa-solid fa-floppy-disk ml-1.5"></i> حفظ ونشر المقال
+                    </button>
+                    <button type="button" onclick="resetArticleForm()" class="px-4 py-2 text-xs text-paper-400 hover:text-paper-100">إلغاء وإعادة تعيين</button>
+                </div>
+            </form>
+
+            <!-- TAB 2: Manage Articles List -->
+            <div id="admin-manage-articles" class="hidden space-y-4">
+                <h4 class="font-serif font-bold text-base text-brass-400 border-b border-ink-800 pb-2">المقالات المنشورة حالياً في الأرشيف</h4>
+                <div id="admin-articles-list" class="space-y-3">
+                    <!-- Articles List Added Dynamically -->
+                </div>
+            </div>
+
+            <!-- TAB 3: Add Book Form -->
+            <form id="admin-book-form" onsubmit="handleAddBook(event)" class="hidden space-y-4">
+                <div class="grid sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold mb-1 text-brass-400">عنوان الكتاب *</label>
+                        <input type="text" id="admin-book-title" required class="w-full px-4 py-2.5 rounded-lg border border-ink-700 bg-ink-800 text-sm focus:outline-none focus:border-brass-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold mb-1 text-brass-400">المؤلف *</label>
+                        <input type="text" id="admin-book-author" required class="w-full px-4 py-2.5 rounded-lg border border-ink-700 bg-ink-800 text-sm focus:outline-none focus:border-brass-500">
+                    </div>
+                </div>
+
+                <div class="grid sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold mb-1 text-brass-400">حالة القراءة</label>
+                        <select id="admin-book-status" class="w-full px-4 py-2.5 rounded-lg border border-ink-700 bg-ink-800 text-sm focus:outline-none focus:border-brass-500">
+                            <option value="read">تمت قراءته</option>
+                            <option value="reading">أقرأه الآن</option>
+                            <option value="want_to_read">في قائمة الانتظار</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold mb-1 text-brass-400">التقييم (1 إلى 5 نجوم)</label>
+                        <input type="number" min="1" max="5" id="admin-book-rating" value="5" class="w-full px-4 py-2.5 rounded-lg border border-ink-700 bg-ink-800 text-sm focus:outline-none focus:border-brass-500">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold mb-1 text-brass-400">ملاحظة أو انطباع شخصي</label>
+                    <textarea id="admin-book-notes" rows="3" class="w-full px-4 py-2.5 rounded-lg border border-ink-700 bg-ink-800 text-sm focus:outline-none focus:border-brass-500"></textarea>
+                </div>
+
+                <button type="submit" class="px-6 py-3 bg-brass-500 text-ink-900 font-bold text-sm rounded-lg hover:bg-brass-400 transition-all">
+                    إضافة الكتاب للخزانة
+                </button>
+            </form>
+
+            <!-- TAB 4: Change Password -->
+            <form id="admin-pass-form" onsubmit="handleChangePassword(event)" class="hidden space-y-4 max-w-md">
+                <div>
+                    <label class="block text-xs font-bold mb-1 text-brass-400">كلمة السر الجديدة</label>
+                    <input type="password" id="new-password-input" required class="w-full px-4 py-2.5 rounded-lg border border-ink-700 bg-ink-800 text-sm focus:outline-none focus:border-brass-500">
+                </div>
+                <button type="submit" class="px-6 py-3 bg-brass-500 text-ink-900 font-bold text-sm rounded-lg hover:bg-brass-400 transition-all">
+                    حفظ كلمة السر الجديدة
+                </button>
+            </form>
+
+            <!-- TAB 5: Export Full Code for GitHub -->
+            <div id="admin-export-code" class="hidden space-y-4">
+                <p class="text-xs text-paper-300 leading-relaxed">
+                    اضغط على الزر أدناه لنسخ كود الـ HTML الجديد والكامل المحتوي على كافة مقالاتك وتعديلاتك. يمكنك بعدها ذهاب إلى مستودعك في GitHub واستبدال الكود في ملف <code class="bg-ink-800 px-1.5 py-0.5 rounded text-brass-400">index.html</code> لتشاهد التحديثات الحية لدى جميع زوار الموقع!
+                </p>
+                <button onclick="copyFullHTMLCode()" class="px-6 py-3 bg-brass-500 text-ink-900 font-bold text-sm rounded-lg hover:bg-brass-400 transition-all flex items-center gap-2">
+                    <i class="fa-solid fa-copy"></i> نسخ كود index.html بالكامل
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- JAVASCRIPT LOGIC -->
+<script>
+    // INITIAL DATABASE STATE
+    const initialDB = {
+        articles: [
+            {
+                id: 'art-1',
+                slug: 'critique-of-modern-reason',
+                title: 'في مفارقات العقلانيات المعاصرة: بين صنم التكنوقراطية وأزمة المعنى',
+                subtitle: 'مساءلة فكرية لمسارات العقلانية الإيجابية في عصر السيولة الرقمية',
+                author: 'البراق',
+                date: '25 أغسطس 2026',
+                category: 'نقد فكري',
+                readTime: '12 دقيقة',
+                x: 150, y: -100,
+                excerpt: 'تتخذ العقلانية المعاصرة صوراً شبيهة بالوثنية الجديدة، حيث يُختزل الفكر الإنساني في إجراءات صماء تُفرغ العالم من البعد التأملي والأخلاقي.',
+                content: [
+                    'إن الأزمة التأسيسية التي تعيشها الحداثة المتأخرة لا تكمن في قلة البيانات أو ضعف الأدوات الإجرائية، بل في الهيمنة المطلقة للعقل الأداتي الذي حذر منه الحصيفون مبكراً. لقد تحولت الأدوات من وسيلة لفهم الوجود إلى إطار يحكم السلوك الإنساني ويصوغ إدراكه لذاته.',
+                    'عندما يُصبح السؤال الفلسفي محاطاً بأسوار الكفاءة السريعة، نفقد بالضرورة قدرتنا على "التأمل الهادئ". الفكر الحقيقي ليس خطاً مستقيماً يهدف إلى حسم المعركة، بل هو مجاورة للمفارقة واستكشاف للمناطق الرمادية في التجربة البشرية.',
+                    'ومن هنا، فإن العودة إلى القراءة التفكيكية والرصينة ليست رفاهية أكاديمية، بل هي درع أخلاقي ضد السقوط في تبسيط الحقيقة وشيطنة الآخر.'
+                ]
+            },
+            {
+                id: 'art-2',
+                slug: 'geopolitics-of-identity',
+                title: 'تحولات الجغرافيا السياسية للهوية في العالم العربي',
+                subtitle: 'دراسة في تشابك الانتماءات المحلية مع التغيرات العابرة للحدود',
+                author: 'البراق',
+                date: '10 أغسطس 2026',
+                category: 'دراسات وأبحاث',
+                readTime: '15 دقيقة',
+                x: -200, y: 150,
+                excerpt: 'قراءة تحليليّة في تعقيدات مفهوم الدولة الوطنية مقابل الانتماءات العابرة وتأثير الوسائط الحديثة على صياغة المجال العام.',
+                content: [
+                    'يعيش المجال الإقليمي حالة من السيولة المفاهيمية؛ حيث تتداخل خطوط التماس التقليدية مع الفضاءات السيبرانية التي تعيد تشكيل تطلعات المجتمعات ونخبها المعتزلة.',
+                    'إن الفهم المعتاد للحدود الوطنية لم يعد كافياً لتفسير حركات التجمع والهوية المعاصرة، مما يتطلب أدوات تحليلية جديدة تزاوج بين العلوم السياسية والأنثروبولوجيا الثقافية.'
+                ]
+            },
+            {
+                id: 'art-3',
+                slug: 'reading-in-the-digital-age',
+                title: 'فلسفة الفعل القرائي: كيف تقرأ كتاباً في زمن التشتت الحاد؟',
+                subtitle: 'تأملات حول بطء القراءة كفعل مقاومة فكرية',
+                author: 'البراق',
+                date: '01 أغسطس 2026',
+                category: 'أدب وتأملات',
+                readTime: '7 دقائق',
+                x: 250, y: 200,
+                excerpt: 'ليست القراءة مجرد استهلاك للمعلومة، بل هي فعل حوار عميق مع نص يعيد تشكيل خارطتنا الذهنية والوجدانية.',
+                content: [
+                    'في زمن المحتويات السريعة والتصفح الخاطف، تصبح القراءة الصبورة والطويلة ضرباً من النضال الفكري لإنقاذ الوعي الإنساني من التفتت.',
+                    'تقتضي القراءة الحقيقية أن تمنح النص وقتاً للتنفس داخل ذهنك، أن تختلف معه، وتكتب على هوامشه ملاحظاتك وتساؤلاتك الحية.'
+                ]
             }
+        ],
+        books: [
+            {
+                id: 'b-1',
+                title: 'ظاهراتية الروح',
+                author: 'ج. و. ف. هيغل',
+                category: 'فلسفة',
+                status: 'reading',
+                rating: 5,
+                notes: 'قراءة ثانية متأنية لمفصل الوعي بالذات والعلاقة بين السيد والعبد.'
+            },
+            {
+                id: 'b-2',
+                title: 'تاريخ الفلسفة الغربية',
+                author: 'برتراند راسل',
+                category: 'تاريخ فكري',
+                status: 'read',
+                rating: 4,
+                notes: 'مراجعة خفيفة وممتعة، وإن كانت تنطوي على انحيازات واضحة ضد الفلسفة القارية.'
+            }
+        ],
+        quotes: [
+            {
+                id: 'q-1',
+                text: 'القراءة ليست مهرباً من الواقع، بل هي المواجهة الأكثر جسارة مع أوهامنا.',
+                author: 'البراق',
+                source: 'تأملات شخصية'
+            },
+            {
+                id: 'q-2',
+                text: 'إن الذين يكتبون التاريخ يزورونه غالباً، لكن الذين يقرؤون الأدب يفهمون كيف عاش البشر بالفعل.',
+                author: 'مالك بن نبي',
+                source: 'شروط النهضة'
+            }
+        ]
+    };
+
+    // LOAD OR INIT STORAGE
+    let DB = JSON.parse(localStorage.getItem('alburaq_db')) || initialDB;
+    let adminPass = localStorage.getItem('alburaq_pass') || 'buraq2026';
+    let currentFilter = 'all';
+    let currentFontSize = 18;
+
+    // ON LOAD INITIALIZATION
+    window.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('year').textContent = new Date().getFullYear();
+        renderEditorialView();
+        renderCategoryFilters();
+        renderCanvasNodes();
+        setupCanvasDrag();
+    });
+
+    // SAVE DB TO LOCAL STORAGE
+    function saveDB() {
+        localStorage.setItem('alburaq_db', JSON.stringify(DB));
+        renderEditorialView();
+        renderCanvasNodes();
+    }
+
+    // VIEW SWITCHER (Editorial vs Canvas)
+    function switchView(mode) {
+        const edView = document.getElementById('view-editorial');
+        const cvView = document.getElementById('view-canvas');
+        const btnEd = document.getElementById('btn-view-editorial');
+        const btnCv = document.getElementById('btn-view-canvas');
+
+        if (mode === 'editorial') {
+            edView.classList.remove('hidden');
+            cvView.classList.add('hidden');
+            btnEd.className = "px-3 py-1.5 text-xs font-bold rounded-md transition-all bg-brass-500 text-paper-50 shadow-sm";
+            btnCv.className = "px-3 py-1.5 text-xs font-bold rounded-md transition-all text-ink-700 dark:text-paper-200 hover:text-brass-600";
+        } else {
+            edView.classList.add('hidden');
+            cvView.classList.remove('hidden');
+            btnCv.className = "px-3 py-1.5 text-xs font-bold rounded-md transition-all bg-brass-500 text-paper-50 shadow-sm";
+            btnEd.className = "px-3 py-1.5 text-xs font-bold rounded-md transition-all text-ink-700 dark:text-paper-200 hover:text-brass-600";
+        }
+    }
+
+    // RENDER EDITORIAL VIEW
+    function renderEditorialView() {
+        // Featured Article
+        const feat = DB.articles[0];
+        const featContainer = document.getElementById('featured-article-container');
+        if (feat) {
+            featContainer.innerHTML = `
+                <div class="md:col-span-7 space-y-4">
+                    <span class="text-xs font-bold text-crimson-700 dark:text-brass-400 uppercase tracking-widest">${feat.category}</span>
+                    <h3 class="font-serif text-2xl md:text-4xl font-bold leading-tight cursor-pointer hover:text-brass-600 dark:hover:text-brass-400 transition-colors" onclick="openReaderModal('${feat.id}')">
+                        ${feat.title}
+                    </h3>
+                    <p class="text-xs text-ink-600 dark:text-paper-300 font-serif italic">${feat.subtitle || ''}</p>
+                    <p class="text-sm leading-relaxed text-ink-800 dark:text-paper-200 line-clamp-3">${feat.excerpt}</p>
+                    <div class="flex items-center gap-4 text-xs text-ink-500 dark:text-paper-400 pt-2">
+                        <span><i class="fa-regular fa-clock ml-1"></i> ${feat.readTime}</span>
+                        <span>•</span>
+                        <span>${feat.date}</span>
+                    </div>
+                </div>
+                <div class="md:col-span-5 bg-paper-200 dark:bg-ink-900/60 p-6 rounded-xl border border-brass-500/20 text-center flex flex-col justify-center space-y-4">
+                    <div class="w-16 h-16 mx-auto rounded-full bg-brass-500/20 text-brass-600 dark:text-brass-400 flex items-center justify-center font-serif font-bold text-2xl border border-brass-500/40">
+                        ب
+                    </div>
+                    <span class="text-xs font-serif italic text-ink-700 dark:text-paper-200">"قراءة نقدية موسعة في الأرشيف"</span>
+                    <button onclick="openReaderModal('${feat.id}')" class="px-6 py-2.5 bg-brass-500 text-ink-900 font-bold text-xs rounded-lg hover:bg-brass-400 transition-all">
+                        قراءة النص الكلي
+                    </button>
+                </div>
+            `;
         }
 
-        /* --- TOAST NOTIFICATION --- */
-        function showToast(message, type = 'success') {
-            const toast = document.getElementById('toast');
-            const msgSpan = document.getElementById('toast-message');
-            msgSpan.innerText = message;
+        // Filtered Articles Grid
+        const articlesGrid = document.getElementById('articles-grid');
+        const filteredArticles = currentFilter === 'all' ? DB.articles : DB.articles.filter(a => a.category === currentFilter);
+        
+        articlesGrid.innerHTML = filteredArticles.map(art => `
+            <article class="bg-paper-100/60 dark:bg-ink-800/40 rounded-xl border border-paper-200 dark:border-ink-800 p-6 flex flex-col justify-between hover:border-brass-500/60 transition-all group shadow-sm">
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between text-xs">
+                        <span class="font-semibold text-crimson-700 dark:text-brass-400">${art.category}</span>
+                        <span class="text-ink-500 dark:text-paper-400">${art.readTime}</span>
+                    </div>
+                    <h3 class="font-serif font-bold text-xl leading-snug group-hover:text-brass-600 dark:group-hover:text-brass-400 transition-colors cursor-pointer" onclick="openReaderModal('${art.id}')">
+                        ${art.title}
+                    </h3>
+                    <p class="text-xs text-ink-700 dark:text-paper-300 line-clamp-3 leading-relaxed">
+                        ${art.excerpt}
+                    </p>
+                </div>
+                <div class="pt-6 border-t border-paper-200/60 dark:border-ink-700/40 mt-6 flex items-center justify-between text-xs text-ink-500 dark:text-paper-400">
+                    <span>${art.date}</span>
+                    <button onclick="openReaderModal('${art.id}')" class="font-bold text-brass-600 dark:text-brass-400 group-hover:translate-x-[-4px] transition-transform flex items-center gap-1">
+                        اقرأ الآن <i class="fa-solid fa-arrow-left text-[10px]"></i>
+                    </button>
+                </div>
+            </article>
+        `).join('');
 
-            toast.classList.remove('translate-y-20', 'opacity-0');
-            setTimeout(() => {
-                toast.classList.add('translate-y-20', 'opacity-0');
-            }, 3000);
+        // Library Grid
+        const libGrid = document.getElementById('library-grid');
+        libGrid.innerHTML = DB.books.map(b => `
+            <div class="bg-paper-50 dark:bg-ink-900 p-5 rounded-xl border border-paper-200 dark:border-ink-800 space-y-3 shadow-sm">
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded ${b.status === 'reading' ? 'bg-brass-500/20 text-brass-700 dark:text-brass-400' : 'bg-paper-200 dark:bg-ink-800 text-ink-700 dark:text-paper-200'}">
+                    ${b.status === 'reading' ? 'أقرأه الآن' : 'تمت قراءته'}
+                </span>
+                <h4 class="font-serif font-bold text-lg leading-snug">${b.title}</h4>
+                <p class="text-xs text-ink-600 dark:text-paper-300">${b.author}</p>
+                <div class="text-brass-500 text-xs">${'★'.repeat(b.rating || 5)}</div>
+                ${b.notes ? `<p class="text-xs italic text-ink-700 dark:text-paper-300 border-r-2 border-brass-500/40 pr-2 pt-1">"${b.notes}"</p>` : ''}
+            </div>
+        `).join('');
+
+        // Quotes Grid
+        const quotesGrid = document.getElementById('quotes-grid');
+        quotesGrid.innerHTML = DB.quotes.map(q => `
+            <div class="p-6 bg-paper-100/80 dark:bg-ink-800/40 rounded-xl border-r-4 border-brass-500 dark:border-brass-400 space-y-3">
+                <p class="font-serif text-lg leading-relaxed italic">"${q.text}"</p>
+                <div class="text-xs text-ink-600 dark:text-paper-300 font-semibold">— ${q.author}، <span class="italic">${q.source}</span></div>
+            </div>
+        `).join('');
+
+        // Admin List
+        renderAdminArticlesList();
+    }
+
+    // CATEGORY FILTERS
+    function renderCategoryFilters() {
+        const categories = ['all', 'نقد فكري', 'دراسات وأبحاث', 'تحليل سياسي', 'مراجعات كتب', 'أدب وتأملات'];
+        const container = document.getElementById('category-filters');
+        container.innerHTML = categories.map(cat => `
+            <button onclick="filterCategory('${cat}')" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${currentFilter === cat ? 'bg-ink-900 text-paper-50 dark:bg-paper-50 dark:text-ink-900 shadow-sm' : 'bg-paper-200/60 dark:bg-ink-800 text-ink-700 dark:text-paper-200 hover:bg-brass-500/20'}">
+                ${cat === 'all' ? 'الكل' : cat}
+            </button>
+        `).join('');
+    }
+
+    function filterCategory(cat) {
+        currentFilter = cat;
+        renderCategoryFilters();
+        renderEditorialView();
+    }
+
+    // CANVAS VIEW RENDERER (Rectangular Cards)
+    function renderCanvasNodes() {
+        const container = document.getElementById('canvas-nodes');
+        const svg = document.getElementById('canvas-svg');
+        const center = 1500; // Stage center
+
+        container.innerHTML = `
+            <!-- Central Root Node -->
+            <div style="left: ${center}px; top: ${center}px;" class="absolute -translate-x-1/2 -translate-y-1/2 bg-ink-900 text-paper-50 border-2 border-brass-500 px-6 py-4 rounded-xl shadow-2xl text-center font-serif z-10 pointer-events-auto">
+                <div class="text-xs text-brass-400 font-sans tracking-widest uppercase">النواة الفكرية</div>
+                <div class="text-xl font-bold">البراق للقراءة والكتابة</div>
+            </div>
+        `;
+
+        let svgContent = '';
+
+        DB.articles.forEach((art, idx) => {
+            const nodeX = center + (art.x || (idx * 220 - 200));
+            const nodeY = center + (art.y || (idx * 160 - 100));
+
+            // Draw curve to root
+            svgContent += `<path d="M ${center} ${center} Q ${(center + nodeX)/2 + 50} ${(center + nodeY)/2 - 50} ${nodeX} ${nodeY}" stroke="rgba(197, 155, 39, 0.4)" stroke-width="2" fill="none" stroke-dasharray="4" />`;
+
+            // Add Card Node
+            container.innerHTML += `
+                <div style="left: ${nodeX}px; top: ${nodeY}px;" 
+                     onclick="openReaderModal('${art.id}')"
+                     class="absolute -translate-x-1/2 -translate-y-1/2 bg-paper-50 dark:bg-ink-800 border border-paper-300 dark:border-ink-700 hover:border-brass-500 p-4 rounded-xl shadow-lg w-64 cursor-pointer transition-all hover:scale-105 z-10 pointer-events-auto group">
+                    <span class="text-[10px] font-bold text-crimson-700 dark:text-brass-400 uppercase">${art.category}</span>
+                    <h4 class="font-serif font-bold text-sm text-ink-900 dark:text-paper-50 group-hover:text-brass-600 leading-snug mt-1 mb-2">${art.title}</h4>
+                    <p class="text-[11px] text-ink-600 dark:text-paper-300 line-clamp-2">${art.excerpt}</p>
+                    <div class="mt-3 pt-2 border-t border-paper-200 dark:border-ink-700 flex items-center justify-between text-[10px] text-ink-500">
+                        <span>${art.readTime}</span>
+                        <span class="text-brass-600 font-bold">انقر للقراءة ←</span>
+                    </div>
+                </div>
+            `;
+        });
+
+        svg.innerHTML = svgContent;
+    }
+
+    // CANVAS DRAGGING & ZOOM
+    let canvasZoom = 1;
+    function setupCanvasDrag() {
+        const stage = document.getElementById('canvas-stage');
+        let isDragging = false, startX, startY, currentX = -1500 + window.innerWidth/2, currentY = -1500 + window.innerHeight/2;
+
+        stage.style.transform = `translate(${currentX}px, ${currentY}px) scale(${canvasZoom})`;
+
+        stage.parentElement.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            startX = e.clientX - currentX;
+            startY = e.clientY - currentY;
+        });
+
+        window.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            currentX = e.clientX - startX;
+            currentY = e.clientY - startY;
+            stage.style.transform = `translate(${currentX}px, ${currentY}px) scale(${canvasZoom})`;
+        });
+
+        window.addEventListener('mouseup', () => isDragging = false);
+    }
+
+    function zoomCanvas(factor) {
+        canvasZoom *= factor;
+        const stage = document.getElementById('canvas-stage');
+        stage.style.transform = stage.style.transform.replace(/scale\([^)]+\)/, `scale(${canvasZoom})`);
+    }
+
+    function resetCanvas() {
+        canvasZoom = 1;
+        const stage = document.getElementById('canvas-stage');
+        const currentX = -1500 + window.innerWidth/2;
+        const currentY = -1500 + window.innerHeight/2;
+        stage.style.transform = `translate(${currentX}px, ${currentY}px) scale(1)`;
+    }
+
+    // READER MODAL HANDLERS
+    function openReaderModal(id) {
+        const art = DB.articles.find(a => a.id === id);
+        if (!art) return;
+
+        document.getElementById('reader-category').textContent = art.category;
+        document.getElementById('reader-time').textContent = art.readTime;
+        document.getElementById('reader-title').textContent = art.title;
+        document.getElementById('reader-subtitle').textContent = art.subtitle || '';
+        document.getElementById('reader-author').textContent = art.author;
+        document.getElementById('reader-date').textContent = art.date;
+        
+        const body = document.getElementById('reader-body');
+        body.style.fontSize = `${currentFontSize}px`;
+        body.innerHTML = art.content.map(p => `<p class="leading-relaxed mb-4">${p}</p>`).join('');
+
+        const modal = document.getElementById('reader-modal');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    }
+
+    function closeReaderModal() {
+        const modal = document.getElementById('reader-modal');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }
+
+    function adjustFontSize(delta) {
+        currentFontSize += delta * 2;
+        document.getElementById('reader-body').style.fontSize = `${currentFontSize}px`;
+    }
+
+    // SEARCH MODAL HANDLERS
+    function openSearchModal() {
+        document.getElementById('search-modal').classList.remove('hidden');
+        document.getElementById('search-modal').classList.add('flex');
+        document.getElementById('search-input').focus();
+    }
+    function closeSearchModal() {
+        document.getElementById('search-modal').classList.add('hidden');
+        document.getElementById('search-modal').classList.remove('flex');
+    }
+
+    function performSearch() {
+        const query = document.getElementById('search-input').value.trim().toLowerCase();
+        const container = document.getElementById('search-results');
+        if (!query) { container.innerHTML = ''; return; }
+
+        const results = DB.articles.filter(a => 
+            a.title.toLowerCase().includes(query) || 
+            a.excerpt.toLowerCase().includes(query) ||
+            a.category.toLowerCase().includes(query)
+        );
+
+        container.innerHTML = results.length ? results.map(a => `
+            <div onclick="closeSearchModal(); openReaderModal('${a.id}')" class="p-3 bg-paper-100 dark:bg-ink-800 rounded-lg hover:border-brass-500 border border-transparent cursor-pointer">
+                <span class="text-[10px] font-bold text-crimson-700 dark:text-brass-400">${a.category}</span>
+                <h5 class="font-serif font-bold text-sm text-ink-900 dark:text-paper-50">${a.title}</h5>
+            </div>
+        `).join('') : '<div class="text-xs text-ink-500 p-4 text-center">لا توجد نتائج مطابقة لطلبك</div>';
+    }
+
+    // ADMIN CONTROLS (SECRET MODAL)
+    function promptAdminPass() {
+        const pass = prompt("أدخل كلمة السر الخاصة بـ لوحة التحكم السرية:");
+        if (pass === adminPass) {
+            document.getElementById('admin-modal').classList.remove('hidden');
+            document.getElementById('admin-modal').classList.add('flex');
+        } else if (pass !== null) {
+            alert("كلمة السر غير صحيحة!");
         }
-    </script>
-</body>
-</html>
+    }
+
+    function closeAdminModal() {
+        document.getElementById('admin-modal').classList.add('hidden');
+        document.getElementById('admin-modal').classList.remove('flex');
+    }
+
+    function switchAdminTab(tabName) {
+        const tabs = ['add-article', 'manage-articles', 'add-book', 'change-pass', 'export-code'];
+        tabs.forEach(t => {
+            const el = document.getElementById(`admin-${t}`);
+            const btn = document.getElementById(`tab-btn-${t}`);
+            if (t === tabName) {
+                el.classList.remove('hidden');
+                btn.className = "px-4 py-2.5 rounded-t-lg bg-brass-500 text-ink-900 font-bold transition-all";
+            } else {
+                el.classList.add('hidden');
+                btn.className = "px-4 py-2.5 rounded-t-lg bg-ink-800 text-paper-200 hover:text-paper-50 transition-all";
+            }
+        });
+    }
+
+    // ADD / EDIT ARTICLE
+    function handleSaveArticle(e) {
+        e.preventDefault();
+        const editId = document.getElementById('admin-art-id').value;
+        const title = document.getElementById('admin-art-title').value;
+        const subtitle = document.getElementById('admin-art-subtitle').value;
+        const category = document.getElementById('admin-art-category').value;
+        const readTime = document.getElementById('admin-art-readtime').value;
+        const author = document.getElementById('admin-art-author').value;
+        const excerpt = document.getElementById('admin-art-excerpt').value;
+        const rawContent = document.getElementById('admin-art-content').value;
+
+        const contentArr = rawContent.split('\n\n').filter(p => p.trim() !== '');
+
+        if (editId) {
+            // Edit Existing
+            const idx = DB.articles.findIndex(a => a.id === editId);
+            if (idx !== -1) {
+                DB.articles[idx] = { ...DB.articles[idx], title, subtitle, category, readTime, author, excerpt, content: contentArr };
+            }
+        } else {
+            // Add New
+            const newArt = {
+                id: 'art-' + Date.now(),
+                slug: title.toLowerCase().replace(/\s+/g, '-'),
+                title, subtitle, category, readTime, author, excerpt,
+                date: new Date().toLocaleDateString('ar-EG', { day: 'numeric', month: 'long', year: 'numeric' }),
+                x: Math.floor(Math.random() * 400) - 200,
+                y: Math.floor(Math.random() * 400) - 200,
+                content: contentArr
+            };
+            DB.articles.unshift(newArt);
+        }
+
+        saveDB();
+        resetArticleForm();
+        alert("تم حفظ ونشر المقال بنجاح!");
+        switchAdminTab('manage-articles');
+    }
+
+    function editArticleInAdmin(id) {
+        const art = DB.articles.find(a => a.id === id);
+        if (!art) return;
+
+        document.getElementById('admin-art-id').value = art.id;
+        document.getElementById('admin-art-title').value = art.title;
+        document.getElementById('admin-art-subtitle').value = art.subtitle || '';
+        document.getElementById('admin-art-category').value = art.category;
+        document.getElementById('admin-art-readtime').value = art.readTime;
+        document.getElementById('admin-art-author').value = art.author;
+        document.getElementById('admin-art-excerpt').value = art.excerpt;
+        document.getElementById('admin-art-content').value = art.content.join('\n\n');
+
+        document.getElementById('admin-save-btn').innerHTML = '<i class="fa-solid fa-arrows-rotate ml-1.5"></i> تحديث المقال';
+        switchAdminTab('add-article');
+    }
+
+    function deleteArticleInAdmin(id) {
+        if (confirm("هل أنت تأكد من رغبتك في حذف هذا المقال نهائياً؟")) {
+            DB.articles = DB.articles.filter(a => a.id !== id);
+            saveDB();
+            alert("تم حذف المقال.");
+        }
+    }
+
+    function resetArticleForm() {
+        document.getElementById('admin-article-form').reset();
+        document.getElementById('admin-art-id').value = '';
+        document.getElementById('admin-save-btn').innerHTML = '<i class="fa-solid fa-floppy-disk ml-1.5"></i> حفظ ونشر المقال';
+    }
+
+    function renderAdminArticlesList() {
+        const container = document.getElementById('admin-articles-list');
+        if (!container) return;
+        container.innerHTML = DB.articles.map(a => `
+            <div class="p-4 bg-ink-800 rounded-xl border border-ink-700 flex items-center justify-between">
+                <div>
+                    <span class="text-[10px] text-brass-400 font-bold uppercase">${a.category}</span>
+                    <h5 class="font-serif font-bold text-sm text-paper-50">${a.title}</h5>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="editArticleInAdmin('${a.id}')" class="px-3 py-1.5 bg-brass-500/20 text-brass-400 hover:bg-brass-500 hover:text-ink-900 rounded text-xs font-bold transition-all">
+                        <i class="fa-solid fa-pen"></i> تعديل
+                    </button>
+                    <button onclick="deleteArticleInAdmin('${a.id}')" class="px-3 py-1.5 bg-crimson-800/40 text-crimson-400 hover:bg-crimson-700 hover:text-paper-50 rounded text-xs font-bold transition-all">
+                        <i class="fa-solid fa-trash"></i> حذف
+                    </button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // ADD BOOK
+    function handleAddBook(e) {
+        e.preventDefault();
+        const newBook = {
+            id: 'b-' + Date.now(),
+            title: document.getElementById('admin-book-title').value,
+            author: document.getElementById('admin-book-author').value,
+            status: document.getElementById('admin-book-status').value,
+            rating: parseInt(document.getElementById('admin-book-rating').value),
+            notes: document.getElementById('admin-book-notes').value
+        };
+        DB.books.unshift(newBook);
+        saveDB();
+        document.getElementById('admin-book-form').reset();
+        alert("تم إضافة الكتاب لخزانتك الشخصية!");
+    }
+
+    // CHANGE PASSWORD
+    function handleChangePassword(e) {
+        e.preventDefault();
+        const newPass = document.getElementById('new-password-input').value;
+        if (newPass) {
+            adminPass = newPass;
+            localStorage.setItem('alburaq_pass', newPass);
+            alert("تم تغيير كلمة السر السرية بنجاح!");
+            document.getElementById('admin-pass-form').reset();
+        }
+    }
+
+    // EXPORT FULL HTML CODE
+    function copyFullHTMLCode() {
+        const html = document.documentElement.outerHTML;
+        navigator.clipboard.writeText("<!DOCTYPE html>\n" + html).then(() => {
+            alert("تم نسخ كود index.html بالكامل إلى الحافظة! يمكنك الآن لصقه في GitHub.");
+        });
+    }
+
+    // DARK MODE TOGGLE
+    function toggleDarkMode() {
+        document.documentElement.classList.toggle('dark');
+        const icon = document.getElementById('theme-icon');
+        if (document.documentElement.classList.contains('dark')) {
+            icon.className = 'fa-solid fa-sun text-sm text-brass-400';
+        } else {
+            icon.className = 'fa-solid fa-moon text-sm';
+        }
+    }
+
+    // CONTACT FORM SUBMIT
+    function handleContactSubmit(e) {
+        e.preventDefault();
+        alert("شكراً لتواصلك. تم استلام رسالتك وسيتم الرد عليك قريباً.");
+        e.target.reset();
+    }
+</script>
