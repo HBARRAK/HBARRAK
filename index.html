@@ -3,233 +3,3520 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>البراق | للقراءة والكتابة</title>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <title>البراق للقراءة والكتابة</title>
+    <meta name="description" content="البراق للقراءة والكتابة — فضاء ثقافي وفكري للقراءة، الكتابة، النقد، والتحليل.">
+    <meta name="author" content="البراق للقراءة والكتابة">
+    <meta name="theme-color" content="#111827">
+
+    <meta property="og:title" content="البراق للقراءة والكتابة">
+    <meta property="og:description" content="فضاء ثقافي وفكري للقراءة والكتابة والنقد والتحليل.">
+    <meta property="og:type" content="website">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
     <style>
+
+        /* =========================================================
+           01 — VARIABLES
+        ========================================================= */
+
         :root {
-            --bg-color: #FAF7F2;
-            --text-color: #0F172A;
-            --card-bg: #FFFFFF;
-            --border-color: #E6DFC5;
-            --brass: #C59B27;
-            --crimson: #8C2525;
-            --muted: #64748B;
+            --bg: #f7f4ee;
+            --bg-soft: #eee9df;
+            --surface: #ffffff;
+            --surface-2: #faf9f6;
+
+            --text: #172033;
+            --text-soft: #4f5b6f;
+            --text-muted: #7a8495;
+
+            --gold: #b58a22;
+            --gold-light: #d4b55c;
+            --gold-soft: rgba(181, 138, 34, .12);
+
+            --red: #8a2525;
+            --red-soft: rgba(138, 37, 37, .09);
+
+            --border: #dfd8c9;
+            --border-strong: #cfc5b2;
+
+            --shadow-sm: 0 5px 20px rgba(15, 23, 42, .05);
+            --shadow-md: 0 14px 40px rgba(15, 23, 42, .09);
+            --shadow-lg: 0 25px 70px rgba(15, 23, 42, .14);
+
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 22px;
+
+            --container: 1180px;
+
+            --transition: 220ms ease;
         }
 
-        .dark {
-            --bg-color: #0B1120;
-            --text-color: #F4EFE6;
-            --card-bg: #1E293B;
-            --border-color: #334155;
-            --brass: #EAB308;
-            --crimson: #EF4444;
-            --muted: #94A3B8;
+        html.dark {
+            --bg: #0b1120;
+            --bg-soft: #111827;
+            --surface: #151e2e;
+            --surface-2: #1b2638;
+
+            --text: #f5f1e8;
+            --text-soft: #c2c9d5;
+            --text-muted: #8d98aa;
+
+            --gold: #d4ad3c;
+            --gold-light: #e4c96d;
+            --gold-soft: rgba(212, 173, 60, .12);
+
+            --red: #d75a5a;
+            --red-soft: rgba(215, 90, 90, .12);
+
+            --border: #2b374a;
+            --border-strong: #3b485d;
+
+            --shadow-sm: 0 5px 20px rgba(0,0,0,.16);
+            --shadow-md: 0 14px 40px rgba(0,0,0,.25);
+            --shadow-lg: 0 25px 70px rgba(0,0,0,.35);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        /* =========================================================
+           02 — RESET
+        ========================================================= */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 90px;
+        }
+
         body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: 'Cairo', sans-serif;
-            line-height: 1.7;
-            transition: background 0.3s, color 0.3s;
+            background: var(--bg);
+            color: var(--text);
+            font-family: "Cairo", sans-serif;
+            line-height: 1.8;
+            transition:
+                background var(--transition),
+                color var(--transition);
         }
 
-        header {
-            position: sticky; top: 0; z-index: 100;
-            background: var(--bg-color);
-            border-bottom: 1px solid var(--border-color);
-            padding: 1rem 2rem;
-            display: flex; justify-content: space-between; align-items: center;
+        body.modal-open {
+            overflow: hidden;
         }
 
-        .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--text-color); }
-        .logo-icon { width: 40px; height: 40px; border: 2px solid var(--brass); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Amiri', serif; font-size: 20px; color: var(--brass); font-weight: bold; }
-        .brand-text h1 { font-family: 'Amiri', serif; font-size: 20px; }
-        .brand-text span { font-size: 9px; color: var(--brass); letter-spacing: 2px; text-transform: uppercase; }
-
-        nav { display: flex; gap: 20px; }
-        nav a { text-decoration: none; color: var(--text-color); font-size: 14px; font-weight: 600; transition: color 0.2s; }
-        nav a:hover { color: var(--brass); }
-
-        .actions { display: flex; gap: 10px; }
-        .btn { padding: 6px 14px; border-radius: 6px; font-size: 13px; font-weight: bold; cursor: pointer; border: 1px solid var(--border-color); background: transparent; color: var(--text-color); transition: 0.2s; }
-        .btn-primary { background: var(--brass); color: #fff; border-color: var(--brass); }
-        .btn:hover { border-color: var(--brass); color: var(--brass); }
-
-        main { max-width: 1000px; margin: 0 auto; padding: 40px 20px; }
-
-        .hero { text-align: center; padding: 60px 0; border-bottom: 1px solid var(--border-color); }
-        .hero h2 { font-family: 'Amiri', serif; font-size: 42px; margin-bottom: 20px; }
-        .hero p { font-family: 'Amiri', serif; font-size: 18px; color: var(--muted); max-width: 700px; margin: 0 auto 30px; }
-
-        .section-title { font-family: 'Amiri', serif; font-size: 24px; margin: 40px 0 20px; border-bottom: 2px solid var(--brass); display: inline-block; padding-bottom: 4px; }
-
-        .article-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
-        .article-tag { font-size: 11px; color: var(--crimson); font-weight: bold; text-transform: uppercase; margin-bottom: 8px; display: inline-block; }
-        .article-title { font-family: 'Amiri', serif; font-size: 22px; margin-bottom: 10px; cursor: pointer; }
-        .article-title:hover { color: var(--brass); }
-        .article-excerpt { font-size: 14px; color: var(--muted); margin-bottom: 15px; }
-
-        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
-        .modal-content { background: var(--card-bg); border: 1px solid var(--border-color); width: 100%; max-width: 700px; max-height: 85vh; border-radius: 12px; padding: 30px; overflow-y: auto; }
-        
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; font-size: 12px; font-weight: bold; color: var(--brass); margin-bottom: 5px; }
-        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); font-family: inherit; }
-
-        footer { text-align: center; padding: 30px; border-top: 1px solid var(--border-color); font-size: 12px; color: var(--muted); margin-top: 60px; }
-    </style>
-</head>
-<body>
-
-    <header>
-        <a href="#" class="brand">
-            <div class="logo-icon">ب</div>
-            <div class="brand-text">
-                <h1>البراق</h1>
-                <span>للقراءة والكتابة</span>
-            </div>
-        </a>
-        <nav>
-            <a href="#hero">الرئيسية</a>
-            <a href="#writings">الأرشيف</a>
-            <a href="#library">المكتبة</a>
-            <a href="#quotes">الاقتباسات</a>
-        </nav>
-        <div class="actions">
-            <button class="btn" onclick="toggleTheme()">🌙</button>
-            <button class="btn btn-primary" onclick="openAdmin()">🔑 إدارة</button>
-        </div>
-    </header>
-
-    <main>
-        <section class="hero" id="hero">
-            <span style="font-size: 11px; color: var(--brass); font-weight: bold; letter-spacing: 2px;">فضاء نقد وأرشيف فكري</span>
-            <h2>البراق للقراءة والكتابة</h2>
-            <p>"منصة تُعنى بإعادة بناء فعل القراءة المتأملة، ونشر المقالات الفكرية، التحليلات السياسية، والدراسات الثقافية بأسلوب تحريري رصين."</p>
-        </section>
-
-        <h3 class="section-title">الأرشيف والمقالات</h3>
-        <div id="articles-container"></div>
-    </main>
-
-    <!-- Reader Modal -->
-    <div id="reader-modal" class="modal" onclick="if(event.target === this) closeReader()">
-        <div class="modal-content">
-            <span id="reader-tag" class="article-tag"></span>
-            <h2 id="reader-title" style="font-family:'Amiri'; font-size:28px; margin: 10px 0;"></h2>
-            <div id="reader-meta" style="font-size: 12px; color: var(--muted); margin-bottom: 20px;"></div>
-            <div id="reader-body" style="font-family:'Amiri'; font-size:18px; line-height: 1.8;"></div>
-        </div>
-    </div>
-
-    <!-- Admin Modal -->
-    <div id="admin-modal" class="modal" onclick="if(event.target === this) closeAdmin()">
-        <div class="modal-content">
-            <h3 style="font-family:'Amiri'; margin-bottom: 20px; color: var(--brass);">لوحة التحكم السرية</h3>
-            <div class="form-group">
-                <label>عنوان المقال</label>
-                <input type="text" id="new-title">
-            </div>
-            <div class="form-group">
-                <label>التصنيف</label>
-                <input type="text" id="new-category" value="نقد فكري">
-            </div>
-            <div class="form-group">
-                <label>ملخص المقال</label>
-                <textarea id="new-excerpt" rows="2"></textarea>
-            </div>
-            <div class="form-group">
-                <label>نص المقال الكامل (فقرات)</label>
-                <textarea id="new-content" rows="6"></textarea>
-            </div>
-            <button class="btn btn-primary" onclick="saveArticle()">نشر المقال فوراً</button>
-        </div>
-    </div>
-
-    <footer>
-        جميع الحقوق محفوظة © البراق للقراءة والكتابة 2026
-    </footer>
-
-    <script>
-        let DB = JSON.parse(localStorage.getItem('alburaq_db')) || {
-            articles: [
-                {
-                    id: '1',
-                    title: 'في مفارقات العقلانيات المعاصرة: بين صنم التكنوقراطية وأزمة المعنى',
-                    category: 'نقد فكري',
-                    date: '25 أغسطس 2026',
-                    readTime: '12 دقيقة',
-                    excerpt: 'تتخذ العقلانية المعاصرة صوراً شبيهة بالوثنية الجديدة، حيث يُختزل الفكر الإنساني في إجراءات صماء.',
-                    content: [
-                        'إن الأزمة التأسيسية التي تعيشها الحداثة المتأخرة لا تكمن في قلة البيانات، بل في الهيمنة المطلقة للعقل الأداتي.',
-                        'الفكر الحقيقي ليس خطاً مستقيماً، بل هو مجاورة للمفارقة واستكشاف للمناطق الرمادية.'
-                    ]
-                }
-            ]
-        };
-
-        function renderArticles() {
-            const container = document.getElementById('articles-container');
-            container.innerHTML = DB.articles.map(art => `
-                <div class="article-card">
-                    <span class="article-tag">${art.category}</span>
-                    <h3 class="article-title" onclick="openReader('${art.id}')">${art.title}</h3>
-                    <p class="article-excerpt">${art.excerpt}</p>
-                    <div style="font-size: 11px; color: var(--muted);">${art.date} • ${art.readTime}</div>
-                </div>
-            `).join('');
+        a {
+            color: inherit;
+            text-decoration: none;
         }
 
-        function openReader(id) {
-            const art = DB.articles.find(a => a.id === id);
-            if (!art) return;
-            document.getElementById('reader-tag').textContent = art.category;
-            document.getElementById('reader-title').textContent = art.title;
-            document.getElementById('reader-meta').textContent = `${art.date} • ${art.readTime}`;
-            document.getElementById('reader-body').innerHTML = art.content.map(p => `<p style="margin-bottom: 15px;">${p}</p>`).join('');
-            document.getElementById('reader-modal').style.display = 'flex';
+        button,
+        input,
+        textarea,
+        select {
+            font: inherit;
         }
 
-        function closeReader() { document.getElementById('reader-modal').style.display = 'none'; }
+        button {
+            cursor: pointer;
+        }
 
-        function openAdmin() {
-            const pass = prompt("أدخل كلمة السر (افتراضي: buraq2026):");
-            if (pass === 'buraq2026') {
-                document.getElementById('admin-modal').style.display = 'flex';
-            } else if (pass !== null) {
-                alert("كلمة السر خاطئة!");
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        ::selection {
+            background: var(--gold);
+            color: white;
+        }
+
+
+        /* =========================================================
+           03 — GLOBAL
+        ========================================================= */
+
+        .container {
+            width: min(var(--container), calc(100% - 40px));
+            margin-inline: auto;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            color: var(--gold);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1.8px;
+        }
+
+        .eyebrow::before {
+            content: "";
+            width: 25px;
+            height: 1px;
+            background: var(--gold);
+        }
+
+        .section-heading {
+            margin-bottom: 28px;
+        }
+
+        .section-heading h2 {
+            font-family: "Amiri", serif;
+            font-size: clamp(30px, 4vw, 42px);
+            line-height: 1.3;
+            margin-top: 7px;
+        }
+
+        .section-heading p {
+            color: var(--text-muted);
+            max-width: 650px;
+            margin-top: 8px;
+            font-size: 14px;
+        }
+
+
+        /* =========================================================
+           04 — HEADER
+        ========================================================= */
+
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 500;
+
+            background: color-mix(
+                in srgb,
+                var(--bg) 92%,
+                transparent
+            );
+
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+
+            border-bottom: 1px solid var(--border);
+        }
+
+        .header-inner {
+            min-height: 76px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+
+        .brand-mark {
+            width: 46px;
+            height: 46px;
+
+            display: grid;
+            place-items: center;
+
+            border: 1.5px solid var(--gold);
+            border-radius: 50%;
+
+            color: var(--gold);
+            font-family: "Amiri", serif;
+            font-size: 25px;
+            font-weight: 700;
+
+            position: relative;
+        }
+
+        .brand-mark::after {
+            content: "";
+            position: absolute;
+            inset: 4px;
+
+            border: 1px solid var(--gold);
+            border-radius: 50%;
+
+            opacity: .35;
+        }
+
+        .brand-name {
+            font-family: "Amiri", serif;
+            font-size: 21px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .brand-subtitle {
+            color: var(--gold);
+            font-size: 9px;
+            letter-spacing: 1.7px;
+            font-weight: 700;
+        }
+
+        .main-nav {
+            display: flex;
+            align-items: center;
+            gap: 26px;
+        }
+
+        .main-nav a {
+            color: var(--text-soft);
+            font-size: 13px;
+            font-weight: 600;
+
+            transition: color var(--transition);
+        }
+
+        .main-nav a:hover,
+        .main-nav a.active {
+            color: var(--gold);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .icon-btn,
+        .admin-btn {
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: var(--text);
+            border-radius: 9px;
+
+            min-width: 38px;
+            height: 38px;
+
+            display: grid;
+            place-items: center;
+
+            transition:
+                transform var(--transition),
+                border-color var(--transition),
+                color var(--transition);
+        }
+
+        .icon-btn:hover,
+        .admin-btn:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+            transform: translateY(-1px);
+        }
+
+        .admin-btn {
+            padding-inline: 13px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .menu-toggle {
+            display: none;
+        }
+
+
+        /* =========================================================
+           05 — HERO
+        ========================================================= */
+
+        .hero {
+            position: relative;
+            overflow: hidden;
+
+            padding: 100px 0 85px;
+
+            border-bottom: 1px solid var(--border);
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+
+            width: 450px;
+            height: 450px;
+
+            left: -170px;
+            top: -180px;
+
+            border-radius: 50%;
+
+            background: var(--gold-soft);
+            filter: blur(2px);
+
+            pointer-events: none;
+        }
+
+        .hero::after {
+            content: "ب";
+
+            position: absolute;
+            left: 8%;
+            bottom: -80px;
+
+            font-family: "Amiri", serif;
+            font-size: 300px;
+            line-height: 1;
+
+            color: var(--gold);
+            opacity: .035;
+
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+
+            max-width: 900px;
+            margin-inline: auto;
+
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-family: "Amiri", serif;
+            font-size: clamp(44px, 7vw, 78px);
+            line-height: 1.15;
+
+            margin: 17px 0 18px;
+        }
+
+        .hero h1 span {
+            color: var(--gold);
+        }
+
+        .hero-description {
+            max-width: 720px;
+            margin-inline: auto;
+
+            color: var(--text-soft);
+
+            font-family: "Amiri", serif;
+            font-size: clamp(18px, 2.2vw, 23px);
+            line-height: 2;
+        }
+
+        .hero-actions {
+            margin-top: 35px;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .primary-btn,
+        .secondary-btn {
+            border-radius: 9px;
+            padding: 11px 21px;
+
+            font-size: 13px;
+            font-weight: 700;
+
+            transition:
+                transform var(--transition),
+                box-shadow var(--transition);
+        }
+
+        .primary-btn {
+            background: var(--gold);
+            color: white;
+            border: 1px solid var(--gold);
+
+            box-shadow: 0 8px 25px rgba(181, 138, 34, .2);
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(181, 138, 34, .28);
+        }
+
+        .secondary-btn {
+            background: var(--surface);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .secondary-btn:hover {
+            transform: translateY(-2px);
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+
+        /* =========================================================
+           06 — INTRO STRIP
+        ========================================================= */
+
+        .intro-strip {
+            padding: 25px 0;
+
+            border-bottom: 1px solid var(--border);
+        }
+
+        .intro-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+
+            background: var(--border);
+            border: 1px solid var(--border);
+        }
+
+        .intro-item {
+            background: var(--surface);
+            padding: 22px;
+
+            text-align: center;
+        }
+
+        .intro-item strong {
+            display: block;
+
+            color: var(--gold);
+
+            font-family: "Amiri", serif;
+            font-size: 22px;
+        }
+
+        .intro-item span {
+            color: var(--text-muted);
+            font-size: 11px;
+        }
+
+
+        /* =========================================================
+           07 — MAIN
+        ========================================================= */
+
+        main {
+            padding: 75px 0;
+        }
+
+        .section {
+            margin-bottom: 95px;
+        }
+
+
+        /* =========================================================
+           08 — FEATURED ARTICLE
+        ========================================================= */
+
+        .featured {
+            display: grid;
+            grid-template-columns: 1.3fr .7fr;
+
+            border: 1px solid var(--border);
+            background: var(--surface);
+
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+
+            box-shadow: var(--shadow-sm);
+        }
+
+        .featured-main {
+            padding: 42px;
+        }
+
+        .featured-side {
+            background: var(--bg-soft);
+            border-right: 1px solid var(--border);
+
+            padding: 35px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .featured-label {
+            display: inline-block;
+
+            padding: 5px 10px;
+
+            border-radius: 20px;
+
+            background: var(--red-soft);
+            color: var(--red);
+
+            font-size: 10px;
+            font-weight: 800;
+
+            margin-bottom: 16px;
+        }
+
+        .featured-title {
+            font-family: "Amiri", serif;
+            font-size: clamp(30px, 4vw, 43px);
+            line-height: 1.45;
+            margin-bottom: 17px;
+        }
+
+        .featured-excerpt {
+            color: var(--text-soft);
+            font-family: "Amiri", serif;
+            font-size: 17px;
+            line-height: 2;
+        }
+
+        .article-meta {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+
+            margin-top: 20px;
+
+            color: var(--text-muted);
+            font-size: 11px;
+        }
+
+        .article-meta span:not(:last-child)::after {
+            content: "•";
+            margin-inline: 8px;
+            color: var(--gold);
+        }
+
+        .featured-side h3 {
+            font-family: "Amiri", serif;
+            font-size: 26px;
+            margin-bottom: 12px;
+        }
+
+        .featured-side p {
+            color: var(--text-muted);
+            font-size: 13px;
+            line-height: 2;
+        }
+
+
+        /* =========================================================
+           09 — ARCHIVE
+        ========================================================= */
+
+        .archive-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            flex-wrap: wrap;
+
+            margin-bottom: 25px;
+        }
+
+        .search-box {
+            position: relative;
+            flex: 1;
+            min-width: 240px;
+        }
+
+        .search-box input {
+            width: 100%;
+
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text);
+
+            border-radius: 9px;
+
+            padding: 11px 42px 11px 15px;
+
+            outline: none;
+
+            transition: border var(--transition);
+        }
+
+        .search-box input:focus {
+            border-color: var(--gold);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            color: var(--text-muted);
+        }
+
+        .categories {
+            display: flex;
+            gap: 7px;
+            flex-wrap: wrap;
+        }
+
+        .category-btn {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text-soft);
+
+            border-radius: 20px;
+            padding: 7px 13px;
+
+            font-size: 11px;
+            font-weight: 700;
+
+            transition: all var(--transition);
+        }
+
+        .category-btn:hover,
+        .category-btn.active {
+            background: var(--gold);
+            color: white;
+            border-color: var(--gold);
+        }
+
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .article-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+
+            border-radius: var(--radius-md);
+
+            padding: 25px;
+
+            transition:
+                transform var(--transition),
+                box-shadow var(--transition),
+                border-color var(--transition);
+
+            display: flex;
+            flex-direction: column;
+        }
+
+        .article-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--gold-light);
+            box-shadow: var(--shadow-md);
+        }
+
+        .article-category {
+            align-self: flex-start;
+
+            color: var(--red);
+
+            font-size: 10px;
+            font-weight: 800;
+
+            margin-bottom: 12px;
+        }
+
+        .article-card h3 {
+            font-family: "Amiri", serif;
+            font-size: 23px;
+            line-height: 1.55;
+
+            margin-bottom: 10px;
+        }
+
+        .article-card p {
+            color: var(--text-soft);
+            font-size: 13px;
+            line-height: 2;
+
+            flex: 1;
+        }
+
+        .card-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            margin-top: 20px;
+            padding-top: 15px;
+
+            border-top: 1px solid var(--border);
+
+            color: var(--text-muted);
+            font-size: 10px;
+        }
+
+        .read-link {
+            color: var(--gold);
+            font-weight: 800;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+
+            color: var(--text-muted);
+
+            border: 1px dashed var(--border-strong);
+            border-radius: var(--radius-md);
+        }
+
+
+        /* =========================================================
+           10 — QUOTES
+        ========================================================= */
+
+        .quotes-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .quote-card {
+            background: var(--surface);
+
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+
+            padding: 28px;
+
+            position: relative;
+        }
+
+        .quote-mark {
+            color: var(--gold);
+            font-family: Georgia, serif;
+            font-size: 60px;
+            line-height: .7;
+            opacity: .7;
+        }
+
+        .quote-card blockquote {
+            font-family: "Amiri", serif;
+            font-size: 19px;
+            line-height: 2;
+
+            margin: 15px 0;
+        }
+
+        .quote-source {
+            color: var(--text-muted);
+            font-size: 11px;
+        }
+
+
+        /* =========================================================
+           11 — LIBRARY
+        ========================================================= */
+
+        .library-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+
+        .book-card {
+            background: var(--surface);
+
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+
+            padding: 22px;
+
+            text-align: center;
+        }
+
+        .book-cover {
+            height: 170px;
+
+            display: grid;
+            place-items: center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--bg-soft),
+                    var(--surface-2)
+                );
+
+            border: 1px solid var(--border);
+            border-radius: 7px;
+
+            margin-bottom: 17px;
+
+            color: var(--gold);
+
+            font-family: "Amiri", serif;
+            font-size: 38px;
+        }
+
+        .book-card h3 {
+            font-family: "Amiri", serif;
+            font-size: 20px;
+        }
+
+        .book-card p {
+            color: var(--text-muted);
+            font-size: 11px;
+            margin-top: 4px;
+        }
+
+
+        /* =========================================================
+           12 — ABOUT
+        ========================================================= */
+
+        .about-box {
+            display: grid;
+            grid-template-columns: .75fr 1.25fr;
+
+            background: var(--surface);
+
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+
+            overflow: hidden;
+        }
+
+        .about-symbol {
+            background: var(--bg-soft);
+
+            display: grid;
+            place-items: center;
+
+            min-height: 330px;
+        }
+
+        .about-symbol span {
+            width: 150px;
+            height: 150px;
+
+            display: grid;
+            place-items: center;
+
+            border: 1px solid var(--gold);
+            border-radius: 50%;
+
+            font-family: "Amiri", serif;
+            font-size: 95px;
+
+            color: var(--gold);
+        }
+
+        .about-content {
+            padding: 45px;
+        }
+
+        .about-content h2 {
+            font-family: "Amiri", serif;
+            font-size: 35px;
+            margin-bottom: 15px;
+        }
+
+        .about-content p {
+            color: var(--text-soft);
+            font-family: "Amiri", serif;
+            font-size: 17px;
+            line-height: 2.2;
+
+            margin-bottom: 15px;
+        }
+
+
+        /* =========================================================
+           13 — FOOTER
+        ========================================================= */
+
+        footer {
+            border-top: 1px solid var(--border);
+
+            padding: 50px 0 25px;
+
+            background: var(--surface);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.3fr 1fr 1fr;
+            gap: 40px;
+
+            padding-bottom: 35px;
+        }
+
+        .footer-brand h3 {
+            font-family: "Amiri", serif;
+            font-size: 27px;
+        }
+
+        .footer-brand p {
+            color: var(--text-muted);
+            font-size: 12px;
+            max-width: 400px;
+            margin-top: 8px;
+        }
+
+        .footer-column h4 {
+            font-size: 12px;
+            color: var(--gold);
+            margin-bottom: 12px;
+        }
+
+        .footer-column a {
+            display: block;
+
+            color: var(--text-muted);
+            font-size: 12px;
+
+            margin-bottom: 6px;
+
+            transition: color var(--transition);
+        }
+
+        .footer-column a:hover {
+            color: var(--gold);
+        }
+
+        .copyright {
+            border-top: 1px solid var(--border);
+
+            padding-top: 20px;
+
+            text-align: center;
+
+            color: var(--text-muted);
+            font-size: 10px;
+        }
+
+
+        /* =========================================================
+           14 — MODALS
+        ========================================================= */
+
+        .modal {
+            position: fixed;
+            inset: 0;
+
+            z-index: 1000;
+
+            display: none;
+
+            align-items: center;
+            justify-content: center;
+
+            padding: 20px;
+
+            background: rgba(4, 8, 18, .75);
+
+            backdrop-filter: blur(7px);
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            width: min(850px, 100%);
+            max-height: 90vh;
+
+            overflow-y: auto;
+
+            background: var(--surface);
+
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+
+            box-shadow: var(--shadow-lg);
+
+            position: relative;
+        }
+
+        .modal-close {
+            position: sticky;
+            top: 15px;
+
+            float: left;
+
+            margin: 15px;
+
+            width: 34px;
+            height: 34px;
+
+            border-radius: 50%;
+
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: var(--text);
+
+            z-index: 5;
+        }
+
+        .reader {
+            padding: 50px 60px 60px;
+        }
+
+        .reader-category {
+            color: var(--red);
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .reader h2 {
+            font-family: "Amiri", serif;
+            font-size: clamp(32px, 5vw, 50px);
+            line-height: 1.5;
+
+            margin: 12px 0;
+        }
+
+        .reader-meta {
+            color: var(--text-muted);
+            font-size: 11px;
+
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .reader-body {
+            padding-top: 25px;
+
+            font-family: "Amiri", serif;
+            font-size: 20px;
+            line-height: 2.2;
+        }
+
+        .reader-body p {
+            margin-bottom: 22px;
+        }
+
+        .reader-body p:first-child::first-letter {
+            font-size: 55px;
+            float: right;
+            line-height: .9;
+            color: var(--gold);
+            padding-left: 8px;
+        }
+
+        .reader-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 35px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+
+
+        /* =========================================================
+           15 — ADMIN
+        ========================================================= */
+
+        .admin-panel {
+            padding: 35px;
+        }
+
+        .admin-panel h2 {
+            font-family: "Amiri", serif;
+            font-size: 30px;
+            margin-bottom: 5px;
+        }
+
+        .admin-description {
+            color: var(--text-muted);
+            font-size: 11px;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 17px;
+        }
+
+        .form-group label {
+            display: block;
+
+            color: var(--gold);
+
+            font-size: 11px;
+            font-weight: 800;
+
+            margin-bottom: 6px;
+        }
+
+        .form-control {
+            width: 100%;
+
+            padding: 11px 13px;
+
+            background: var(--bg);
+            color: var(--text);
+
+            border: 1px solid var(--border);
+            border-radius: 8px;
+
+            outline: none;
+
+            resize: vertical;
+        }
+
+        .form-control:focus {
+            border-color: var(--gold);
+        }
+
+        .admin-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+
+        /* =========================================================
+           16 — TOAST
+        ========================================================= */
+
+        .toast {
+            position: fixed;
+
+            left: 25px;
+            bottom: 25px;
+
+            z-index: 2000;
+
+            background: var(--text);
+            color: var(--bg);
+
+            border-radius: 9px;
+
+            padding: 12px 17px;
+
+            font-size: 12px;
+            font-weight: 700;
+
+            opacity: 0;
+            transform: translateY(15px);
+
+            pointer-events: none;
+
+            transition: all .3s ease;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+
+        /* =========================================================
+           17 — BACK TO TOP
+        ========================================================= */
+
+        .back-top {
+            position: fixed;
+
+            left: 22px;
+            bottom: 22px;
+
+            z-index: 300;
+
+            width: 40px;
+            height: 40px;
+
+            border-radius: 50%;
+
+            border: 1px solid var(--border);
+
+            background: var(--surface);
+            color: var(--gold);
+
+            box-shadow: var(--shadow-sm);
+
+            opacity: 0;
+            pointer-events: none;
+
+            transition: all .3s ease;
+        }
+
+        .back-top.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+
+        /* =========================================================
+           18 — RESPONSIVE
+        ========================================================= */
+
+        @media (max-width: 1000px) {
+
+            .main-nav {
+                gap: 15px;
+            }
+
+            .articles-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .library-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .quotes-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .featured {
+                grid-template-columns: 1fr;
+            }
+
+            .featured-side {
+                border-right: none;
+                border-top: 1px solid var(--border);
+            }
+
+            .about-box {
+                grid-template-columns: 1fr;
             }
         }
-        function closeAdmin() { document.getElementById('admin-modal').style.display = 'none'; }
 
-        function saveArticle() {
-            const title = document.getElementById('new-title').value;
-            const category = document.getElementById('new-category').value;
-            const excerpt = document.getElementById('new-excerpt').value;
-            const content = document.getElementById('new-content').value.split('\n');
 
-            if (!title) return alert('الرجاء إدخال العنوان');
+        @media (max-width: 760px) {
 
-            DB.articles.unshift({
-                id: Date.now().toString(),
-                title, category, excerpt, content,
-                date: '25 أغسطس 2026',
-                readTime: '5 دقائق'
+            .container {
+                width: min(100% - 28px, var(--container));
+            }
+
+            .header-inner {
+                min-height: 68px;
+            }
+
+            .main-nav {
+                position: absolute;
+
+                top: 68px;
+                right: 14px;
+                left: 14px;
+
+                display: none;
+
+                padding: 15px;
+
+                background: var(--surface);
+
+                border: 1px solid var(--border);
+                border-radius: 12px;
+
+                box-shadow: var(--shadow-md);
+
+                flex-direction: column;
+                align-items: stretch;
+
+                gap: 0;
+            }
+
+            .main-nav.open {
+                display: flex;
+            }
+
+            .main-nav a {
+                padding: 10px;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .main-nav a:last-child {
+                border-bottom: none;
+            }
+
+            .menu-toggle {
+                display: grid;
+            }
+
+            .admin-btn {
+                display: none;
+            }
+
+            .hero {
+                padding: 75px 0 65px;
+            }
+
+            .hero h1 {
+                font-size: 45px;
+            }
+
+            .hero-description {
+                font-size: 17px;
+            }
+
+            .intro-grid {
+                grid-template-columns: 1fr;
+            }
+
+            main {
+                padding: 55px 0;
+            }
+
+            .section {
+                margin-bottom: 70px;
+            }
+
+            .articles-grid,
+            .quotes-grid,
+            .library-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .featured-main {
+                padding: 27px;
+            }
+
+            .featured-side {
+                padding: 27px;
+            }
+
+            .archive-toolbar {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .search-box {
+                min-width: 0;
+            }
+
+            .categories {
+                overflow-x: auto;
+                flex-wrap: nowrap;
+                padding-bottom: 5px;
+            }
+
+            .category-btn {
+                flex-shrink: 0;
+            }
+
+            .reader {
+                padding: 40px 25px;
+            }
+
+            .reader-body {
+                font-size: 18px;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+
+            .about-content {
+                padding: 30px 25px;
+            }
+        }
+
+
+        @media (max-width: 430px) {
+
+            .brand-name {
+                font-size: 18px;
+            }
+
+            .brand-subtitle {
+                font-size: 8px;
+            }
+
+            .brand-mark {
+                width: 40px;
+                height: 40px;
+                font-size: 22px;
+            }
+
+            .header-actions {
+                gap: 5px;
+            }
+
+            .icon-btn {
+                width: 35px;
+                min-width: 35px;
+                height: 35px;
+            }
+
+            .hero h1 {
+                font-size: 39px;
+            }
+
+            .hero-actions {
+                flex-direction: column;
+            }
+
+            .hero-actions a {
+                width: 100%;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header class="site-header">
+
+    <div class="container header-inner">
+
+        <a href="#home" class="brand" aria-label="البراق للقراءة والكتابة">
+
+            <div class="brand-mark">
+                ب
+            </div>
+
+            <div>
+                <div class="brand-name">
+                    البراق
+                </div>
+
+                <div class="brand-subtitle">
+                    للقراءة والكتابة
+                </div>
+            </div>
+
+        </a>
+
+
+        <nav class="main-nav" id="mainNav">
+
+            <a href="#home" class="active">
+                الرئيسية
+            </a>
+
+            <a href="#archive">
+                الأرشيف
+            </a>
+
+            <a href="#library">
+                المكتبة
+            </a>
+
+            <a href="#quotes">
+                اقتباسات
+            </a>
+
+            <a href="#about">
+                عن البراق
+            </a>
+
+        </nav>
+
+
+        <div class="header-actions">
+
+            <button
+                class="icon-btn menu-toggle"
+                id="menuToggle"
+                aria-label="فتح القائمة"
+                title="القائمة">
+                ☰
+            </button>
+
+            <button
+                class="icon-btn"
+                id="themeToggle"
+                aria-label="تغيير المظهر"
+                title="الوضع الليلي">
+                ☾
+            </button>
+
+            <button
+                class="admin-btn"
+                onclick="openAdminLogin()">
+                إدارة
+            </button>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+
+<section class="hero" id="home">
+
+    <div class="container hero-content">
+
+        <div class="eyebrow">
+            فضاء للقراءة والنقد والكتابة
+        </div>
+
+        <h1>
+            البراق
+            <span>للقراءة والكتابة</span>
+        </h1>
+
+        <p class="hero-description">
+            مساحة شخصية تجمع القراءة المتأملة بالكتابة النقدية،
+            وتفتح نافذة على الفكر والسياسة والثقافة،
+            حيث لا تكون الكتابة مجرد تسجيل للأفكار،
+            بل محاولة لفهم العالم وإعادة مساءلته.
+        </p>
+
+        <div class="hero-actions">
+
+            <a href="#archive" class="primary-btn">
+                استكشف الأرشيف
+            </a>
+
+            <a href="#about" class="secondary-btn">
+                عن المشروع
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     INTRO STRIP
+========================================================= -->
+
+<section class="intro-strip">
+
+    <div class="container">
+
+        <div class="intro-grid">
+
+            <div class="intro-item">
+                <strong id="articleCount">
+                    0
+                </strong>
+                <span>
+                    مادة في الأرشيف
+                </span>
+            </div>
+
+            <div class="intro-item">
+                <strong>
+                    قراءة
+                </strong>
+                <span>
+                    في الفكر والثقافة والسياسة
+                </span>
+            </div>
+
+            <div class="intro-item">
+                <strong>
+                    كتابة
+                </strong>
+                <span>
+                    تحليلية وتأملية ونقدية
+                </span>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<main>
+
+    <div class="container">
+
+
+        <!-- FEATURED -->
+
+        <section class="section">
+
+            <div class="section-heading">
+
+                <div class="eyebrow">
+                    اختيار البراق
+                </div>
+
+                <h2>
+                    قراءة اليوم
+                </h2>
+
+            </div>
+
+
+            <div id="featuredArticle"></div>
+
+        </section>
+
+
+        <!-- ARCHIVE -->
+
+        <section class="section" id="archive">
+
+            <div class="section-heading">
+
+                <div class="eyebrow">
+                    أرشيف الكتابة
+                </div>
+
+                <h2>
+                    المقالات والدراسات
+                </h2>
+
+                <p>
+                    تصفح المواد المنشورة، وابحث داخل الأرشيف حسب
+                    الموضوع أو التصنيف.
+                </p>
+
+            </div>
+
+
+            <div class="archive-toolbar">
+
+                <div class="search-box">
+
+                    <span class="search-icon">
+                        ⌕
+                    </span>
+
+                    <input
+                        type="search"
+                        id="searchInput"
+                        placeholder="ابحث في العناوين والمقالات..."
+                        aria-label="البحث في الأرشيف">
+
+                </div>
+
+
+                <div class="categories" id="categories">
+
+                    <button
+                        class="category-btn active"
+                        data-category="all">
+                        الكل
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="articles-grid"
+                id="articlesContainer">
+            </div>
+
+        </section>
+
+
+        <!-- QUOTES -->
+
+        <section class="section" id="quotes">
+
+            <div class="section-heading">
+
+                <div class="eyebrow">
+                    من دفتر القراءة
+                </div>
+
+                <h2>
+                    اقتباسات
+                </h2>
+
+                <p>
+                    عبارات وأفكار تستحق أن تتوقف عندها القراءة.
+                </p>
+
+            </div>
+
+
+            <div class="quotes-grid">
+
+                <article class="quote-card">
+
+                    <div class="quote-mark">
+                        “
+                    </div>
+
+                    <blockquote>
+                        الفكر الحقيقي ليس خطًا مستقيمًا،
+                        بل مجاورة للمفارقة واستكشاف للمناطق الرمادية.
+                    </blockquote>
+
+                    <div class="quote-source">
+                        من دفتر البراق
+                    </div>
+
+                </article>
+
+
+                <article class="quote-card">
+
+                    <div class="quote-mark">
+                        “
+                    </div>
+
+                    <blockquote>
+                        ليست قيمة القراءة في عدد الكتب التي نقرأها،
+                        بل في مقدار ما تغيّر طريقة نظرنا إلى الأشياء.
+                    </blockquote>
+
+                    <div class="quote-source">
+                        من دفتر البراق
+                    </div>
+
+                </article>
+
+
+                <article class="quote-card">
+
+                    <div class="quote-mark">
+                        “
+                    </div>
+
+                    <blockquote>
+                        حين تتحول المعرفة إلى يقين مغلق،
+                        تفقد قدرتها على طرح السؤال.
+                    </blockquote>
+
+                    <div class="quote-source">
+                        من دفتر البراق
+                    </div>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- LIBRARY -->
+
+        <section class="section" id="library">
+
+            <div class="section-heading">
+
+                <div class="eyebrow">
+                    مكتبة البراق
+                </div>
+
+                <h2>
+                    كتب في الطريق
+                </h2>
+
+                <p>
+                    مساحة يمكن تطويرها لاحقًا لتصبح فهرسًا للكتب
+                    والقراءات والمراجعات.
+                </p>
+
+            </div>
+
+
+            <div class="library-grid">
+
+                <article class="book-card">
+
+                    <div class="book-cover">
+                        كتاب
+                    </div>
+
+                    <h3>
+                        الفكر والنقد
+                    </h3>
+
+                    <p>
+                        قراءة وملاحظات
+                    </p>
+
+                </article>
+
+
+                <article class="book-card">
+
+                    <div class="book-cover">
+                        قراءة
+                    </div>
+
+                    <h3>
+                        في معنى القراءة
+                    </h3>
+
+                    <p>
+                        دفتر قراءات
+                    </p>
+
+                </article>
+
+
+                <article class="book-card">
+
+                    <div class="book-cover">
+                        سياسة
+                    </div>
+
+                    <h3>
+                        السياسة والعالم
+                    </h3>
+
+                    <p>
+                        دراسات وتحليلات
+                    </p>
+
+                </article>
+
+
+                <article class="book-card">
+
+                    <div class="book-cover">
+                        ثقافة
+                    </div>
+
+                    <h3>
+                        أسئلة الثقافة
+                    </h3>
+
+                    <p>
+                        قراءات ثقافية
+                    </p>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- ABOUT -->
+
+        <section class="section" id="about">
+
+            <div class="about-box">
+
+                <div class="about-symbol">
+
+                    <span>
+                        ب
+                    </span>
+
+                </div>
+
+
+                <div class="about-content">
+
+                    <div class="eyebrow">
+                        عن المشروع
+                    </div>
+
+                    <h2>
+                        لماذا البراق؟
+                    </h2>
+
+                    <p>
+                        البراق للقراءة والكتابة هو فضاء شخصي
+                        للبحث والقراءة والتأمل والكتابة.
+                    </p>
+
+                    <p>
+                        يقوم المشروع على فكرة بسيطة:
+                        أن القراءة ليست استهلاكًا للمعلومات،
+                        وأن الكتابة ليست مجرد إنتاج للنصوص؛
+                        وإنما كلاهما فعلٌ من أفعال التفكير،
+                        ومحاولة لفهم الإنسان والعالم والتاريخ.
+                    </p>
+
+                    <p>
+                        هنا تلتقي المقالة الفكرية بالتحليل السياسي،
+                        وتجاور الدراسة الثقافية مراجعة الكتاب،
+                        وتصبح الملاحظات الصغيرة جزءًا من أرشيف
+                        معرفي قابل للتراكم والتطوير.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+</main>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer>
+
+    <div class="container">
+
+        <div class="footer-grid">
+
+            <div class="footer-brand">
+
+                <h3>
+                    البراق للقراءة والكتابة
+                </h3>
+
+                <p>
+                    فضاء شخصي للقراءة والكتابة والنقد والتحليل،
+                    يهدف إلى بناء أرشيف فكري متراكم.
+                </p>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h4>
+                    روابط
+                </h4>
+
+                <a href="#home">
+                    الرئيسية
+                </a>
+
+                <a href="#archive">
+                    الأرشيف
+                </a>
+
+                <a href="#library">
+                    المكتبة
+                </a>
+
+                <a href="#quotes">
+                    الاقتباسات
+                </a>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h4>
+                    المشروع
+                </h4>
+
+                <a href="#about">
+                    عن البراق
+                </a>
+
+                <a href="#">
+                    GitHub
+                </a>
+
+                <a href="#">
+                    تواصل
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="copyright">
+
+            جميع الحقوق محفوظة ©
+            <span id="year"></span>
+            البراق للقراءة والكتابة
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+<!-- =========================================================
+     READER MODAL
+========================================================= -->
+
+<div
+    class="modal"
+    id="readerModal"
+    onclick="closeModalOnBackdrop(event, 'readerModal')">
+
+    <div class="modal-content">
+
+        <button
+            class="modal-close"
+            onclick="closeReader()"
+            aria-label="إغلاق">
+            ×
+        </button>
+
+
+        <article class="reader">
+
+            <div
+                class="reader-category"
+                id="readerCategory">
+            </div>
+
+            <h2 id="readerTitle"></h2>
+
+            <div
+                class="reader-meta"
+                id="readerMeta">
+            </div>
+
+            <div
+                class="reader-body"
+                id="readerBody">
+            </div>
+
+
+            <div class="reader-actions">
+
+                <button
+                    class="secondary-btn"
+                    onclick="copyArticleLink()">
+                    نسخ الرابط
+                </button>
+
+                <button
+                    class="secondary-btn"
+                    onclick="shareArticle()">
+                    مشاركة
+                </button>
+
+            </div>
+
+        </article>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     ADMIN LOGIN MODAL
+========================================================= -->
+
+<div
+    class="modal"
+    id="loginModal"
+    onclick="closeModalOnBackdrop(event, 'loginModal')">
+
+    <div class="modal-content">
+
+        <button
+            class="modal-close"
+            onclick="closeLogin()">
+            ×
+        </button>
+
+
+        <div class="admin-panel">
+
+            <h2>
+                دخول الإدارة
+            </h2>
+
+            <p class="admin-description">
+                هذه لوحة إدارة محلية للنسخة التجريبية.
+            </p>
+
+
+            <div class="form-group">
+
+                <label>
+                    كلمة المرور
+                </label>
+
+                <input
+                    type="password"
+                    class="form-control"
+                    id="adminPassword"
+                    placeholder="أدخل كلمة المرور">
+
+            </div>
+
+
+            <div class="admin-actions">
+
+                <button
+                    class="primary-btn"
+                    onclick="loginAdmin()">
+                    دخول
+                </button>
+
+                <button
+                    class="secondary-btn"
+                    onclick="closeLogin()">
+                    إلغاء
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     ADMIN PANEL
+========================================================= -->
+
+<div
+    class="modal"
+    id="adminModal"
+    onclick="closeModalOnBackdrop(event, 'adminModal')">
+
+    <div class="modal-content">
+
+        <button
+            class="modal-close"
+            onclick="closeAdmin()">
+            ×
+        </button>
+
+
+        <div class="admin-panel">
+
+            <h2>
+                لوحة إدارة البراق
+            </h2>
+
+            <p class="admin-description">
+                إضافة مقال جديد إلى الأرشيف المحلي.
+            </p>
+
+
+            <div class="form-group">
+
+                <label>
+                    عنوان المقال
+                </label>
+
+                <input
+                    type="text"
+                    class="form-control"
+                    id="newTitle"
+                    placeholder="عنوان المقال">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    التصنيف
+                </label>
+
+                <select
+                    class="form-control"
+                    id="newCategory">
+
+                    <option>
+                        فكر
+                    </option>
+
+                    <option>
+                        سياسة
+                    </option>
+
+                    <option>
+                        ثقافة
+                    </option>
+
+                    <option>
+                        قراءة
+                    </option>
+
+                    <option>
+                        نقد
+                    </option>
+
+                    <option>
+                        كتابة
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    الملخص
+                </label>
+
+                <textarea
+                    class="form-control"
+                    id="newExcerpt"
+                    rows="3"
+                    placeholder="ملخص المقال">
+                </textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    نص المقال
+                </label>
+
+                <textarea
+                    class="form-control"
+                    id="newContent"
+                    rows="10"
+                    placeholder="اكتب كل فقرة في سطر مستقل">
+                </textarea>
+
+            </div>
+
+
+            <div class="admin-actions">
+
+                <button
+                    class="primary-btn"
+                    onclick="saveArticle()">
+                    نشر المقال
+                </button>
+
+                <button
+                    class="secondary-btn"
+                    onclick="closeAdmin()">
+                    إلغاء
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- TOAST -->
+
+<div
+    class="toast"
+    id="toast">
+</div>
+
+
+<!-- BACK TOP -->
+
+<button
+    class="back-top"
+    id="backTop"
+    onclick="window.scrollTo({top:0, behavior:'smooth'})"
+    aria-label="العودة إلى الأعلى">
+    ↑
+</button>
+
+
+<script>
+
+    /* =========================================================
+       01 — DATABASE
+    ========================================================= */
+
+    const defaultDB = {
+
+        articles: [
+
+            {
+                id: "1",
+
+                title:
+                    "في مفارقات العقلانيات المعاصرة: بين صنم التكنوقراطية وأزمة المعنى",
+
+                category:
+                    "فكر",
+
+                date:
+                    "25 أغسطس 2026",
+
+                readTime:
+                    "12 دقيقة",
+
+                excerpt:
+                    "تتخذ العقلانية المعاصرة صورًا شبيهة بالوثنية الجديدة، حيث يُختزل الفكر الإنساني في إجراءات صماء.",
+
+                content: [
+
+                    "إن الأزمة التأسيسية التي تعيشها الحداثة المتأخرة لا تكمن في قلة البيانات، بل في الهيمنة المطلقة للعقل الأداتي، حين تتحول المعرفة من وسيلة لفهم العالم إلى آلية لإدارته وإخضاعه لمنطق القياس والحساب.",
+
+                    "في هذه اللحظة يصبح الإنسان نفسه رقمًا داخل منظومة واسعة من المؤشرات والمعايير، ويغدو السؤال عن المعنى أقل أهمية من السؤال عن الكفاءة، وكأن ما يمكن قياسه هو وحده ما يستحق أن يكون موجودًا.",
+
+                    "الفكر الحقيقي ليس خطًا مستقيمًا، بل هو مجاورة للمفارقة واستكشاف للمناطق الرمادية، ولذلك فإن مهمة الكتابة لا تنتهي عند تقديم الإجابات، وإنما تبدأ حين يصبح السؤال أكثر عمقًا من الإجابة الجاهزة.",
+
+                    "ربما يكون التحدي الأكبر أمام الفكر المعاصر هو استعادة القدرة على طرح الأسئلة التي لا تستطيع الجداول والمؤشرات أن تجيب عنها."
+                ]
+            },
+
+
+            {
+                id: "2",
+
+                title:
+                    "القراءة بوصفها فعلًا من أفعال المقاومة",
+
+                category:
+                    "قراءة",
+
+                date:
+                    "24 أغسطس 2026",
+
+                readTime:
+                    "8 دقائق",
+
+                excerpt:
+                    "ليست القراءة انسحابًا من العالم، بل طريقة أخرى للعودة إليه أكثر وعيًا وقدرة على مساءلة مسلماته.",
+
+                content: [
+
+                    "حين نقرأ فإننا لا نغادر العالم بالضرورة، وإنما نعيد بناء علاقتنا به من خلال مسافة تسمح لنا برؤية الأشياء التي أخفتها العادة.",
+
+                    "الكتاب الجيد لا يقدم لنا عالمًا مكتملًا، بل يفتح في وعينا نافذة جديدة يمكن أن ننظر منها إلى العالم الذي نظن أننا نعرفه.",
+
+                    "ولهذا فإن القراءة ليست ترفًا ثقافيًا، وإنما تمرين مستمر على مقاومة اليقين السريع."
+                ]
+            },
+
+
+            {
+                id: "3",
+
+                title:
+                    "السياسة خارج الخبر: نحو قراءة أعمق للحدث",
+
+                category:
+                    "سياسة",
+
+                date:
+                    "22 أغسطس 2026",
+
+                readTime:
+                    "10 دقائق",
+
+                excerpt:
+                    "الحدث السياسي لا يُفهم من خلال الخبر وحده، وإنما من خلال البنى والمصالح والسياقات التي جعلت ظهوره ممكنًا.",
+
+                content: [
+
+                    "الخبر يقدم لنا لحظة الحدث، لكنه لا يقدم بالضرورة شروط إنتاجه. وبين اللحظة وشروطها تتشكل المساحة التي يبدأ فيها التحليل السياسي الحقيقي.",
+
+                    "إن قراءة السياسة تتطلب الانتقال من سؤال ماذا حدث إلى أسئلة أكثر تعقيدًا: لماذا حدث؟ ومن استفاد؟ وما الذي تغير في موازين القوة؟ وما الذي بقي على حاله؟",
+
+                    "لهذا فإن التحليل السياسي الرصين لا ينبغي أن يكون مجرد تعليق على الأخبار، بل بناءً تفسيريًا يحاول وضع الحدث داخل سياقه التاريخي والاستراتيجي والمؤسسي."
+                ]
+            },
+
+
+            {
+                id: "4",
+
+                title:
+                    "في معنى الكتابة: حين يصبح النص مساحة للتفكير",
+
+                category:
+                    "كتابة",
+
+                date:
+                    "20 أغسطس 2026",
+
+                readTime:
+                    "7 دقائق",
+
+                excerpt:
+                    "الكتابة الجيدة لا تبدأ حين نملك الإجابة، بل حين نكتشف أن السؤال الذي كنا نطرحه لم يكن هو السؤال الحقيقي.",
+
+                content: [
+
+                    "ربما تكون الكتابة في جوهرها محاولة لترتيب الفوضى الداخلية التي تتركها الأسئلة في الوعي.",
+
+                    "نكتب لأن بعض الأفكار لا يمكن فهمها إلا حين تتحول إلى لغة، وحين تدخل اللغة تبدأ بدورها في مقاومة صاحبها وكشف تناقضاته.",
+
+                    "وهنا يصبح النص أكثر من وعاء للفكرة؛ يصبح مختبرًا لها."
+                ]
+            },
+
+
+            {
+                id: "5",
+
+                title:
+                    "الثقافة وأسئلة الزمن المتغير",
+
+                category:
+                    "ثقافة",
+
+                date:
+                    "18 أغسطس 2026",
+
+                readTime:
+                    "9 دقائق",
+
+                excerpt:
+                    "حين تتغير شروط العالم، لا تتغير الأجوبة وحدها؛ بل تتغير الأسئلة التي اعتدنا أن نطرحها على أنفسنا.",
+
+                content: [
+
+                    "الثقافة ليست مخزنًا للماضي فحسب، وإنما طريقة المجتمع في إعادة تفسير ذاته أمام التحولات.",
+
+                    "ومن هنا فإن السؤال الثقافي لا ينفصل عن السؤال السياسي والاجتماعي والاقتصادي، لأن الثقافة تتحرك داخل شبكة واسعة من العلاقات التي تصنع معنى الأشياء.",
+
+                    "ربما تكون مهمة الثقافة في الأزمنة المتغيرة هي الحفاظ على القدرة على التفكير في ما لم يحدث بعد."
+                ]
+            },
+
+
+            {
+                id: "6",
+
+                title:
+                    "النقد بين تفكيك النص وبناء السؤال",
+
+                category:
+                    "نقد",
+
+                date:
+                    "15 أغسطس 2026",
+
+                readTime:
+                    "11 دقيقة",
+
+                excerpt:
+                    "النقد ليس بحثًا عن الأخطاء فقط، بل محاولة لفهم الطريقة التي ينتج بها النص معناه وحدوده وإمكاناته.",
+
+                content: [
+
+                    "النقد الذي يكتفي بإظهار مواطن الضعف يبقى في حدود المحاكمة، أما النقد الذي يحاول فهم منطق النص فإنه يتحول إلى معرفة.",
+
+                    "لذلك لا ينبغي أن يكون السؤال النقدي: أين أخطأ الكاتب فقط، بل ينبغي أن نسأل أيضًا: ما الذي جعله يرى الأشياء بهذه الطريقة؟ وما الافتراضات التي يقوم عليها نصه؟",
+
+                    "بهذا المعنى يصبح النقد فعلًا تأويليًا لا يقل أهمية عن فعل الكتابة ذاته."
+                ]
+            }
+
+        ]
+
+    };
+
+
+    let DB =
+        JSON.parse(
+            localStorage.getItem("alburaq_db")
+        ) || defaultDB;
+
+
+    let currentArticleId = null;
+
+    let currentCategory = "all";
+
+
+    /* =========================================================
+       02 — HELPERS
+    ========================================================= */
+
+    function saveDB() {
+
+        localStorage.setItem(
+            "alburaq_db",
+            JSON.stringify(DB)
+        );
+
+    }
+
+
+    function escapeHTML(value) {
+
+        return String(value)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+
+    }
+
+
+    function calculateReadTime(content) {
+
+        const text =
+            Array.isArray(content)
+                ? content.join(" ")
+                : content;
+
+        const words =
+            text.trim().split(/\s+/).length;
+
+        return Math.max(
+            1,
+            Math.ceil(words / 180)
+        ) + " دقيقة";
+
+    }
+
+
+    /* =========================================================
+       03 — RENDER
+    ========================================================= */
+
+    function renderAll() {
+
+        renderFeatured();
+
+        renderCategories();
+
+        renderArticles();
+
+        updateArticleCount();
+
+    }
+
+
+    function renderFeatured() {
+
+        const container =
+            document.getElementById(
+                "featuredArticle"
+            );
+
+        const article =
+            DB.articles[0];
+
+        if (!article) {
+
+            container.innerHTML = "";
+
+            return;
+        }
+
+
+        container.innerHTML = `
+
+            <article class="featured">
+
+                <div class="featured-main">
+
+                    <span class="featured-label">
+                        ${escapeHTML(article.category)}
+                    </span>
+
+                    <h3 class="featured-title">
+                        ${escapeHTML(article.title)}
+                    </h3>
+
+                    <p class="featured-excerpt">
+                        ${escapeHTML(article.excerpt)}
+                    </p>
+
+                    <div class="article-meta">
+
+                        <span>
+                            ${escapeHTML(article.date)}
+                        </span>
+
+                        <span>
+                            ${escapeHTML(article.readTime)}
+                        </span>
+
+                    </div>
+
+                    <div style="margin-top:25px">
+
+                        <button
+                            class="primary-btn"
+                            onclick="openReader('${article.id}')">
+
+                            اقرأ المقال
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div class="featured-side">
+
+                    <div class="eyebrow">
+                        فكرة المقال
+                    </div>
+
+                    <h3>
+                        القراءة تبدأ حين نتوقف عن الاكتفاء بالإجابة.
+                    </h3>
+
+                    <p>
+                        مساحة القراءة ليست مكانًا للهروب من الأسئلة،
+                        بل مكانًا لإعادة صياغتها.
+                    </p>
+
+                </div>
+
+            </article>
+        `;
+    }
+
+
+    function renderCategories() {
+
+        const container =
+            document.getElementById(
+                "categories"
+            );
+
+
+        const categories = [
+            ...new Set(
+                DB.articles.map(
+                    article => article.category
+                )
+            )
+        ];
+
+
+        container.innerHTML = `
+
+            <button
+                class="category-btn ${currentCategory === "all" ? "active" : ""}"
+                data-category="all">
+
+                الكل
+
+            </button>
+
+            ${categories.map(category => `
+
+                <button
+                    class="category-btn ${currentCategory === category ? "active" : ""}"
+                    data-category="${escapeHTML(category)}">
+
+                    ${escapeHTML(category)}
+
+                </button>
+
+            `).join("")}
+        `;
+
+
+        container
+            .querySelectorAll(".category-btn")
+            .forEach(button => {
+
+                button.addEventListener(
+                    "click",
+                    () => {
+
+                        currentCategory =
+                            button.dataset.category;
+
+                        renderCategories();
+
+                        renderArticles();
+
+                    }
+                );
+
             });
 
-            localStorage.setItem('alburaq_db', JSON.stringify(DB));
-            renderArticles();
-            closeAdmin();
-            alert('تم نشر المقال بنجاح!');
+    }
+
+
+    function renderArticles() {
+
+        const container =
+            document.getElementById(
+                "articlesContainer"
+            );
+
+
+        const query =
+            document
+                .getElementById("searchInput")
+                .value
+                .trim()
+                .toLowerCase();
+
+
+        const filtered =
+            DB.articles.filter(article => {
+
+                const matchesCategory =
+                    currentCategory === "all" ||
+                    article.category === currentCategory;
+
+
+                const searchable =
+                    (
+                        article.title +
+                        " " +
+                        article.excerpt +
+                        " " +
+                        article.category +
+                        " " +
+                        article.content.join(" ")
+                    ).toLowerCase();
+
+
+                const matchesSearch =
+                    !query ||
+                    searchable.includes(query);
+
+
+                return (
+                    matchesCategory &&
+                    matchesSearch
+                );
+
+            });
+
+
+        if (!filtered.length) {
+
+            container.innerHTML = `
+
+                <div class="empty-state"
+                     style="grid-column:1/-1">
+
+                    لا توجد مواد تطابق البحث الحالي.
+
+                </div>
+
+            `;
+
+            return;
         }
 
-        function toggleTheme() {
-            document.documentElement.classList.toggle('dark');
+
+        container.innerHTML =
+            filtered.map(article => `
+
+                <article class="article-card">
+
+                    <div class="article-category">
+                        ${escapeHTML(article.category)}
+                    </div>
+
+                    <h3>
+                        ${escapeHTML(article.title)}
+                    </h3>
+
+                    <p>
+                        ${escapeHTML(article.excerpt)}
+                    </p>
+
+
+                    <div class="card-bottom">
+
+                        <span>
+                            ${escapeHTML(article.date)}
+                            ·
+                            ${escapeHTML(article.readTime)}
+                        </span>
+
+                        <button
+                            class="read-link"
+                            onclick="openReader('${article.id}')">
+
+                            قراءة ←
+
+                        </button>
+
+                    </div>
+
+                </article>
+
+            `).join("");
+
+    }
+
+
+    function updateArticleCount() {
+
+        document.getElementById(
+            "articleCount"
+        ).textContent =
+            DB.articles.length;
+
+    }
+
+
+    /* =========================================================
+       04 — READER
+    ========================================================= */
+
+    function openReader(id) {
+
+        const article =
+            DB.articles.find(
+                item => item.id === id
+            );
+
+        if (!article) return;
+
+
+        currentArticleId =
+            article.id;
+
+
+        document.getElementById(
+            "readerCategory"
+        ).textContent =
+            article.category;
+
+
+        document.getElementById(
+            "readerTitle"
+        ).textContent =
+            article.title;
+
+
+        document.getElementById(
+            "readerMeta"
+        ).textContent =
+            `${article.date} • ${article.readTime}`;
+
+
+        document.getElementById(
+            "readerBody"
+        ).innerHTML =
+            article.content.map(
+                paragraph =>
+                    `<p>${escapeHTML(paragraph)}</p>`
+            ).join("");
+
+
+        openModal("readerModal");
+
+    }
+
+
+    function closeReader() {
+
+        closeModal("readerModal");
+
+    }
+
+
+    function copyArticleLink() {
+
+        const url =
+            window.location.href.split("#")[0] +
+            "#article-" +
+            currentArticleId;
+
+
+        navigator.clipboard
+            .writeText(url)
+            .then(() => {
+
+                showToast(
+                    "تم نسخ رابط المقال"
+                );
+
+            })
+            .catch(() => {
+
+                showToast(
+                    "تعذر نسخ الرابط"
+                );
+
+            });
+
+    }
+
+
+    async function shareArticle() {
+
+        const article =
+            DB.articles.find(
+                item => item.id === currentArticleId
+            );
+
+
+        if (!article) return;
+
+
+        const data = {
+
+            title: article.title,
+
+            text: article.excerpt,
+
+            url:
+                window.location.href
+
+        };
+
+
+        if (
+            navigator.share
+        ) {
+
+            try {
+
+                await navigator.share(data);
+
+            } catch (error) {}
+
+        } else {
+
+            copyArticleLink();
+
         }
 
-        window.onload = renderArticles;
-    </script>
+    }
+
+
+    /* =========================================================
+       05 — MODALS
+    ========================================================= */
+
+    function openModal(id) {
+
+        document
+            .getElementById(id)
+            .classList.add("show");
+
+
+        document.body.classList.add(
+            "modal-open"
+        );
+
+    }
+
+
+    function closeModal(id) {
+
+        document
+            .getElementById(id)
+            .classList.remove("show");
+
+
+        if (
+            !document.querySelector(
+                ".modal.show"
+            )
+        ) {
+
+            document.body.classList.remove(
+                "modal-open"
+            );
+
+        }
+
+    }
+
+
+    function closeModalOnBackdrop(
+        event,
+        id
+    ) {
+
+        if (
+            event.target.id === id
+        ) {
+
+            closeModal(id);
+
+        }
+
+    }
+
+
+    /* =========================================================
+       06 — ADMIN
+    ========================================================= */
+
+    function openAdminLogin() {
+
+        document.getElementById(
+            "adminPassword"
+        ).value = "";
+
+        openModal("loginModal");
+
+    }
+
+
+    function closeLogin() {
+
+        closeModal("loginModal");
+
+    }
+
+
+    function loginAdmin() {
+
+        const password =
+            document.getElementById(
+                "adminPassword"
+            ).value;
+
+
+        /*
+         * كلمة المرور الافتراضية.
+         *
+         * ملاحظة:
+         * هذه ليست حماية حقيقية لأن الموقع
+         * Front-End فقط.
+         */
+
+        if (
+            password === "buraq2026"
+        ) {
+
+            closeLogin();
+
+            openModal("adminModal");
+
+        } else {
+
+            showToast(
+                "كلمة المرور غير صحيحة"
+            );
+
+        }
+
+    }
+
+
+    function closeAdmin() {
+
+        closeModal("adminModal");
+
+    }
+
+
+    function saveArticle() {
+
+        const title =
+            document
+                .getElementById("newTitle")
+                .value
+                .trim();
+
+
+        const category =
+            document
+                .getElementById("newCategory")
+                .value
+                .trim();
+
+
+        const excerpt =
+            document
+                .getElementById("newExcerpt")
+                .value
+                .trim();
+
+
+        const contentText =
+            document
+                .getElementById("newContent")
+                .value
+                .trim();
+
+
+        if (!title) {
+
+            showToast(
+                "يرجى إدخال عنوان المقال"
+            );
+
+            return;
+
+        }
+
+
+        if (!contentText) {
+
+            showToast(
+                "يرجى إدخال نص المقال"
+            );
+
+            return;
+
+        }
+
+
+        const content =
+            contentText
+                .split(/\n+/)
+                .map(
+                    paragraph => paragraph.trim()
+                )
+                .filter(Boolean);
+
+
+        const article = {
+
+            id:
+                Date.now().toString(),
+
+            title,
+
+            category,
+
+            date:
+                new Intl.DateTimeFormat(
+                    "ar-MA",
+                    {
+                        day: "numeric",
+                        month: "long",
+                        year: "numeric"
+                    }
+                ).format(
+                    new Date()
+                ),
+
+            readTime:
+                calculateReadTime(
+                    content
+                ),
+
+            excerpt:
+                excerpt ||
+                content[0],
+
+            content
+
+        };
+
+
+        DB.articles.unshift(
+            article
+        );
+
+
+        saveDB();
+
+        renderAll();
+
+        clearAdminForm();
+
+        closeAdmin();
+
+
+        showToast(
+            "تم نشر المقال بنجاح"
+        );
+
+
+        document
+            .getElementById("archive")
+            .scrollIntoView({
+                behavior: "smooth"
+            });
+
+    }
+
+
+    function clearAdminForm() {
+
+        document.getElementById(
+            "newTitle"
+        ).value = "";
+
+        document.getElementById(
+            "newExcerpt"
+        ).value = "";
+
+        document.getElementById(
+            "newContent"
+        ).value = "";
+
+    }
+
+
+    /* =========================================================
+       07 — THEME
+    ========================================================= */
+
+    function setTheme(theme) {
+
+        if (theme === "dark") {
+
+            document.documentElement
+                .classList.add("dark");
+
+            document.getElementById(
+                "themeToggle"
+            ).textContent = "☀";
+
+        } else {
+
+            document.documentElement
+                .classList.remove("dark");
+
+            document.getElementById(
+                "themeToggle"
+            ).textContent = "☾";
+
+        }
+
+
+        localStorage.setItem(
+            "alburaq_theme",
+            theme
+        );
+
+    }
+
+
+    function toggleTheme() {
+
+        const isDark =
+            document.documentElement
+                .classList.contains("dark");
+
+
+        setTheme(
+            isDark
+                ? "light"
+                : "dark"
+        );
+
+    }
+
+
+    /* =========================================================
+       08 — MOBILE MENU
+    ========================================================= */
+
+    function toggleMenu() {
+
+        document
+            .getElementById("mainNav")
+            .classList.toggle("open");
+
+    }
+
+
+    /* =========================================================
+       09 — TOAST
+    ========================================================= */
+
+    let toastTimer;
+
+
+    function showToast(message) {
+
+        const toast =
+            document.getElementById(
+                "toast"
+            );
+
+
+        toast.textContent =
+            message;
+
+
+        toast.classList.add(
+            "show"
+        );
+
+
+        clearTimeout(
+            toastTimer
+        );
+
+
+        toastTimer =
+            setTimeout(
+                () => {
+
+                    toast.classList.remove(
+                        "show"
+                    );
+
+                },
+                2500
+            );
+
+    }
+
+
+    /* =========================================================
+       10 — BACK TO TOP
+    ========================================================= */
+
+    window.addEventListener(
+        "scroll",
+        () => {
+
+            const button =
+                document.getElementById(
+                    "backTop"
+                );
+
+
+            if (
+                window.scrollY > 500
+            ) {
+
+                button.classList.add(
+                    "show"
+                );
+
+            } else {
+
+                button.classList.remove(
+                    "show"
+                );
+
+            }
+
+        }
+    );
+
+
+    /* =========================================================
+       11 — SEARCH
+    ========================================================= */
+
+    document
+        .getElementById("searchInput")
+        .addEventListener(
+            "input",
+            renderArticles
+        );
+
+
+    /* =========================================================
+       12 — MENU EVENTS
+    ========================================================= */
+
+    document
+        .getElementById("menuToggle")
+        .addEventListener(
+            "click",
+            toggleMenu
+        );
+
+
+    document
+        .querySelectorAll(
+            ".main-nav a"
+        )
+        .forEach(link => {
+
+            link.addEventListener(
+                "click",
+                () => {
+
+                    document
+                        .getElementById(
+                            "mainNav"
+                        )
+                        .classList.remove(
+                            "open"
+                        );
+
+                }
+            );
+
+        });
+
+
+    /* =========================================================
+       13 — THEME EVENT
+    ========================================================= */
+
+    document
+        .getElementById("themeToggle")
+        .addEventListener(
+            "click",
+            toggleTheme
+        );
+
+
+    /* =========================================================
+       14 — ESC KEY
+    ========================================================= */
+
+    document.addEventListener(
+        "keydown",
+        event => {
+
+            if (
+                event.key === "Escape"
+            ) {
+
+                document
+                    .querySelectorAll(
+                        ".modal.show"
+                    )
+                    .forEach(modal => {
+
+                        closeModal(
+                            modal.id
+                        );
+
+                    });
+
+            }
+
+        }
+    );
+
+
+    /* =========================================================
+       15 — INIT
+    ========================================================= */
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        () => {
+
+            const savedTheme =
+                localStorage.getItem(
+                    "alburaq_theme"
+                );
+
+
+            if (savedTheme) {
+
+                setTheme(
+                    savedTheme
+                );
+
+            } else if (
+                window.matchMedia(
+                    "(prefers-color-scheme: dark)"
+                ).matches
+            ) {
+
+                setTheme("dark");
+
+            } else {
+
+                setTheme("light");
+
+            }
+
+
+            document.getElementById(
+                "year"
+            ).textContent =
+                new Date().getFullYear();
+
+
+            renderAll();
+
+        }
+    );
+
+
+</script>
+
 </body>
 </html>
