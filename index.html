@@ -5,14 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>البراق | للقراءة والكتابة</title>
-    <meta name="description" content="البراق للقراءة والكتابة — فضاء للقراءة والتفكير والكتابة والتحليل.">
+
+    <meta name="description" content="البراق للقراءة والكتابة — فضاء للقراءة المتأملة، المقالات الفكرية، التحليلات السياسية، الدراسات الثقافية، الأدب والنقد.">
     <meta name="author" content="البراق للقراءة والكتابة">
 
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="البراق | للقراءة والكتابة">
+    <meta property="og:description" content="فضاء للقراءة والكتابة والفكر والتحليل والنقد.">
+    <meta property="og:site_name" content="البراق للقراءة والكتابة">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="البراق | للقراءة والكتابة">
+    <meta name="twitter:description" content="فضاء للقراءة والكتابة والفكر والتحليل والنقد.">
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
+    <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
@@ -22,12 +35,12 @@
             --card-bg: #FFFFFF;
             --border-color: #E6DFC5;
             --brass: #C59B27;
+            --brass-dark: #A57E17;
             --crimson: #8C2525;
             --muted: #64748B;
-            --soft: #F4EFE6;
-            --danger: #B42318;
-            --success: #087443;
-            --shadow: 0 8px 30px rgba(15,23,42,.06);
+            --success: #166534;
+            --danger: #991B1B;
+            --shadow: 0 8px 25px rgba(15, 23, 42, 0.06);
         }
 
         html.dark {
@@ -36,10 +49,12 @@
             --card-bg: #1E293B;
             --border-color: #334155;
             --brass: #EAB308;
+            --brass-dark: #CA8A04;
             --crimson: #EF4444;
             --muted: #94A3B8;
-            --soft: #172033;
-            --shadow: 0 8px 30px rgba(0,0,0,.25);
+            --success: #4ADE80;
+            --danger: #F87171;
+            --shadow: 0 8px 25px rgba(0, 0, 0, 0.20);
         }
 
         * {
@@ -53,11 +68,15 @@
         }
 
         body {
-            background: var(--bg-color);
+            background-color: var(--bg-color);
             color: var(--text-color);
             font-family: 'Cairo', sans-serif;
             line-height: 1.8;
-            transition: background .3s, color .3s;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        body.modal-open {
+            overflow: hidden;
         }
 
         button,
@@ -75,13 +94,9 @@
             color: inherit;
         }
 
-        .hidden {
-            display: none !important;
-        }
-
         /* =========================
            HEADER
-        ========================= */
+        ========================== */
 
         header {
             position: sticky;
@@ -107,17 +122,29 @@
         }
 
         .logo-icon {
-            width: 44px;
-            height: 44px;
+            width: 42px;
+            height: 42px;
             border: 2px solid var(--brass);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-family: 'Amiri', serif;
-            font-size: 23px;
+            font-size: 22px;
             color: var(--brass);
             font-weight: bold;
+            position: relative;
+        }
+
+        .logo-icon::after {
+            content: "";
+            position: absolute;
+            width: 7px;
+            height: 7px;
+            background: var(--brass);
+            border-radius: 50%;
+            top: -4px;
+            right: 7px;
         }
 
         .brand-text h1 {
@@ -127,17 +154,17 @@
         }
 
         .brand-text span {
-            display: block;
             font-size: 9px;
             color: var(--brass);
             letter-spacing: 2px;
-            margin-top: 3px;
         }
 
         nav {
             display: flex;
-            gap: 20px;
+            gap: 18px;
             align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
         }
 
         nav a {
@@ -145,7 +172,8 @@
             color: var(--text-color);
             font-size: 13px;
             font-weight: 600;
-            transition: color .2s;
+            transition: color 0.2s;
+            white-space: nowrap;
         }
 
         nav a:hover {
@@ -156,18 +184,19 @@
             display: flex;
             gap: 8px;
             align-items: center;
+            min-width: max-content;
         }
 
         .btn {
             padding: 7px 14px;
             border-radius: 7px;
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 700;
             cursor: pointer;
             border: 1px solid var(--border-color);
             background: transparent;
             color: var(--text-color);
-            transition: .2s;
+            transition: 0.2s;
         }
 
         .btn:hover {
@@ -177,28 +206,28 @@
 
         .btn-primary {
             background: var(--brass);
-            color: #fff;
+            color: #fff !important;
             border-color: var(--brass);
         }
 
         .btn-primary:hover {
-            background: #aa831e;
-            color: #fff;
+            background: var(--brass-dark);
+            border-color: var(--brass-dark);
         }
 
         .btn-danger {
-            border-color: var(--danger);
             color: var(--danger);
+            border-color: color-mix(in srgb, var(--danger) 35%, var(--border-color));
         }
 
-        .btn-success {
-            border-color: var(--success);
-            color: var(--success);
+        .btn-small {
+            padding: 5px 10px;
+            font-size: 11px;
         }
 
         /* =========================
            MAIN
-        ========================= */
+        ========================== */
 
         main {
             max-width: 1000px;
@@ -208,7 +237,7 @@
 
         .hero {
             text-align: center;
-            padding: 60px 0 55px;
+            padding: 65px 0 55px;
             border-bottom: 1px solid var(--border-color);
         }
 
@@ -221,42 +250,23 @@
 
         .hero h2 {
             font-family: 'Amiri', serif;
-            font-size: 42px;
-            margin: 15px 0 18px;
+            font-size: 44px;
+            margin: 12px 0 18px;
         }
 
         .hero p {
             font-family: 'Amiri', serif;
-            font-size: 18px;
+            font-size: 19px;
             color: var(--muted);
-            max-width: 700px;
+            max-width: 720px;
             margin: 0 auto 30px;
         }
 
-        .categories {
+        .hero-actions {
             display: flex;
             justify-content: center;
+            gap: 10px;
             flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 20px;
-        }
-
-        .category-btn {
-            border: 1px solid var(--border-color);
-            background: var(--card-bg);
-            color: var(--text-color);
-            padding: 7px 13px;
-            border-radius: 20px;
-            font-size: 12px;
-            cursor: pointer;
-            transition: .2s;
-        }
-
-        .category-btn:hover,
-        .category-btn.active {
-            background: var(--brass);
-            border-color: var(--brass);
-            color: #fff;
         }
 
         .section-title {
@@ -268,15 +278,37 @@
             padding-bottom: 4px;
         }
 
-        .loading {
-            text-align: center;
-            color: var(--muted);
-            padding: 40px;
+        /* =========================
+           CATEGORIES
+        ========================== */
+
+        .categories {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin: 10px 0 30px;
+        }
+
+        .category-btn {
+            padding: 7px 13px;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            background: transparent;
+            color: var(--text-color);
+            font-size: 12px;
+            transition: 0.2s;
+        }
+
+        .category-btn:hover,
+        .category-btn.active {
+            background: var(--brass);
+            border-color: var(--brass);
+            color: #fff;
         }
 
         /* =========================
-           ARTICLE CARDS
-        ========================= */
+           ARTICLES
+        ========================== */
 
         .article-card {
             background: var(--card-bg);
@@ -285,11 +317,12 @@
             padding: 24px;
             margin-bottom: 20px;
             box-shadow: var(--shadow);
-            transition: transform .2s, box-shadow .2s;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
         .article-card:hover {
             transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
         }
 
         .article-tag {
@@ -302,7 +335,7 @@
 
         .article-title {
             font-family: 'Amiri', serif;
-            font-size: 22px;
+            font-size: 23px;
             margin-bottom: 10px;
             cursor: pointer;
             line-height: 1.5;
@@ -319,26 +352,166 @@
         }
 
         .article-meta {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
             font-size: 11px;
             color: var(--muted);
         }
 
-        .empty {
+        .article-actions {
+            display: flex;
+            gap: 7px;
+            flex-wrap: wrap;
+            margin-top: 16px;
+        }
+
+        .empty-state {
+            padding: 50px 20px;
             text-align: center;
             color: var(--muted);
-            padding: 50px 20px;
             border: 1px dashed var(--border-color);
             border-radius: 12px;
         }
 
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--muted);
+        }
+
+        /* =========================
+           ARTICLE READER
+        ========================== */
+
+        .article-page {
+            display: none;
+        }
+
+        .article-page.visible {
+            display: block;
+        }
+
+        .article-page-header {
+            text-align: center;
+            padding: 45px 0 30px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .article-page-title {
+            font-family: 'Amiri', serif;
+            font-size: 40px;
+            line-height: 1.5;
+            margin: 12px auto 15px;
+            max-width: 850px;
+        }
+
+        .article-page-meta {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .article-content {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 35px;
+            margin-top: 25px;
+            box-shadow: var(--shadow);
+        }
+
+        .article-content p {
+            font-family: 'Amiri', serif;
+            font-size: 20px;
+            line-height: 2.15;
+            margin-bottom: 22px;
+        }
+
+        .article-content h2,
+        .article-content h3 {
+            font-family: 'Amiri', serif;
+            margin: 30px 0 15px;
+        }
+
+        .article-content blockquote {
+            border-right: 4px solid var(--brass);
+            padding: 12px 20px;
+            margin: 25px 0;
+            color: var(--muted);
+            font-family: 'Amiri', serif;
+            font-size: 19px;
+        }
+
+        .article-share {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin: 25px 0;
+        }
+
+        /* =========================
+           COMMENTS
+        ========================== */
+
+        .comments-section {
+            margin-top: 35px;
+        }
+
+        .comments-title {
+            font-family: 'Amiri', serif;
+            font-size: 25px;
+            margin-bottom: 20px;
+        }
+
+        .comment-form {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 22px;
+            margin-bottom: 25px;
+        }
+
+        .comment {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 18px;
+            margin-bottom: 12px;
+        }
+
+        .comment-head {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 7px;
+        }
+
+        .comment-author {
+            font-weight: 700;
+            font-size: 13px;
+        }
+
+        .comment-date {
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        .comment-body {
+            font-family: 'Amiri', serif;
+            font-size: 17px;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
         /* =========================
            MODALS
-        ========================= */
+        ========================== */
 
         .modal {
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,.72);
+            background: rgba(0, 0, 0, 0.72);
             display: none;
             align-items: center;
             justify-content: center;
@@ -356,117 +529,40 @@
             width: 100%;
             max-width: 760px;
             max-height: 90vh;
-            border-radius: 14px;
-            padding: 30px;
+            border-radius: 12px;
+            padding: 28px;
             overflow-y: auto;
-            position: relative;
-            box-shadow: 0 20px 70px rgba(0,0,0,.25);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
         }
 
-        .modal-close {
-            position: absolute;
-            top: 14px;
-            left: 14px;
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h3 {
+            font-family: 'Amiri', serif;
+            color: var(--brass);
+            font-size: 25px;
+        }
+
+        .close-btn {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
             border: 1px solid var(--border-color);
             background: transparent;
             color: var(--text-color);
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 18px;
+            font-size: 20px;
         }
 
-        .modal-close:hover {
-            border-color: var(--crimson);
+        .close-btn:hover {
             color: var(--crimson);
+            border-color: var(--crimson);
         }
-
-        /* =========================
-           READER
-        ========================= */
-
-        .reader-title {
-            font-family: 'Amiri', serif;
-            font-size: 31px;
-            line-height: 1.6;
-            margin: 10px 0;
-        }
-
-        .reader-meta {
-            font-size: 12px;
-            color: var(--muted);
-            margin-bottom: 25px;
-        }
-
-        .reader-body {
-            font-family: 'Amiri', serif;
-            font-size: 19px;
-            line-height: 2.05;
-        }
-
-        .reader-body p {
-            margin-bottom: 18px;
-        }
-
-        .reader-cover {
-            width: 100%;
-            max-height: 350px;
-            object-fit: cover;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
-
-        /* =========================
-           COMMENTS
-        ========================= */
-
-        .comments-section {
-            margin-top: 40px;
-            padding-top: 25px;
-            border-top: 1px solid var(--border-color);
-        }
-
-        .comments-section h3 {
-            font-family: 'Amiri', serif;
-            font-size: 23px;
-            margin-bottom: 20px;
-        }
-
-        .comment {
-            padding: 15px;
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            margin-bottom: 12px;
-            background: var(--soft);
-        }
-
-        .comment-head {
-            display: flex;
-            justify-content: space-between;
-            gap: 10px;
-            margin-bottom: 5px;
-        }
-
-        .comment-name {
-            font-weight: 700;
-            font-size: 13px;
-        }
-
-        .comment-date {
-            color: var(--muted);
-            font-size: 10px;
-        }
-
-        .comment-text {
-            font-size: 13px;
-            white-space: pre-wrap;
-            word-break: break-word;
-        }
-
-        /* =========================
-           FORMS
-        ========================= */
 
         .form-group {
             margin-bottom: 15px;
@@ -477,19 +573,24 @@
             font-size: 12px;
             font-weight: bold;
             color: var(--brass);
-            margin-bottom: 5px;
+            margin-bottom: 6px;
         }
 
         .form-group input,
         .form-group textarea,
         .form-group select {
             width: 100%;
-            padding: 10px 12px;
+            padding: 11px;
             border-radius: 7px;
             border: 1px solid var(--border-color);
             background: var(--bg-color);
             color: var(--text-color);
             outline: none;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
         }
 
         .form-group input:focus,
@@ -498,90 +599,133 @@
             border-color: var(--brass);
         }
 
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .checkbox-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 10px 0 15px;
+            font-size: 13px;
+        }
+
+        .checkbox-row input {
+            width: auto;
+        }
+
+        .modal-footer {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
         /* =========================
            ADMIN
-        ========================= */
+        ========================== */
 
-        .admin-tabs {
-            display: flex;
-            gap: 7px;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 12px;
-        }
-
-        .admin-tab {
-            border: 1px solid var(--border-color);
-            background: transparent;
-            color: var(--text-color);
-            padding: 7px 12px;
-            border-radius: 6px;
-            font-size: 12px;
-            cursor: pointer;
-        }
-
-        .admin-tab.active {
-            background: var(--brass);
-            color: white;
-            border-color: var(--brass);
-        }
-
-        .admin-panel {
+        .admin-dashboard {
             display: none;
         }
 
-        .admin-panel.active {
+        .admin-dashboard.show {
             display: block;
         }
 
-        .admin-item {
-            border: 1px solid var(--border-color);
-            padding: 14px;
-            border-radius: 9px;
-            margin-bottom: 10px;
-            background: var(--soft);
+        .admin-section {
+            margin-bottom: 30px;
         }
 
-        .admin-item-title {
+        .admin-section-title {
             font-family: 'Amiri', serif;
-            font-size: 18px;
-            margin-bottom: 7px;
+            color: var(--brass);
+            font-size: 21px;
+            margin-bottom: 15px;
         }
 
-        .admin-actions {
-            display: flex;
-            gap: 7px;
-            flex-wrap: wrap;
-            margin-top: 10px;
+        .admin-table-wrapper {
+            overflow-x: auto;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
         }
 
-        .status {
-            font-size: 11px;
-            padding: 3px 8px;
-            border-radius: 20px;
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 650px;
+        }
+
+        .admin-table th,
+        .admin-table td {
+            padding: 10px;
+            border-bottom: 1px solid var(--border-color);
+            text-align: right;
+            font-size: 12px;
+        }
+
+        .admin-table th {
+            color: var(--brass);
+            background: var(--bg-color);
+        }
+
+        .admin-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .status-badge {
             display: inline-block;
+            padding: 3px 8px;
+            border-radius: 15px;
+            font-size: 10px;
         }
 
-        .status-visible,
-        .status-published {
-            background: rgba(8,116,67,.1);
+        .status-visible {
+            background: rgba(22, 101, 52, 0.12);
             color: var(--success);
         }
 
-        .status-hidden,
-        .status-draft {
-            background: rgba(180,35,24,.1);
+        .status-hidden {
+            background: rgba(153, 27, 27, 0.12);
             color: var(--danger);
         }
 
         /* =========================
+           TOAST
+        ========================== */
+
+        #toast {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            z-index: 5000;
+            background: var(--text-color);
+            color: var(--bg-color);
+            padding: 12px 18px;
+            border-radius: 8px;
+            font-size: 13px;
+            box-shadow: var(--shadow);
+            opacity: 0;
+            transform: translateY(15px);
+            pointer-events: none;
+            transition: 0.25s;
+        }
+
+        #toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* =========================
            FOOTER
-        ========================= */
+        ========================== */
 
         footer {
             text-align: center;
-            padding: 30px;
+            padding: 35px 20px;
             border-top: 1px solid var(--border-color);
             font-size: 12px;
             color: var(--muted);
@@ -589,13 +733,12 @@
         }
 
         /* =========================
-           MOBILE
-        ========================= */
+           RESPONSIVE
+        ========================== */
 
-        @media (max-width: 800px) {
-
+        @media (max-width: 850px) {
             header {
-                padding: .8rem 1rem;
+                padding: 12px 15px;
                 flex-wrap: wrap;
                 justify-content: center;
             }
@@ -608,55 +751,70 @@
             nav {
                 order: 3;
                 width: 100%;
-                justify-content: center;
-                flex-wrap: wrap;
-                gap: 12px;
+                overflow-x: auto;
+                padding-bottom: 4px;
             }
 
             .actions {
                 position: absolute;
-                left: 10px;
-                top: 12px;
+                left: 15px;
+                top: 14px;
+            }
+
+            .hero h2 {
+                font-size: 36px;
+            }
+
+            .article-page-title {
+                font-size: 32px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            main {
+                padding: 25px 13px;
+            }
+
+            .hero {
+                padding: 45px 0;
+            }
+
+            .hero h2 {
+                font-size: 31px;
+            }
+
+            .hero p {
+                font-size: 17px;
+            }
+
+            .article-card {
+                padding: 18px;
+            }
+
+            .article-title {
+                font-size: 21px;
+            }
+
+            .article-content {
+                padding: 22px 17px;
+            }
+
+            .article-content p {
+                font-size: 18px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
             }
 
             .actions .btn-primary {
                 font-size: 0;
-                width: 36px;
-                height: 36px;
-                padding: 0;
+                padding: 8px 11px;
             }
 
-            .actions .btn-primary::after {
+            .actions .btn-primary::before {
                 content: "🔑";
                 font-size: 14px;
-            }
-
-            main {
-                padding: 25px 15px;
-            }
-
-            .hero {
-                padding: 40px 0;
-            }
-
-            .hero h2 {
-                font-size: 34px;
-            }
-
-            .hero p {
-                font-size: 16px;
-            }
-
-            .modal-content {
-                padding: 24px 18px;
-            }
-
-            .reader-title {
-                font-size: 27px;
-            }
-
-            .reader-body {
-                font-size: 18px;
             }
         }
     </style>
@@ -665,10 +823,8 @@
 <body>
 
 <header>
-
-    <a href="#" class="brand">
+    <a href="#" class="brand" onclick="goHome(); return false;">
         <div class="logo-icon">ب</div>
-
         <div class="brand-text">
             <h1>البراق</h1>
             <span>للقراءة والكتابة</span>
@@ -676,55 +832,220 @@
     </a>
 
     <nav>
-        <a href="#hero">الرئيسية</a>
+        <a href="#" onclick="goHome(); return false;">الرئيسية</a>
         <a href="#writings">الأرشيف</a>
         <a href="#categories">التصنيفات</a>
-        <a href="#footer">حول</a>
+        <a href="#about">عن البراق</a>
     </nav>
 
     <div class="actions">
-        <button class="btn" onclick="toggleTheme()" title="الوضع الليلي">🌙</button>
-        <button class="btn btn-primary" onclick="openLogin()">إدارة</button>
+        <button class="btn" onclick="toggleTheme()" title="تغيير المظهر">🌙</button>
+        <button class="btn btn-primary" onclick="openLoginModal()">🔑 إدارة</button>
     </div>
-
 </header>
 
 
 <main>
 
-    <!-- HERO -->
+    <!-- HOME -->
+    <div id="home-view">
 
-    <section class="hero" id="hero">
+        <section class="hero" id="hero">
 
-        <span class="hero-label">فضاء نقد وتأمل وأرشيف فكري</span>
+            <span class="hero-label">فضاء نقد وأرشيف فكري</span>
 
-        <h2>البراق للقراءة والكتابة</h2>
+            <h2>البراق للقراءة والكتابة</h2>
 
-        <p>
-            منصة تُعنى بإعادة بناء فعل القراءة المتأملة،
-            ونشر المقالات الفكرية، والتحليلات السياسية،
-            والدراسات الإنسانية، والأدب والنقد والفنون.
-        </p>
+            <p>
+                "منصة تُعنى بإعادة بناء فعل القراءة المتأملة،
+                ونشر المقالات الفكرية، التحليلات السياسية،
+                والدراسات الثقافية، والأدب والنقد بأسلوب تحريري رصين."
+            </p>
 
-        <div id="categories" class="categories">
-            <button class="category-btn active" onclick="filterArticles('all', this)">
-                الكل
+            <div class="hero-actions">
+                <button class="btn btn-primary" onclick="document.getElementById('writings').scrollIntoView({behavior:'smooth'})">
+                    استكشف الأرشيف
+                </button>
+
+                <button class="btn" onclick="copySiteLink()">
+                    🔗 مشاركة الموقع
+                </button>
+            </div>
+
+        </section>
+
+
+        <section id="categories">
+
+            <h3 class="section-title">التصنيفات</h3>
+
+            <div id="categories-container" class="categories">
+                <button class="category-btn active" onclick="filterCategory(null, this)">
+                    الكل
+                </button>
+            </div>
+
+        </section>
+
+
+        <section id="writings">
+
+            <h3 class="section-title">الأرشيف والمقالات</h3>
+
+            <div id="articles-container">
+                <div class="loading">جاري تحميل المقالات...</div>
+            </div>
+
+        </section>
+
+    </div>
+
+
+    <!-- ARTICLE PAGE -->
+    <div id="article-view" class="article-page">
+
+        <div class="article-page-header">
+
+            <span id="article-page-category" class="article-tag"></span>
+
+            <h1 id="article-page-title" class="article-page-title"></h1>
+
+            <div id="article-page-meta" class="article-page-meta"></div>
+
+        </div>
+
+        <div class="article-share">
+
+            <button class="btn btn-primary" onclick="copyArticleLink()">
+                🔗 نسخ رابط المقال
             </button>
+
+            <button class="btn" onclick="shareArticle()">
+                ↗ مشاركة
+            </button>
+
+            <button class="btn" onclick="goHome()">
+                ← العودة إلى الأرشيف
+            </button>
+
+        </div>
+
+        <article id="article-page-content" class="article-content"></article>
+
+        <section class="comments-section">
+
+            <h2 class="comments-title">
+                التعليقات والمناقشة
+            </h2>
+
+            <div id="comment-form-container"></div>
+
+            <div id="comments-container">
+                <div class="loading">جاري تحميل التعليقات...</div>
+            </div>
+
+        </section>
+
+    </div>
+
+
+    <!-- ABOUT -->
+    <section id="about" style="margin-top:50px;">
+
+        <h3 class="section-title">عن البراق</h3>
+
+        <div class="article-card">
+
+            <p style="font-family:'Amiri'; font-size:18px; color:var(--muted);">
+                البراق للقراءة والكتابة فضاء شخصي للقراءة والكتابة،
+                يلتقي فيه الفكر بالنقد، والأدب بالتحليل، والتأمل بالبحث.
+                يسعى الموقع إلى بناء أرشيف معرفي مفتوح يجمع المقالات
+                والدراسات والقراءات والاقتباسات في فضاء واحد.
+            </p>
+
         </div>
 
     </section>
 
 
-    <!-- ARTICLES -->
+    <!-- ADMIN DASHBOARD -->
+    <section id="admin-dashboard" class="admin-dashboard">
 
-    <section id="writings">
+        <h3 class="section-title">لوحة التحكم</h3>
 
-        <h3 class="section-title">الأرشيف والمقالات</h3>
+        <div class="article-card">
 
-        <div id="articles-container">
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;">
 
-            <div class="loading">
-                جارٍ تحميل المقالات...
+                <div>
+                    <strong id="admin-user-name">البراق</strong>
+                    <div style="font-size:11px; color:var(--muted);" id="admin-user-email"></div>
+                </div>
+
+                <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                    <button class="btn btn-primary" onclick="openArticleEditor()">
+                        + إضافة مقال
+                    </button>
+
+                    <button class="btn" onclick="openSettingsModal()">
+                        ⚙ إعدادات الموقع
+                    </button>
+
+                    <button class="btn btn-danger" onclick="logoutAdmin()">
+                        تسجيل الخروج
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="admin-section">
+
+            <h4 class="admin-section-title">إدارة المقالات</h4>
+
+            <div class="admin-table-wrapper">
+                <table class="admin-table">
+
+                    <thead>
+                        <tr>
+                            <th>العنوان</th>
+                            <th>التصنيف</th>
+                            <th>الحالة</th>
+                            <th>المشاهدات</th>
+                            <th>الإجراءات</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="admin-articles-table"></tbody>
+
+                </table>
+            </div>
+
+        </div>
+
+
+        <div class="admin-section">
+
+            <h4 class="admin-section-title">إدارة التعليقات</h4>
+
+            <div class="admin-table-wrapper">
+                <table class="admin-table">
+
+                    <thead>
+                        <tr>
+                            <th>الكاتب</th>
+                            <th>التعليق</th>
+                            <th>الحالة</th>
+                            <th>التاريخ</th>
+                            <th>الإجراءات</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="admin-comments-table"></tbody>
+
+                </table>
             </div>
 
         </div>
@@ -734,123 +1055,67 @@
 </main>
 
 
-<!-- =========================
-     READER MODAL
-========================= -->
+<footer id="footer">
+    جميع الحقوق محفوظة © البراق للقراءة والكتابة <span id="current-year"></span>
+</footer>
 
-<div id="reader-modal" class="modal"
-     onclick="if(event.target === this) closeReader()">
+
+<!-- LOGIN MODAL -->
+
+<div id="login-modal" class="modal" onclick="if(event.target===this) closeModal('login-modal')">
 
     <div class="modal-content">
 
-        <button class="modal-close" onclick="closeReader()">×</button>
+        <div class="modal-header">
 
-        <img id="reader-cover"
-             class="reader-cover hidden"
-             alt="">
+            <h3>دخول الإدارة</h3>
 
-        <span id="reader-tag" class="article-tag"></span>
-
-        <h2 id="reader-title" class="reader-title"></h2>
-
-        <div id="reader-meta" class="reader-meta"></div>
-
-        <div id="reader-body" class="reader-body"></div>
-
-        <div class="comments-section">
-
-            <h3>التعليقات</h3>
-
-            <div id="comments-container">
-                <div class="loading">جارٍ تحميل التعليقات...</div>
-            </div>
-
-            <div id="comment-form-container">
-
-                <h4 style="font-family:'Amiri'; margin:20px 0 12px;">
-                    أضف تعليقك
-                </h4>
-
-                <div class="form-group">
-                    <label>الاسم</label>
-                    <input id="comment-name"
-                           type="text"
-                           maxlength="100"
-                           placeholder="اكتب اسمك">
-                </div>
-
-                <div class="form-group">
-                    <label>البريد الإلكتروني (اختياري)</label>
-                    <input id="comment-email"
-                           type="email"
-                           placeholder="example@email.com">
-                </div>
-
-                <div class="form-group">
-                    <label>التعليق</label>
-                    <textarea id="comment-content"
-                              rows="5"
-                              maxlength="5000"
-                              placeholder="اكتب تعليقك..."></textarea>
-                </div>
-
-                <button class="btn btn-primary"
-                        onclick="submitComment()">
-                    نشر التعليق
-                </button>
-
-            </div>
+            <button class="close-btn" onclick="closeModal('login-modal')">
+                ×
+            </button>
 
         </div>
 
-    </div>
-
-</div>
-
-
-<!-- =========================
-     LOGIN MODAL
-========================= -->
-
-<div id="login-modal"
-     class="modal"
-     onclick="if(event.target === this) closeLogin()">
-
-    <div class="modal-content">
-
-        <button class="modal-close" onclick="closeLogin()">×</button>
-
-        <h3 style="font-family:'Amiri'; margin-bottom:20px; color:var(--brass);">
-            دخول الإدارة
-        </h3>
-
         <div class="form-group">
+
             <label>البريد الإلكتروني</label>
 
-            <input id="login-email"
-                   type="email"
-                   value="hbarrak@proton.me"
-                   autocomplete="email">
+            <input
+                type="email"
+                id="login-email"
+                value="hbarrak@proton.me"
+                autocomplete="email"
+            >
+
         </div>
 
         <div class="form-group">
+
             <label>كلمة المرور</label>
 
-            <input id="login-password"
-                   type="password"
-                   autocomplete="current-password">
+            <input
+                type="password"
+                id="login-password"
+                autocomplete="current-password"
+            >
+
         </div>
 
-        <button class="btn btn-primary"
-                style="width:100%;"
-                onclick="loginAdmin()">
+        <div class="modal-footer">
 
-            تسجيل الدخول
+            <button class="btn btn-primary" onclick="loginAdmin()">
+                دخول
+            </button>
 
-        </button>
+            <button class="btn" onclick="closeModal('login-modal')">
+                إلغاء
+            </button>
 
-        <p id="login-message"
-           style="font-size:12px;color:var(--danger);margin-top:12px;">
+        </div>
+
+        <p style="font-size:11px; color:var(--muted); margin-top:15px;">
+            يتم تسجيل الدخول باستخدام حساب Supabase Auth.
+            لا توجد كلمة سر ثابتة داخل ملف الموقع.
         </p>
 
     </div>
@@ -858,232 +1123,146 @@
 </div>
 
 
-<!-- =========================
-     ADMIN MODAL
-========================= -->
+<!-- ARTICLE EDITOR MODAL -->
 
-<div id="admin-modal"
-     class="modal"
-     onclick="if(event.target === this) closeAdmin()">
+<div id="article-editor-modal" class="modal" onclick="if(event.target===this) closeModal('article-editor-modal')">
 
     <div class="modal-content">
 
-        <button class="modal-close" onclick="closeAdmin()">×</button>
+        <div class="modal-header">
 
-        <h3 style="font-family:'Amiri'; margin-bottom:20px; color:var(--brass);">
-            لوحة تحكم البراق
-        </h3>
+            <h3 id="editor-title">
+                إضافة مقال
+            </h3>
 
-        <div class="admin-tabs">
-
-            <button class="admin-tab active"
-                    onclick="showAdminPanel('articles-panel', this)">
-                المقالات
-            </button>
-
-            <button class="admin-tab"
-                    onclick="showAdminPanel('comments-panel', this)">
-                التعليقات
-            </button>
-
-            <button class="admin-tab"
-                    onclick="showAdminPanel('new-article-panel', this)">
-                مقال جديد
-            </button>
-
-            <button class="admin-tab"
-                    onclick="showAdminPanel('settings-panel', this)">
-                إعدادات
-            </button>
-
-            <button class="admin-tab"
-                    onclick="logoutAdmin()">
-                خروج
+            <button class="close-btn" onclick="closeModal('article-editor-modal')">
+                ×
             </button>
 
         </div>
 
 
-        <!-- ARTICLES PANEL -->
-
-        <div id="articles-panel" class="admin-panel active">
-
-            <h4 style="font-family:'Amiri';margin-bottom:15px;">
-                إدارة المقالات
-            </h4>
-
-            <div id="admin-articles-list">
-                <div class="loading">جارٍ التحميل...</div>
-            </div>
-
-        </div>
+        <input type="hidden" id="edit-article-id">
 
 
-        <!-- COMMENTS PANEL -->
+        <div class="form-group">
 
-        <div id="comments-panel" class="admin-panel">
+            <label>عنوان المقال</label>
 
-            <h4 style="font-family:'Amiri';margin-bottom:15px;">
-                إدارة التعليقات
-            </h4>
-
-            <div id="admin-comments-list">
-                <div class="loading">جارٍ التحميل...</div>
-            </div>
+            <input
+                type="text"
+                id="new-title"
+                placeholder="عنوان المقال"
+            >
 
         </div>
 
 
-        <!-- NEW ARTICLE PANEL -->
+        <div class="form-group">
 
-        <div id="new-article-panel" class="admin-panel">
+            <label>الرابط المختصر Slug</label>
 
-            <h4 style="font-family:'Amiri';margin-bottom:15px;">
-                إضافة مقال جديد
-            </h4>
+            <input
+                type="text"
+                id="new-slug"
+                placeholder="مثال: ازمة-العقلانية-المعاصرة"
+            >
 
-            <input type="hidden" id="edit-article-id">
+            <small style="font-size:10px; color:var(--muted);">
+                استخدم حروفًا عربية أو إنجليزية وأرقامًا وشرطات فقط.
+            </small>
 
-            <div class="form-group">
-
-                <label>عنوان المقال</label>
-
-                <input id="new-title"
-                       type="text"
-                       maxlength="300">
-
-            </div>
+        </div>
 
 
-            <div class="form-group">
+        <div class="form-group">
 
-                <label>التصنيف</label>
+            <label>التصنيف</label>
 
-                <select id="new-category"></select>
+            <select id="new-category"></select>
 
-            </div>
-
-
-            <div class="form-group">
-
-                <label>الرابط المختصر Slug</label>
-
-                <input id="new-slug"
-                       type="text"
-                       placeholder="مثال: my-first-article">
-
-            </div>
+        </div>
 
 
-            <div class="form-group">
+        <div class="form-group">
 
-                <label>ملخص المقال</label>
+            <label>ملخص المقال</label>
 
-                <textarea id="new-excerpt"
-                          rows="3"
-                          maxlength="1000"></textarea>
+            <textarea
+                id="new-excerpt"
+                rows="3"
+                placeholder="ملخص قصير يظهر في الأرشيف..."
+            ></textarea>
 
-            </div>
-
-
-            <div class="form-group">
-
-                <label>نص المقال الكامل</label>
-
-                <textarea id="new-content"
-                          rows="12"
-                          placeholder="اكتب كل فقرة في سطر مستقل"></textarea>
-
-            </div>
+        </div>
 
 
-            <div class="form-group">
+        <div class="form-group">
 
-                <label>صورة الغلاف — رابط اختياري</label>
+            <label>نص المقال الكامل</label>
 
-                <input id="new-cover"
-                       type="url"
-                       placeholder="https://...">
+            <textarea
+                id="new-content"
+                rows="12"
+                placeholder="اكتب كل فقرة في سطر مستقل..."
+            ></textarea>
 
-            </div>
+        </div>
 
+
+        <div class="form-row">
 
             <div class="form-group">
 
                 <label>مدة القراءة بالدقائق</label>
 
-                <input id="new-read-time"
-                       type="number"
-                       value="5"
-                       min="1"
-                       max="999">
+                <input
+                    type="number"
+                    id="new-read-time"
+                    value="5"
+                    min="1"
+                >
 
             </div>
 
+            <div class="form-group">
 
-            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <label>الحالة</label>
 
-                <button class="btn btn-primary"
-                        onclick="saveArticle()">
-                    حفظ المقال
-                </button>
+                <select id="new-status">
 
-                <button class="btn"
-                        onclick="clearArticleForm()">
-                    إفراغ النموذج
-                </button>
+                    <option value="published">
+                        منشور
+                    </option>
+
+                    <option value="draft">
+                        مسودة
+                    </option>
+
+                </select>
 
             </div>
 
         </div>
 
 
-        <!-- SETTINGS PANEL -->
+        <label class="checkbox-row">
 
-        <div id="settings-panel" class="admin-panel">
+            <input type="checkbox" id="new-featured">
 
-            <h4 style="font-family:'Amiri';margin-bottom:15px;">
-                إعدادات الموقع
-            </h4>
+            مقال مميز
 
-            <div class="form-group">
+        </label>
 
-                <label>اسم الموقع</label>
 
-                <input id="site-name">
+        <div class="modal-footer">
 
-            </div>
+            <button class="btn btn-primary" onclick="saveArticle()">
+                حفظ المقال
+            </button>
 
-            <div class="form-group">
-
-                <label>وصف الموقع</label>
-
-                <textarea id="site-description" rows="4"></textarea>
-
-            </div>
-
-            <div class="form-group">
-
-                <label>بريد التواصل</label>
-
-                <input id="site-email" type="email">
-
-            </div>
-
-            <div class="form-group">
-
-                <label>السماح بالتعليقات</label>
-
-                <select id="allow-comments">
-                    <option value="true">نعم</option>
-                    <option value="false">لا</option>
-                </select>
-
-            </div>
-
-            <button class="btn btn-primary"
-                    onclick="saveSettings()">
-                حفظ الإعدادات
+            <button class="btn" onclick="closeModal('article-editor-modal')">
+                إلغاء
             </button>
 
         </div>
@@ -1093,125 +1272,451 @@
 </div>
 
 
-<footer id="footer">
+<!-- SETTINGS MODAL -->
 
-    جميع الحقوق محفوظة © البراق للقراءة والكتابة 2026
+<div id="settings-modal" class="modal" onclick="if(event.target===this) closeModal('settings-modal')">
 
-</footer>
+    <div class="modal-content">
+
+        <div class="modal-header">
+
+            <h3>إعدادات الموقع</h3>
+
+            <button class="close-btn" onclick="closeModal('settings-modal')">
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>اسم الموقع</label>
+
+            <input type="text" id="setting-name">
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>وصف الموقع</label>
+
+            <textarea id="setting-description" rows="4"></textarea>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>البريد الإلكتروني</label>
+
+            <input type="email" id="setting-email">
+
+        </div>
+
+
+        <label class="checkbox-row">
+
+            <input type="checkbox" id="setting-comments">
+
+            السماح بالتعليقات
+
+        </label>
+
+
+        <label class="checkbox-row">
+
+            <input type="checkbox" id="setting-moderate">
+
+            تفعيل الإشراف على التعليقات
+
+        </label>
+
+
+        <div class="modal-footer">
+
+            <button class="btn btn-primary" onclick="saveSettings()">
+                حفظ الإعدادات
+            </button>
+
+            <button class="btn" onclick="closeModal('settings-modal')">
+                إلغاء
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- TOAST -->
+
+<div id="toast"></div>
 
 
 <script>
 
-/* =========================================================
-   SUPABASE
-========================================================= */
+/* ============================================================
+   SUPABASE CONFIGURATION
+   ============================================================ */
 
-const SUPABASE_URL =
-    "https://xtckvmhialsvkptiaylb.supabase.co";
+const SUPABASE_URL = "https://xtckvmhialsvkptiaylb.supabase.co";
 
-const SUPABASE_KEY =
+const SUPABASE_PUBLISHABLE_KEY =
     "sb_publishable_NZRXaPGr7uNa9juLMtqmeA_I8pRN7g6";
 
 const supabaseClient =
     window.supabase.createClient(
         SUPABASE_URL,
-        SUPABASE_KEY
+        SUPABASE_PUBLISHABLE_KEY
     );
 
 
-/* =========================================================
+/* ============================================================
    GLOBAL STATE
-========================================================= */
+   ============================================================ */
 
 let DB = {
     articles: [],
     categories: [],
+    comments: [],
     settings: null
 };
 
 let currentArticle = null;
-let currentCategory = "all";
+let currentCategory = null;
 let currentUser = null;
-let currentProfile = null;
 
 
-/* =========================================================
-   INITIALIZATION
-========================================================= */
+/* ============================================================
+   DEFAULT CATEGORIES
+   ============================================================ */
 
-document.addEventListener("DOMContentLoaded", async function () {
+const DEFAULT_CATEGORIES = [
 
-    loadTheme();
+    {
+        name: "دين وعرفان",
+        slug: "دين-وعرفان",
+        description: "قراءات في الدين والعرفان والفكر الروحي.",
+        sort_order: 1
+    },
 
-    await initialize();
+    {
+        name: "علوم إنسانية",
+        slug: "علوم-إنسانية",
+        description: "دراسات ومقالات في العلوم الإنسانية.",
+        sort_order: 2
+    },
 
-});
+    {
+        name: "أدب ونقد",
+        slug: "أدب-ونقد",
+        description: "الأدب والنقد والقراءة الأدبية.",
+        sort_order: 3
+    },
+
+    {
+        name: "فنون وجماليات",
+        slug: "فنون-وجماليات",
+        description: "الفن والجماليات والثقافة البصرية.",
+        sort_order: 4
+    },
+
+    {
+        name: "تحليلات سياسية",
+        slug: "تحليلات-سياسية",
+        description: "تحليلات وقراءات في السياسة والعلاقات الدولية.",
+        sort_order: 5
+    },
+
+    {
+        name: "اقتباسات",
+        slug: "اقتباسات",
+        description: "اقتباسات مختارة من الكتب والمفكرين.",
+        sort_order: 6
+    }
+
+];
 
 
-async function initialize() {
+/* ============================================================
+   UTILITIES
+   ============================================================ */
+
+function escapeHTML(value) {
+
+    if (value === null || value === undefined) {
+        return "";
+    }
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+function slugify(value) {
+
+    return String(value || "")
+        .trim()
+        .toLowerCase()
+        .replace(/[^\u0600-\u06FFa-z0-9]+/gi, "-")
+        .replace(/^-+|-+$/g, "");
+}
+
+
+function formatDate(date) {
+
+    if (!date) {
+        return "";
+    }
 
     try {
 
-        await loadCategories();
-
-        await loadSettings();
-
-        await loadArticles();
-
-        const {
-            data: {
-                session
+        return new Intl.DateTimeFormat(
+            "ar-MA",
+            {
+                year: "numeric",
+                month: "long",
+                day: "numeric"
             }
-        } = await supabaseClient.auth.getSession();
+        ).format(new Date(date));
 
-        if (session) {
+    } catch (e) {
 
-            currentUser = session.user;
+        return date;
 
-            await loadCurrentProfile();
+    }
+}
 
-        }
 
-        supabaseClient.auth.onAuthStateChange(
-            async function (_event, session) {
+function showToast(message) {
 
-                currentUser =
-                    session ? session.user : null;
+    const toast =
+        document.getElementById("toast");
 
-                if (currentUser) {
+    toast.textContent = message;
 
-                    await loadCurrentProfile();
+    toast.classList.add("show");
 
-                } else {
+    clearTimeout(window.toastTimer);
 
-                    currentProfile = null;
+    window.toastTimer =
+        setTimeout(() => {
 
-                }
+            toast.classList.remove("show");
 
-            }
-        );
+        }, 3000);
+}
 
-    } catch (error) {
 
-        console.error(error);
+function openModal(id) {
 
-        document.getElementById(
-            "articles-container"
-        ).innerHTML = `
-            <div class="empty">
-                تعذر تحميل المحتوى.
-                تأكد من إعداد Supabase ثم حاول مرة أخرى.
-            </div>
-        `;
+    document
+        .getElementById(id)
+        .classList.add("show");
 
+    document.body.classList.add("modal-open");
+}
+
+
+function closeModal(id) {
+
+    const modal =
+        document.getElementById(id);
+
+    if (modal) {
+        modal.classList.remove("show");
+    }
+
+    if (!document.querySelector(".modal.show")) {
+        document.body.classList.remove("modal-open");
+    }
+}
+
+
+/* ============================================================
+   THEME
+   ============================================================ */
+
+function toggleTheme() {
+
+    document.documentElement.classList.toggle("dark");
+
+    const isDark =
+        document.documentElement.classList.contains("dark");
+
+    localStorage.setItem(
+        "alburaq_theme",
+        isDark ? "dark" : "light"
+    );
+}
+
+
+function loadTheme() {
+
+    const theme =
+        localStorage.getItem("alburaq_theme");
+
+    if (theme === "dark") {
+        document.documentElement.classList.add("dark");
     }
 
 }
 
 
-/* =========================================================
-   CATEGORIES
-========================================================= */
+/* ============================================================
+   AUTHENTICATION
+   ============================================================ */
+
+async function checkAuth() {
+
+    const {
+        data,
+        error
+    } = await supabaseClient.auth.getSession();
+
+    if (error) {
+        console.error(error);
+        return;
+    }
+
+    currentUser =
+        data.session
+            ? data.session.user
+            : null;
+
+}
+
+
+supabaseClient.auth.onAuthStateChange(
+    async (event, session) => {
+
+        currentUser =
+            session
+                ? session.user
+                : null;
+
+        if (event === "SIGNED_IN") {
+
+            closeModal("login-modal");
+
+            await loadAdminData();
+
+            showToast("تم تسجيل الدخول بنجاح");
+
+        }
+
+        if (event === "SIGNED_OUT") {
+
+            currentUser = null;
+
+            document
+                .getElementById("admin-dashboard")
+                .classList.remove("show");
+
+        }
+
+    }
+);
+
+
+/* ============================================================
+   LOGIN
+   ============================================================ */
+
+function openLoginModal() {
+
+    if (currentUser) {
+
+        document
+            .getElementById("admin-dashboard")
+            .scrollIntoView({
+                behavior: "smooth"
+            });
+
+        loadAdminData();
+
+        return;
+    }
+
+    openModal("login-modal");
+
+}
+
+
+async function loginAdmin() {
+
+    const email =
+        document
+            .getElementById("login-email")
+            .value
+            .trim();
+
+    const password =
+        document
+            .getElementById("login-password")
+            .value;
+
+    if (!email || !password) {
+
+        showToast("أدخل البريد الإلكتروني وكلمة المرور");
+
+        return;
+    }
+
+
+    const {
+        data,
+        error
+    } = await supabaseClient.auth.signInWithPassword({
+
+        email: email,
+
+        password: password
+
+    });
+
+
+    if (error) {
+
+        console.error(error);
+
+        showToast(
+            "فشل تسجيل الدخول: " +
+            error.message
+        );
+
+        return;
+    }
+
+
+    currentUser = data.user;
+
+}
+
+
+async function logoutAdmin() {
+
+    await supabaseClient.auth.signOut();
+
+    document
+        .getElementById("admin-dashboard")
+        .classList.remove("show");
+
+    showToast("تم تسجيل الخروج");
+
+}
+
+
+/* ============================================================
+   LOAD CATEGORIES
+   ============================================================ */
 
 async function loadCategories() {
 
@@ -1219,23 +1724,25 @@ async function loadCategories() {
         data,
         error
     } = await supabaseClient
+
         .from("categories")
+
         .select("*")
+
         .eq("is_active", true)
+
         .order("sort_order", {
             ascending: true
         });
 
+
     if (error) {
 
-        console.error(
-            "Categories error:",
-            error
-        );
+        console.error(error);
 
         return;
-
     }
+
 
     DB.categories = data || [];
 
@@ -1246,58 +1753,142 @@ async function loadCategories() {
 }
 
 
+/* ============================================================
+   SEED CATEGORIES FOR ADMIN
+   ============================================================ */
+
+async function ensureCategories() {
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+
+        .from("categories")
+
+        .select("id")
+        .limit(1);
+
+
+    if (error) {
+
+        console.error(error);
+
+        return;
+    }
+
+
+    if (data && data.length > 0) {
+        return;
+    }
+
+
+    if (!currentUser) {
+        return;
+    }
+
+
+    const {
+        data: inserted,
+        error: insertError
+    } = await supabaseClient
+
+        .from("categories")
+
+        .insert(
+            DEFAULT_CATEGORIES.map(cat => ({
+
+                name: cat.name,
+
+                slug: cat.slug,
+
+                description: cat.description,
+
+                sort_order: cat.sort_order,
+
+                is_active: true
+
+            }))
+        )
+
+        .select();
+
+
+    if (insertError) {
+
+        console.error(
+            "Category seed error:",
+            insertError
+        );
+
+        return;
+    }
+
+
+    DB.categories = inserted || [];
+
+}
+
+
+/* ============================================================
+   RENDER CATEGORIES
+   ============================================================ */
+
 function renderCategories() {
 
     const container =
-        document.getElementById("categories");
+        document.getElementById(
+            "categories-container"
+        );
 
-    let html = `
-        <button class="category-btn active"
-                onclick="filterArticles('all', this)">
+
+    container.innerHTML = `
+
+        <button
+            class="category-btn active"
+            onclick="filterCategory(null, this)"
+        >
             الكل
         </button>
+
+        ${
+            DB.categories.map(category => `
+
+                <button
+                    class="category-btn"
+                    onclick="filterCategory('${escapeHTML(category.id)}', this)"
+                >
+                    ${escapeHTML(category.name)}
+                </button>
+
+            `).join("")
+        }
+
     `;
 
-    DB.categories.forEach(function (category) {
+}
 
-        html += `
-            <button class="category-btn"
-                    data-slug="${escapeHtml(category.slug)}"
-                    onclick="filterArticles('${escapeJs(category.slug)}', this)">
-                ${escapeHtml(category.name)}
-            </button>
-        `;
 
-    });
+function filterCategory(categoryId, element) {
 
-    container.innerHTML = html;
+    currentCategory = categoryId;
+
+    document
+        .querySelectorAll(".category-btn")
+        .forEach(btn =>
+            btn.classList.remove("active")
+        );
+
+    element.classList.add("active");
+
+    renderArticles();
 
 }
 
 
-function populateCategorySelect() {
-
-    const select =
-        document.getElementById("new-category");
-
-    if (!select) return;
-
-    select.innerHTML = DB.categories.map(function (category) {
-
-        return `
-            <option value="${category.id}">
-                ${escapeHtml(category.name)}
-            </option>
-        `;
-
-    }).join("");
-
-}
-
-
-/* =========================================================
-   ARTICLES
-========================================================= */
+/* ============================================================
+   LOAD ARTICLES
+   ============================================================ */
 
 async function loadArticles() {
 
@@ -1305,39 +1896,64 @@ async function loadArticles() {
         data,
         error
     } = await supabaseClient
+
         .from("articles")
+
         .select(`
-            *,
+            id,
+            title,
+            slug,
+            excerpt,
+            content,
+            category_id,
+            author_id,
+            cover_image,
+            status,
+            featured,
+            read_time,
+            views,
+            published_at,
+            created_at,
+            updated_at,
             categories (
                 id,
                 name,
                 slug
             )
         `)
+
         .eq("status", "published")
+
         .order("published_at", {
-            ascending: false,
-            nullsFirst: false
+            ascending: false
         });
+
 
     if (error) {
 
-        console.error(
-            "Articles error:",
-            error
-        );
+        console.error(error);
 
-        document.getElementById(
-            "articles-container"
-        ).innerHTML = `
-            <div class="empty">
-                حدث خطأ أثناء تحميل المقالات.
-            </div>
-        `;
+        document
+            .getElementById("articles-container")
+            .innerHTML = `
+
+                <div class="empty-state">
+
+                    تعذر تحميل المقالات حاليًا.
+
+                    <br>
+
+                    <small>
+                        تحقق من اتصال Supabase وسياسات RLS.
+                    </small>
+
+                </div>
+
+            `;
 
         return;
-
     }
+
 
     DB.articles = data || [];
 
@@ -1346,6 +1962,10 @@ async function loadArticles() {
 }
 
 
+/* ============================================================
+   RENDER ARTICLES
+   ============================================================ */
+
 function renderArticles() {
 
     const container =
@@ -1353,77 +1973,104 @@ function renderArticles() {
             "articles-container"
         );
 
+
     let articles =
         DB.articles;
 
-    if (currentCategory !== "all") {
+
+    if (currentCategory) {
 
         articles =
-            articles.filter(function (article) {
-
-                return article.categories &&
-                    article.categories.slug === currentCategory;
-
-            });
+            articles.filter(
+                article =>
+                    article.category_id === currentCategory
+            );
 
     }
+
 
     if (!articles.length) {
 
         container.innerHTML = `
-            <div class="empty">
+
+            <div class="empty-state">
                 لا توجد مقالات في هذا التصنيف حاليًا.
             </div>
+
         `;
 
         return;
-
     }
 
+
     container.innerHTML =
-        articles.map(function (article) {
+
+        articles.map(article => {
 
             const category =
                 article.categories
                     ? article.categories.name
-                    : "";
+                    : "غير مصنف";
 
-            const date =
-                article.published_at
-                    ? formatDate(article.published_at)
-                    : "";
 
             return `
+
                 <article class="article-card">
 
                     <span class="article-tag">
-                        ${escapeHtml(category)}
+                        ${escapeHTML(category)}
                     </span>
 
-                    <h3 class="article-title"
-                        onclick="openReader('${article.id}')">
-
-                        ${escapeHtml(article.title)}
-
+                    <h3
+                        class="article-title"
+                        onclick="openArticle('${escapeHTML(article.slug)}')"
+                    >
+                        ${escapeHTML(article.title)}
                     </h3>
 
                     <p class="article-excerpt">
-
-                        ${escapeHtml(
-                            article.excerpt || ""
-                        )}
-
+                        ${escapeHTML(article.excerpt || "")}
                     </p>
 
                     <div class="article-meta">
 
-                        ${escapeHtml(date)}
-                        ${article.read_time ? " • " + article.read_time + " دقيقة" : ""}
-                        ${article.views ? " • " + article.views + " مشاهدة" : ""}
+                        <span>
+                            ${formatDate(
+                                article.published_at ||
+                                article.created_at
+                            )}
+                        </span>
+
+                        <span>
+                            • ${article.read_time || 5} دقائق
+                        </span>
+
+                        <span>
+                            • ${article.views || 0} مشاهدة
+                        </span>
+
+                    </div>
+
+                    <div class="article-actions">
+
+                        <button
+                            class="btn btn-small"
+                            onclick="openArticle('${escapeHTML(article.slug)}')"
+                        >
+                            قراءة المقال
+                        </button>
+
+                        <button
+                            class="btn btn-small"
+                            onclick="copyArticleURL('${escapeHTML(article.slug)}')"
+                        >
+                            🔗 مشاركة
+                        </button>
 
                     </div>
 
                 </article>
+
             `;
 
         }).join("");
@@ -1431,256 +2078,633 @@ function renderArticles() {
 }
 
 
-function filterArticles(
-    slug,
-    button
-) {
+/* ============================================================
+   ARTICLE URL
+   ============================================================ */
 
-    currentCategory = slug;
+function getArticleURL(slug) {
 
-    document
-        .querySelectorAll(".category-btn")
-        .forEach(function (btn) {
+    const url =
+        new URL(
+            window.location.href
+        );
 
-            btn.classList.remove("active");
+    url.search = "";
 
-        });
+    url.hash = "";
 
-    if (button) {
+    url.searchParams.set(
+        "article",
+        slug
+    );
 
-        button.classList.add("active");
-
-    }
-
-    renderArticles();
+    return url.toString();
 
 }
 
 
-/* =========================================================
-   ARTICLE READER
-========================================================= */
+function copyArticleURL(slug) {
 
-async function openReader(id) {
+    const url =
+        getArticleURL(slug);
 
-    const article =
-        DB.articles.find(function (item) {
+    navigator.clipboard
+        .writeText(url)
+        .then(() => {
 
-            return item.id === id;
+            showToast(
+                "تم نسخ رابط المقال"
+            );
+
+        })
+        .catch(() => {
+
+            prompt(
+                "انسخ رابط المقال:",
+                url
+            );
 
         });
 
-    if (!article) return;
+}
 
-    currentArticle = article;
 
-    document.getElementById(
-        "reader-tag"
-    ).textContent =
-        article.categories
-            ? article.categories.name
-            : "";
+async function copyArticleLink() {
 
-    document.getElementById(
-        "reader-title"
-    ).textContent =
-        article.title;
+    if (!currentArticle) {
+        return;
+    }
 
-    document.getElementById(
-        "reader-meta"
-    ).textContent =
-        `${article.published_at ? formatDate(article.published_at) : ""}
-         ${article.read_time ? " • " + article.read_time + " دقيقة" : ""}`;
+    copyArticleURL(
+        currentArticle.slug
+    );
 
-    const cover =
-        document.getElementById(
-            "reader-cover"
+}
+
+
+async function shareArticle() {
+
+    if (!currentArticle) {
+        return;
+    }
+
+
+    const url =
+        getArticleURL(
+            currentArticle.slug
         );
 
-    if (article.cover_image) {
 
-        cover.src =
-            article.cover_image;
+    if (navigator.share) {
 
-        cover.classList.remove(
-            "hidden"
-        );
+        try {
+
+            await navigator.share({
+
+                title:
+                    currentArticle.title,
+
+                text:
+                    currentArticle.excerpt ||
+                    "البراق للقراءة والكتابة",
+
+                url: url
+
+            });
+
+        } catch (e) {
+
+            // User cancelled sharing.
+
+        }
 
     } else {
 
-        cover.classList.add(
-            "hidden"
+        copyArticleURL(
+            currentArticle.slug
         );
-
-        cover.removeAttribute("src");
 
     }
 
-    const content =
-        article.content || "";
+}
+
+
+function copySiteLink() {
+
+    const url =
+        window.location.origin +
+        window.location.pathname;
+
+
+    navigator.clipboard
+        .writeText(url)
+        .then(() =>
+            showToast(
+                "تم نسخ رابط الموقع"
+            )
+        )
+        .catch(() =>
+            prompt(
+                "انسخ رابط الموقع:",
+                url
+            )
+        );
+
+}
+
+
+/* ============================================================
+   OPEN ARTICLE
+   ============================================================ */
+
+async function openArticle(slug) {
+
+    const article =
+        DB.articles.find(
+            item =>
+                item.slug === slug
+        );
+
+
+    if (!article) {
+
+        const {
+            data,
+            error
+        } = await supabaseClient
+
+            .from("articles")
+
+            .select(`
+                *,
+                categories (
+                    id,
+                    name,
+                    slug
+                )
+            `)
+
+            .eq("slug", slug)
+
+            .eq("status", "published")
+
+            .single();
+
+
+        if (error || !data) {
+
+            showToast(
+                "المقال غير موجود"
+            );
+
+            goHome();
+
+            return;
+        }
+
+
+        currentArticle = data;
+
+    } else {
+
+        currentArticle = article;
+
+    }
+
+
+    document
+        .getElementById("home-view")
+        .style.display = "none";
+
+
+    document
+        .getElementById("article-view")
+        .classList.add("visible");
+
+
+    const category =
+        currentArticle.categories
+            ? currentArticle.categories.name
+            : "غير مصنف";
+
+
+    document
+        .getElementById(
+            "article-page-category"
+        )
+        .textContent =
+            category;
+
+
+    document
+        .getElementById(
+            "article-page-title"
+        )
+        .textContent =
+            currentArticle.title;
+
+
+    document
+        .getElementById(
+            "article-page-meta"
+        )
+        .textContent =
+
+            `${formatDate(
+                currentArticle.published_at ||
+                currentArticle.created_at
+            )} • ${currentArticle.read_time || 5} دقائق • ${currentArticle.views || 0} مشاهدة`;
+
+
+    renderArticleContent(
+        currentArticle.content
+    );
+
+
+    updateSEO(
+        currentArticle
+    );
+
+
+    await incrementViews(
+        currentArticle
+    );
+
+
+    await loadComments(
+        currentArticle.id
+    );
+
+
+    renderCommentForm();
+
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+}
+
+
+/* ============================================================
+   RENDER ARTICLE CONTENT
+   ============================================================ */
+
+function renderArticleContent(content) {
+
+    const container =
+        document.getElementById(
+            "article-page-content"
+        );
+
+
+    if (!content) {
+
+        container.innerHTML =
+            "<p>لا يوجد محتوى لهذا المقال.</p>";
+
+        return;
+    }
+
+
+    /*
+       المحتوى محفوظ كنص.
+
+       كل سطر فارغ يفصل بين فقرة وأخرى.
+       وإذا كان المقال قديمًا مخزنًا بفقرات مفصولة
+       بأسطر، سيتم تحويله تلقائيًا إلى فقرات.
+    */
 
     const paragraphs =
-        content
-            .split(/\n+/)
-            .map(function (p) {
-
-                return p.trim();
-
-            })
+        String(content)
+            .split(/\n\s*\n|\n/)
+            .map(p => p.trim())
             .filter(Boolean);
 
-    document.getElementById(
-        "reader-body"
-    ).innerHTML =
-        paragraphs.map(function (p) {
+
+    container.innerHTML =
+
+        paragraphs.map(paragraph => {
+
+            const safe =
+                escapeHTML(paragraph);
+
 
             return `
-                <p>
-                    ${escapeHtml(p)}
-                </p>
+                <p>${safe}</p>
             `;
 
         }).join("");
 
+}
+
+
+/* ============================================================
+   SEO
+   ============================================================ */
+
+function updateSEO(article) {
+
+    const title =
+        article.title +
+        " | البراق للقراءة والكتابة";
+
+
+    const description =
+        article.excerpt ||
+        "البراق للقراءة والكتابة";
+
+
+    document.title = title;
+
+
+    let descriptionMeta =
+        document.querySelector(
+            'meta[name="description"]'
+        );
+
+
+    if (!descriptionMeta) {
+
+        descriptionMeta =
+            document.createElement("meta");
+
+        descriptionMeta.name =
+            "description";
+
+        document.head.appendChild(
+            descriptionMeta
+        );
+
+    }
+
+
+    descriptionMeta.content =
+        description;
+
+
     document
-        .getElementById(
-            "reader-modal"
+        .querySelector(
+            'meta[property="og:title"]'
         )
-        .classList.add("show");
+        .setAttribute(
+            "content",
+            title
+        );
 
-    await loadComments(article.id);
 
-    await increaseViews(article.id);
+    document
+        .querySelector(
+            'meta[property="og:description"]'
+        )
+        .setAttribute(
+            "content",
+            description
+        );
+
+
+    document
+        .querySelector(
+            'meta[name="twitter:title"]'
+        )
+        .setAttribute(
+            "content",
+            title
+        );
+
+
+    document
+        .querySelector(
+            'meta[name="twitter:description"]'
+        )
+        .setAttribute(
+            "content",
+            description
+        );
 
 }
 
 
-function closeReader() {
+/* ============================================================
+   INCREMENT VIEWS
+   ============================================================ */
 
-    document
-        .getElementById(
-            "reader-modal"
-        )
-        .classList.remove("show");
-
-    currentArticle = null;
-
-}
-
-
-/* =========================================================
-   VIEWS
-========================================================= */
-
-async function increaseViews(id) {
-
-    const article =
-        DB.articles.find(function (item) {
-
-            return item.id === id;
-
-        });
-
-    if (!article) return;
+async function incrementViews(article) {
 
     const newViews =
         Number(article.views || 0) + 1;
 
-    article.views = newViews;
 
-    await supabaseClient
+    const {
+        error
+    } = await supabaseClient
+
         .from("articles")
+
         .update({
             views: newViews
         })
-        .eq("id", id);
+
+        .eq("id", article.id);
+
+
+    if (!error) {
+
+        article.views =
+            newViews;
+
+    }
 
 }
 
 
-/* =========================================================
+/* ============================================================
    COMMENTS
-========================================================= */
+   ============================================================ */
 
-async function loadComments(
-    articleId
-) {
+async function loadComments(articleId) {
 
     const container =
         document.getElementById(
             "comments-container"
         );
 
-    container.innerHTML =
-        `<div class="loading">
-            جارٍ تحميل التعليقات...
-        </div>`;
 
     const {
         data,
         error
     } = await supabaseClient
+
         .from("comments")
+
         .select("*")
+
         .eq("article_id", articleId)
+
         .eq("status", "visible")
+
         .order("created_at", {
             ascending: true
         });
 
+
     if (error) {
 
-        console.error(
-            "Comments error:",
-            error
-        );
+        console.error(error);
 
         container.innerHTML =
-            `<div class="empty">
+            `<div class="empty-state">
                 تعذر تحميل التعليقات.
             </div>`;
 
         return;
-
     }
 
-    if (!data || !data.length) {
+
+    DB.comments = data || [];
+
+
+    if (!DB.comments.length) {
 
         container.innerHTML =
-            `<div style="color:var(--muted);font-size:13px;">
-                لا توجد تعليقات بعد.
+            `<div class="empty-state">
+                لا توجد تعليقات بعد. كن أول من يشارك في النقاش.
             </div>`;
 
         return;
+    }
+
+
+    container.innerHTML =
+
+        DB.comments.map(comment => `
+
+            <div class="comment">
+
+                <div class="comment-head">
+
+                    <span class="comment-author">
+                        ${escapeHTML(
+                            comment.author_name
+                        )}
+                    </span>
+
+                    <span class="comment-date">
+                        ${formatDate(
+                            comment.created_at
+                        )}
+                    </span>
+
+                </div>
+
+                <div class="comment-body">
+                    ${escapeHTML(
+                        comment.content
+                    )}
+                </div>
+
+            </div>
+
+        `).join("");
+
+}
+
+
+/* ============================================================
+   COMMENT FORM
+   ============================================================ */
+
+async function renderCommentForm() {
+
+    const container =
+        document.getElementById(
+            "comment-form-container"
+        );
+
+
+    let allowComments = true;
+
+
+    if (DB.settings) {
+
+        allowComments =
+            DB.settings.allow_comments !== false;
 
     }
 
-    container.innerHTML =
-        data.map(function (comment) {
 
-            return `
-                <div class="comment">
+    if (!allowComments) {
 
-                    <div class="comment-head">
+        container.innerHTML = `
 
-                        <span class="comment-name">
-                            ${escapeHtml(comment.author_name)}
-                        </span>
+            <div class="empty-state">
+                التعليقات مغلقة حاليًا.
+            </div>
 
-                        <span class="comment-date">
-                            ${formatDate(comment.created_at)}
-                        </span>
+        `;
 
-                    </div>
+        return;
+    }
 
-                    <div class="comment-text">
-                        ${escapeHtml(comment.content)}
-                    </div>
+
+    container.innerHTML = `
+
+        <div class="comment-form">
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label>الاسم</label>
+
+                    <input
+                        type="text"
+                        id="comment-name"
+                        maxlength="100"
+                        placeholder="اسمك"
+                    >
 
                 </div>
-            `;
 
-        }).join("");
+                <div class="form-group">
+
+                    <label>البريد الإلكتروني (اختياري)</label>
+
+                    <input
+                        type="email"
+                        id="comment-email"
+                        maxlength="200"
+                        placeholder="example@email.com"
+                    >
+
+                </div>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>تعليقك</label>
+
+                <textarea
+                    id="comment-content"
+                    rows="5"
+                    maxlength="5000"
+                    placeholder="اكتب تعليقك..."
+                ></textarea>
+
+            </div>
+
+            <button
+                class="btn btn-primary"
+                onclick="submitComment()"
+            >
+                نشر التعليق
+            </button>
+
+        </div>
+
+    `;
 
 }
 
@@ -1688,64 +2712,68 @@ async function loadComments(
 async function submitComment() {
 
     if (!currentArticle) {
-
-        alert("لم يتم تحديد المقال.");
-
         return;
-
     }
 
-    if (
-        DB.settings &&
-        DB.settings.allow_comments === false
-    ) {
-
-        alert("التعليقات مغلقة حاليًا.");
-
-        return;
-
-    }
 
     const name =
-        document.getElementById(
-            "comment-name"
-        ).value.trim();
+        document
+            .getElementById(
+                "comment-name"
+            )
+            .value
+            .trim();
+
 
     const email =
-        document.getElementById(
-            "comment-email"
-        ).value.trim();
+        document
+            .getElementById(
+                "comment-email"
+            )
+            .value
+            .trim();
+
 
     const content =
-        document.getElementById(
-            "comment-content"
-        ).value.trim();
+        document
+            .getElementById(
+                "comment-content"
+            )
+            .value
+            .trim();
+
 
     if (name.length < 2) {
 
-        alert("يرجى كتابة اسم صحيح.");
-
-        return;
-
-    }
-
-    if (
-        content.length < 2 ||
-        content.length > 5000
-    ) {
-
-        alert(
-            "يجب أن يكون التعليق بين حرفين و5000 حرف."
+        showToast(
+            "يرجى كتابة الاسم"
         );
 
         return;
-
     }
+
+
+    if (content.length < 2) {
+
+        showToast(
+            "يرجى كتابة التعليق"
+        );
+
+        return;
+    }
+
+
+    /*
+       حسب سياسة RLS التي أنشأناها سابقًا:
+       التعليق العام يجب أن يكون status = visible.
+    */
 
     const {
         error
     } = await supabaseClient
+
         .from("comments")
+
         .insert({
 
             article_id:
@@ -1770,384 +2798,485 @@ async function submitComment() {
 
         });
 
+
     if (error) {
 
         console.error(error);
 
-        alert(
-            "تعذر نشر التعليق. حاول مرة أخرى."
+        showToast(
+            "تعذر نشر التعليق: " +
+            error.message
         );
 
         return;
-
     }
 
-    document.getElementById(
-        "comment-name"
-    ).value = "";
 
-    document.getElementById(
-        "comment-email"
-    ).value = "";
+    document
+        .getElementById(
+            "comment-name"
+        )
+        .value = "";
 
-    document.getElementById(
-        "comment-content"
-    ).value = "";
+
+    document
+        .getElementById(
+            "comment-email"
+        )
+        .value = "";
+
+
+    document
+        .getElementById(
+            "comment-content"
+        )
+        .value = "";
+
+
+    showToast(
+        "تم نشر تعليقك"
+    );
+
 
     await loadComments(
         currentArticle.id
     );
 
-    alert("تم نشر تعليقك بنجاح.");
-
 }
 
 
-/* =========================================================
-   AUTHENTICATION
-========================================================= */
+/* ============================================================
+   ADMIN DATA
+   ============================================================ */
 
-function openLogin() {
+async function loadAdminData() {
 
-    document
-        .getElementById(
-            "login-modal"
-        )
-        .classList.add("show");
-
-}
-
-
-function closeLogin() {
-
-    document
-        .getElementById(
-            "login-modal"
-        )
-        .classList.remove("show");
-
-}
-
-
-async function loginAdmin() {
-
-    const email =
-        document.getElementById(
-            "login-email"
-        ).value.trim();
-
-    const password =
-        document.getElementById(
-            "login-password"
-        ).value;
-
-    const message =
-        document.getElementById(
-            "login-message"
-        );
-
-    message.textContent = "";
-
-    if (!email || !password) {
-
-        message.textContent =
-            "أدخل البريد الإلكتروني وكلمة المرور.";
-
+    if (!currentUser) {
         return;
-
     }
 
+
     const {
-        data,
+        data: profile,
         error
-    } = await supabaseClient.auth.signInWithPassword({
+    } = await supabaseClient
 
-        email,
-        password
+        .from("profiles")
 
-    });
+        .select("*")
+
+        .eq("id", currentUser.id)
+
+        .single();
+
 
     if (error) {
 
         console.error(error);
 
-        message.textContent =
-            "بيانات الدخول غير صحيحة أو تعذر الاتصال.";
+        showToast(
+            "تعذر قراءة صلاحيات الحساب"
+        );
 
         return;
-
     }
 
-    currentUser =
-        data.user;
-
-    await loadCurrentProfile();
 
     if (
-        !currentProfile ||
-        currentProfile.role !== "admin"
+        !profile ||
+        !["admin", "editor"].includes(profile.role)
     ) {
+
+        showToast(
+            "ليس لديك صلاحية إدارة الموقع"
+        );
 
         await supabaseClient.auth.signOut();
 
-        message.textContent =
-            "هذا الحساب ليس حساب مدير.";
-
         return;
-
     }
 
-    closeLogin();
-
-    openAdmin();
-
-}
-
-
-async function loadCurrentProfile() {
-
-    if (!currentUser) return;
-
-    const {
-        data,
-        error
-    } = await supabaseClient
-        .from("profiles")
-        .select("*")
-        .eq("id", currentUser.id)
-        .single();
-
-    if (error) {
-
-        console.error(
-            "Profile error:",
-            error
-        );
-
-        return;
-
-    }
-
-    currentProfile = data;
-
-}
-
-
-async function logoutAdmin() {
-
-    await supabaseClient.auth.signOut();
-
-    currentUser = null;
-
-    currentProfile = null;
-
-    closeAdmin();
-
-    alert("تم تسجيل الخروج.");
-
-}
-
-
-/* =========================================================
-   ADMIN
-========================================================= */
-
-async function openAdmin() {
-
-    if (!currentUser) {
-
-        openLogin();
-
-        return;
-
-    }
-
-    await loadCurrentProfile();
-
-    if (
-        !currentProfile ||
-        currentProfile.role !== "admin"
-    ) {
-
-        alert(
-            "ليس لديك صلاحية الدخول إلى لوحة الإدارة."
-        );
-
-        return;
-
-    }
 
     document
         .getElementById(
-            "admin-modal"
+            "admin-dashboard"
         )
         .classList.add("show");
+
+
+    document
+        .getElementById(
+            "admin-user-name"
+        )
+        .textContent =
+            profile.display_name ||
+            "المستخدم";
+
+
+    document
+        .getElementById(
+            "admin-user-email"
+        )
+        .textContent =
+            currentUser.email;
+
+
+    await ensureCategories();
+
+    await loadCategories();
 
     await loadAdminArticles();
 
     await loadAdminComments();
 
-    await loadSiteSettingsForm();
+    await loadSettings();
 
-}
-
-
-function closeAdmin() {
 
     document
         .getElementById(
-            "admin-modal"
+            "admin-dashboard"
         )
-        .classList.remove("show");
+        .scrollIntoView({
+            behavior: "smooth"
+        });
 
 }
 
 
-function showAdminPanel(
-    id,
-    button
-) {
-
-    document
-        .querySelectorAll(".admin-panel")
-        .forEach(function (panel) {
-
-            panel.classList.remove("active");
-
-        });
-
-    document
-        .querySelectorAll(".admin-tab")
-        .forEach(function (tab) {
-
-            tab.classList.remove("active");
-
-        });
-
-    document
-        .getElementById(id)
-        .classList.add("active");
-
-    if (button) {
-
-        button.classList.add("active");
-
-    }
-
-}
-
-
-/* =========================================================
+/* ============================================================
    ADMIN ARTICLES
-========================================================= */
+   ============================================================ */
 
 async function loadAdminArticles() {
 
-    const container =
-        document.getElementById(
-            "admin-articles-list"
-        );
+    if (!currentUser) {
+        return;
+    }
+
 
     const {
         data,
         error
     } = await supabaseClient
+
         .from("articles")
+
         .select(`
             *,
             categories (
                 name
             )
         `)
+
         .order("created_at", {
             ascending: false
         });
+
 
     if (error) {
 
         console.error(error);
 
-        container.innerHTML =
-            `<div class="empty">
-                تعذر تحميل المقالات.
-            </div>`;
+        document
+            .getElementById(
+                "admin-articles-table"
+            )
+            .innerHTML = `
+
+                <tr>
+                    <td colspan="5">
+                        تعذر تحميل المقالات.
+                    </td>
+                </tr>
+
+            `;
 
         return;
-
     }
 
-    if (!data.length) {
 
-        container.innerHTML =
-            `<div class="empty">
-                لا توجد مقالات.
-            </div>`;
+    const table =
+        document.getElementById(
+            "admin-articles-table"
+        );
+
+
+    if (!data || !data.length) {
+
+        table.innerHTML = `
+
+            <tr>
+                <td colspan="5">
+                    لا توجد مقالات.
+                </td>
+            </tr>
+
+        `;
 
         return;
-
     }
 
-    container.innerHTML =
-        data.map(function (article) {
 
-            const statusClass =
-                article.status === "published"
-                    ? "status-published"
-                    : "status-draft";
+    table.innerHTML =
 
-            return `
-                <div class="admin-item">
+        data.map(article => `
 
-                    <div class="admin-item-title">
-                        ${escapeHtml(article.title)}
-                    </div>
+            <tr>
 
-                    <div style="font-size:11px;color:var(--muted);">
+                <td>
+                    ${escapeHTML(
+                        article.title
+                    )}
+                </td>
 
-                        ${article.categories
-                            ? escapeHtml(article.categories.name)
-                            : ""}
+                <td>
+                    ${escapeHTML(
+                        article.categories
+                            ? article.categories.name
+                            : "غير مصنف"
+                    )}
+                </td>
 
-                        &nbsp; • &nbsp;
+                <td>
 
-                        <span class="status ${statusClass}">
-                            ${escapeHtml(article.status)}
-                        </span>
-
-                    </div>
-
-                    <div class="admin-actions">
-
-                        <button class="btn"
-                                onclick="editArticle('${article.id}')">
-                            تعديل
-                        </button>
+                    <span class="status-badge ${
+                        article.status === "published"
+                            ? "status-visible"
+                            : "status-hidden"
+                    }">
 
                         ${
                             article.status === "published"
-                            ?
-                            `<button class="btn"
-                                    onclick="toggleArticleStatus('${article.id}', 'draft')">
-                                إخفاء
-                            </button>`
-                            :
-                            `<button class="btn btn-success"
-                                    onclick="toggleArticleStatus('${article.id}', 'published')">
-                                نشر
-                            </button>`
+                                ? "منشور"
+                                : "مسودة"
                         }
 
-                        <button class="btn btn-danger"
-                                onclick="deleteArticle('${article.id}')">
-                            حذف
-                        </button>
+                    </span>
 
-                    </div>
+                </td>
 
-                </div>
-            `;
+                <td>
+                    ${article.views || 0}
+                </td>
 
-        }).join("");
+                <td>
+
+                    <button
+                        class="btn btn-small"
+                        onclick="editArticle('${article.id}')"
+                    >
+                        تعديل
+                    </button>
+
+                    <button
+                        class="btn btn-small btn-danger"
+                        onclick="deleteArticle('${article.id}')"
+                    >
+                        حذف
+                    </button>
+
+                </td>
+
+            </tr>
+
+        `).join("");
+
+}
+
+
+/* ============================================================
+   ARTICLE EDITOR
+   ============================================================ */
+
+function populateCategorySelect() {
+
+    const select =
+        document.getElementById(
+            "new-category"
+        );
+
+
+    if (!select) {
+        return;
+    }
+
+
+    select.innerHTML =
+
+        DB.categories.map(category => `
+
+            <option value="${category.id}">
+                ${escapeHTML(category.name)}
+            </option>
+
+        `).join("");
+
+}
+
+
+function openArticleEditor(article = null) {
+
+    populateCategorySelect();
+
+
+    if (!article) {
+
+        document
+            .getElementById(
+                "editor-title"
+            )
+            .textContent =
+                "إضافة مقال";
+
+
+        document
+            .getElementById(
+                "edit-article-id"
+            )
+            .value = "";
+
+
+        document
+            .getElementById(
+                "new-title"
+            )
+            .value = "";
+
+
+        document
+            .getElementById(
+                "new-slug"
+            )
+            .value = "";
+
+
+        document
+            .getElementById(
+                "new-excerpt"
+            )
+            .value = "";
+
+
+        document
+            .getElementById(
+                "new-content"
+            )
+            .value = "";
+
+
+        document
+            .getElementById(
+                "new-read-time"
+            )
+            .value = 5;
+
+
+        document
+            .getElementById(
+                "new-status"
+            )
+            .value =
+                "published";
+
+
+        document
+            .getElementById(
+                "new-featured"
+            )
+            .checked = false;
+
+
+        openModal(
+            "article-editor-modal"
+        );
+
+        return;
+    }
+
+
+    document
+        .getElementById(
+            "editor-title"
+        )
+        .textContent =
+            "تعديل المقال";
+
+
+    document
+        .getElementById(
+            "edit-article-id"
+        )
+        .value =
+            article.id;
+
+
+    document
+        .getElementById(
+            "new-title"
+        )
+        .value =
+            article.title || "";
+
+
+    document
+        .getElementById(
+            "new-slug"
+        )
+        .value =
+            article.slug || "";
+
+
+    document
+        .getElementById(
+            "new-category"
+        )
+        .value =
+            article.category_id || "";
+
+
+    document
+        .getElementById(
+            "new-excerpt"
+        )
+        .value =
+            article.excerpt || "";
+
+
+    document
+        .getElementById(
+            "new-content"
+        )
+        .value =
+            article.content || "";
+
+
+    document
+        .getElementById(
+            "new-read-time"
+        )
+        .value =
+            article.read_time || 5;
+
+
+    document
+        .getElementById(
+            "new-status"
+        )
+        .value =
+            article.status || "published";
+
+
+    document
+        .getElementById(
+            "new-featured"
+        )
+        .checked =
+            !!article.featured;
+
+
+    openModal(
+        "article-editor-modal"
+    );
 
 }
 
@@ -2158,499 +3287,533 @@ async function editArticle(id) {
         data,
         error
     } = await supabaseClient
+
         .from("articles")
+
         .select("*")
+
         .eq("id", id)
+
         .single();
+
 
     if (error) {
 
-        alert("تعذر تحميل المقال.");
+        console.error(error);
+
+        showToast(
+            "تعذر تحميل المقال"
+        );
 
         return;
-
     }
 
-    document.getElementById(
-        "edit-article-id"
-    ).value = data.id;
 
-    document.getElementById(
-        "new-title"
-    ).value = data.title || "";
-
-    document.getElementById(
-        "new-slug"
-    ).value = data.slug || "";
-
-    document.getElementById(
-        "new-excerpt"
-    ).value = data.excerpt || "";
-
-    document.getElementById(
-        "new-content"
-    ).value = data.content || "";
-
-    document.getElementById(
-        "new-cover"
-    ).value = data.cover_image || "";
-
-    document.getElementById(
-        "new-read-time"
-    ).value = data.read_time || 5;
-
-    document.getElementById(
-        "new-category"
-    ).value = data.category_id || "";
-
-    const tab =
-        document.querySelectorAll(
-            ".admin-tab"
-        )[2];
-
-    showAdminPanel(
-        "new-article-panel",
-        tab
-    );
+    openArticleEditor(data);
 
 }
 
 
+/* ============================================================
+   SAVE ARTICLE
+   ============================================================ */
+
 async function saveArticle() {
-
-    const id =
-        document.getElementById(
-            "edit-article-id"
-        ).value;
-
-    const title =
-        document.getElementById(
-            "new-title"
-        ).value.trim();
-
-    const category_id =
-        document.getElementById(
-            "new-category"
-        ).value;
-
-    const slug =
-        document.getElementById(
-            "new-slug"
-        ).value.trim() ||
-        slugifyArabic(title);
-
-    const excerpt =
-        document.getElementById(
-            "new-excerpt"
-        ).value.trim();
-
-    const content =
-        document.getElementById(
-            "new-content"
-        ).value.trim();
-
-    const cover_image =
-        document.getElementById(
-            "new-cover"
-        ).value.trim();
-
-    const read_time =
-        parseInt(
-            document.getElementById(
-                "new-read-time"
-            ).value
-        ) || 5;
-
-    if (!title) {
-
-        alert("أدخل عنوان المقال.");
-
-        return;
-
-    }
-
-    if (!category_id) {
-
-        alert("اختر التصنيف.");
-
-        return;
-
-    }
-
-    if (!content) {
-
-        alert("أدخل نص المقال.");
-
-        return;
-
-    }
 
     if (!currentUser) {
 
-        alert("يجب تسجيل الدخول.");
+        showToast(
+            "يجب تسجيل الدخول أولًا"
+        );
 
         return;
-
     }
 
-    const articleData = {
 
-        title,
+    const id =
+        document
+            .getElementById(
+                "edit-article-id"
+            )
+            .value;
 
-        slug,
 
-        excerpt,
+    const title =
+        document
+            .getElementById(
+                "new-title"
+            )
+            .value
+            .trim();
 
-        content,
 
-        category_id,
+    let slug =
+        document
+            .getElementById(
+                "new-slug"
+            )
+            .value
+            .trim();
 
-        cover_image:
-            cover_image || null,
 
-        read_time,
+    const categoryId =
+        document
+            .getElementById(
+                "new-category"
+            )
+            .value;
 
-        updated_at:
-            new Date().toISOString()
+
+    const excerpt =
+        document
+            .getElementById(
+                "new-excerpt"
+            )
+            .value
+            .trim();
+
+
+    const content =
+        document
+            .getElementById(
+                "new-content"
+            )
+            .value
+            .trim();
+
+
+    const readTime =
+        parseInt(
+            document
+                .getElementById(
+                    "new-read-time"
+                )
+                .value,
+            10
+        ) || 5;
+
+
+    const status =
+        document
+            .getElementById(
+                "new-status"
+            )
+            .value;
+
+
+    const featured =
+        document
+            .getElementById(
+                "new-featured"
+            )
+            .checked;
+
+
+    if (!title) {
+
+        showToast(
+            "أدخل عنوان المقال"
+        );
+
+        return;
+    }
+
+
+    if (!slug) {
+        slug = slugify(title);
+    }
+
+
+    if (!slug) {
+
+        showToast(
+            "تعذر إنشاء الرابط المختصر"
+        );
+
+        return;
+    }
+
+
+    if (!content) {
+
+        showToast(
+            "أدخل نص المقال"
+        );
+
+        return;
+    }
+
+
+    const payload = {
+
+        title:
+
+            title,
+
+        slug:
+
+            slug,
+
+        category_id:
+
+            categoryId || null,
+
+        excerpt:
+
+            excerpt,
+
+        content:
+
+            content,
+
+        status:
+
+            status,
+
+        featured:
+
+            featured,
+
+        read_time:
+
+            readTime
 
     };
 
+
     let result;
+
 
     if (id) {
 
         result =
             await supabaseClient
+
                 .from("articles")
-                .update(articleData)
-                .eq("id", id);
+
+                .update(payload)
+
+                .eq("id", id)
+
+                .select()
+                .single();
 
     } else {
 
         result =
             await supabaseClient
+
                 .from("articles")
+
                 .insert({
 
-                    ...articleData,
+                    ...payload,
 
                     author_id:
                         currentUser.id,
-
-                    status:
-                        "published",
-
-                    featured:
-                        false,
 
                     views:
                         0,
 
                     published_at:
-                        new Date().toISOString()
+                        status === "published"
+                            ? new Date().toISOString()
+                            : null
 
-                });
+                })
+
+                .select()
+                .single();
 
     }
 
+
     if (result.error) {
 
-        console.error(result.error);
+        console.error(
+            result.error
+        );
 
-        alert(
+        showToast(
             "تعذر حفظ المقال: " +
             result.error.message
         );
 
         return;
-
     }
 
-    alert(
-        id
-            ? "تم تحديث المقال."
-            : "تم نشر المقال."
+
+    closeModal(
+        "article-editor-modal"
     );
 
-    clearArticleForm();
+
+    showToast(
+        id
+            ? "تم تحديث المقال"
+            : "تم نشر المقال"
+    );
+
 
     await loadArticles();
 
     await loadAdminArticles();
 
-}
 
+    if (
+        !id &&
+        result.data &&
+        result.data.status === "published"
+    ) {
 
-function clearArticleForm() {
-
-    document.getElementById(
-        "edit-article-id"
-    ).value = "";
-
-    document.getElementById(
-        "new-title"
-    ).value = "";
-
-    document.getElementById(
-        "new-slug"
-    ).value = "";
-
-    document.getElementById(
-        "new-excerpt"
-    ).value = "";
-
-    document.getElementById(
-        "new-content"
-    ).value = "";
-
-    document.getElementById(
-        "new-cover"
-    ).value = "";
-
-    document.getElementById(
-        "new-read-time"
-    ).value = 5;
-
-}
-
-
-async function toggleArticleStatus(
-    id,
-    status
-) {
-
-    const {
-        error
-    } = await supabaseClient
-        .from("articles")
-        .update({
-            status,
-            published_at:
-                status === "published"
-                    ? new Date().toISOString()
-                    : null,
-            updated_at:
-                new Date().toISOString()
-        })
-        .eq("id", id);
-
-    if (error) {
-
-        console.error(error);
-
-        alert(
-            "تعذر تغيير حالة المقال."
+        openArticle(
+            result.data.slug
         );
-
-        return;
 
     }
 
-    await loadArticles();
-
-    await loadAdminArticles();
-
 }
 
+
+/* ============================================================
+   DELETE ARTICLE
+   ============================================================ */
 
 async function deleteArticle(id) {
 
-    if (
-        !confirm(
-            "هل أنت متأكد من حذف هذا المقال نهائيًا؟"
-        )
-    ) {
-
+    if (!confirm(
+        "هل أنت متأكد من حذف هذا المقال؟"
+    )) {
         return;
-
     }
+
 
     const {
         error
     } = await supabaseClient
+
         .from("articles")
+
         .delete()
+
         .eq("id", id);
+
 
     if (error) {
 
         console.error(error);
 
-        alert(
-            "تعذر حذف المقال."
+        showToast(
+            "تعذر حذف المقال: " +
+            error.message
         );
 
         return;
-
     }
+
+
+    showToast(
+        "تم حذف المقال"
+    );
+
 
     await loadArticles();
 
     await loadAdminArticles();
 
-    alert("تم حذف المقال.");
-
 }
 
 
-/* =========================================================
+/* ============================================================
    ADMIN COMMENTS
-========================================================= */
+   ============================================================ */
 
 async function loadAdminComments() {
 
-    const container =
-        document.getElementById(
-            "admin-comments-list"
-        );
+    if (!currentUser) {
+        return;
+    }
+
 
     const {
         data,
         error
     } = await supabaseClient
+
         .from("comments")
+
         .select(`
             *,
             articles (
                 title
             )
         `)
+
         .order("created_at", {
             ascending: false
         });
 
+
     if (error) {
 
         console.error(error);
 
-        container.innerHTML =
-            `<div class="empty">
-                تعذر تحميل التعليقات.
-            </div>`;
-
         return;
-
     }
 
-    if (!data.length) {
 
-        container.innerHTML =
-            `<div class="empty">
-                لا توجد تعليقات.
-            </div>`;
+    const table =
+        document.getElementById(
+            "admin-comments-table"
+        );
+
+
+    if (!data || !data.length) {
+
+        table.innerHTML = `
+
+            <tr>
+                <td colspan="5">
+                    لا توجد تعليقات.
+                </td>
+            </tr>
+
+        `;
 
         return;
-
     }
 
-    container.innerHTML =
-        data.map(function (comment) {
 
-            const visible =
-                comment.status === "visible";
+    table.innerHTML =
 
-            return `
-                <div class="admin-item">
+        data.map(comment => `
 
-                    <div class="admin-item-title">
-                        ${escapeHtml(comment.author_name)}
-                    </div>
+            <tr>
 
-                    <div style="font-size:11px;color:var(--muted);margin-bottom:8px;">
+                <td>
+                    ${escapeHTML(
+                        comment.author_name
+                    )}
+                </td>
 
-                        المقال:
+                <td style="max-width:250px;">
+                    <div style="font-weight:600; margin-bottom:4px;">
                         ${
-                            comment.articles
-                                ? escapeHtml(comment.articles.title)
-                                : ""
+                            escapeHTML(
+                                comment.articles
+                                    ? comment.articles.title
+                                    : ""
+                            )
                         }
-
-                        <br>
-
-                        ${formatDate(comment.created_at)}
-
-                        <br>
-
-                        <span class="status ${
-                            visible
-                                ? "status-visible"
-                                : "status-hidden"
-                        }">
-
-                            ${
-                                visible
-                                    ? "ظاهر"
-                                    : "مخفي"
-                            }
-
-                        </span>
-
                     </div>
 
-                    <div style="font-size:13px;margin-bottom:10px;">
-                        ${escapeHtml(comment.content)}
+                    <div style="color:var(--muted);">
+                        ${escapeHTML(
+                            comment.content
+                        )}
                     </div>
+                </td>
 
-                    <div class="admin-actions">
+                <td>
+
+                    <span class="status-badge ${
+                        comment.status === "visible"
+                            ? "status-visible"
+                            : "status-hidden"
+                    }">
 
                         ${
-                            visible
-                            ?
-                            `<button class="btn"
-                                    onclick="setCommentStatus('${comment.id}', 'hidden')">
-                                إخفاء
-                            </button>`
-                            :
-                            `<button class="btn btn-success"
-                                    onclick="setCommentStatus('${comment.id}', 'visible')">
-                                إظهار
-                            </button>`
+                            comment.status === "visible"
+                                ? "ظاهر"
+                                : "مخفي"
                         }
 
-                        <button class="btn btn-danger"
-                                onclick="deleteComment('${comment.id}')">
-                            حذف
-                        </button>
+                    </span>
 
-                    </div>
+                </td>
 
-                </div>
-            `;
+                <td>
+                    ${formatDate(
+                        comment.created_at
+                    )}
+                </td>
 
-        }).join("");
+                <td>
+
+                    <button
+                        class="btn btn-small"
+                        onclick="toggleComment('${comment.id}', '${comment.status}')"
+                    >
+                        ${
+                            comment.status === "visible"
+                                ? "إخفاء"
+                                : "إظهار"
+                        }
+                    </button>
+
+                    <button
+                        class="btn btn-small btn-danger"
+                        onclick="deleteComment('${comment.id}')"
+                    >
+                        حذف
+                    </button>
+
+                </td>
+
+            </tr>
+
+        `).join("");
 
 }
 
 
-async function setCommentStatus(
-    id,
-    status
-) {
+/* ============================================================
+   TOGGLE COMMENT
+   ============================================================ */
+
+async function toggleComment(id, currentStatus) {
+
+    const newStatus =
+        currentStatus === "visible"
+            ? "hidden"
+            : "visible";
+
 
     const {
         error
     } = await supabaseClient
+
         .from("comments")
+
         .update({
-            status,
-            updated_at:
-                new Date().toISOString()
+            status: newStatus
         })
+
         .eq("id", id);
+
 
     if (error) {
 
         console.error(error);
 
-        alert(
-            "تعذر تغيير حالة التعليق."
+        showToast(
+            "تعذر تغيير حالة التعليق: " +
+            error.message
         );
 
         return;
-
     }
 
+
+    showToast(
+        newStatus === "visible"
+            ? "تم إظهار التعليق"
+            : "تم إخفاء التعليق"
+    );
+
+
     await loadAdminComments();
+
 
     if (currentArticle) {
 
@@ -2662,39 +3825,51 @@ async function setCommentStatus(
 
 }
 
+
+/* ============================================================
+   DELETE COMMENT
+   ============================================================ */
 
 async function deleteComment(id) {
 
-    if (
-        !confirm(
-            "هل تريد حذف التعليق نهائيًا؟"
-        )
-    ) {
-
+    if (!confirm(
+        "هل أنت متأكد من حذف التعليق نهائيًا؟"
+    )) {
         return;
-
     }
+
 
     const {
         error
     } = await supabaseClient
+
         .from("comments")
+
         .delete()
+
         .eq("id", id);
+
 
     if (error) {
 
         console.error(error);
 
-        alert(
-            "تعذر حذف التعليق."
+        showToast(
+            "تعذر حذف التعليق: " +
+            error.message
         );
 
         return;
-
     }
 
+
+    showToast(
+        "تم حذف التعليق نهائيًا"
+    );
+
+
     await loadAdminComments();
+
 
     if (currentArticle) {
 
@@ -2707,9 +3882,9 @@ async function deleteComment(id) {
 }
 
 
-/* =========================================================
+/* ============================================================
    SITE SETTINGS
-========================================================= */
+   ============================================================ */
 
 async function loadSettings() {
 
@@ -2717,279 +3892,419 @@ async function loadSettings() {
         data,
         error
     } = await supabaseClient
+
         .from("site_settings")
+
         .select("*")
-        .order("id", {
-            ascending: true
-        })
-        .limit(1)
+
+        .eq("id", 1)
+
         .maybeSingle();
+
 
     if (error) {
 
         console.error(error);
 
         return;
-
     }
+
 
     DB.settings = data;
 
+
     if (data) {
 
-        const siteName =
-            data.site_name ||
-            "البراق للقراءة والكتابة";
-
         document.title =
-            siteName;
+            data.site_name ||
+            "البراق | للقراءة والكتابة";
 
     }
+
 
 }
 
 
-async function loadSiteSettingsForm() {
+async function openSettingsModal() {
 
-    if (!DB.settings) {
+    await loadSettings();
 
-        await loadSettings();
 
-    }
+    const settings =
+        DB.settings || {
 
-    if (!DB.settings) return;
+            id: 1,
 
-    document.getElementById(
-        "site-name"
-    ).value =
-        DB.settings.site_name || "";
+            site_name:
+                "البراق للقراءة والكتابة",
 
-    document.getElementById(
-        "site-description"
-    ).value =
-        DB.settings.site_description || "";
+            site_description:
+                "فضاء للقراءة والكتابة والفكر والتحليل.",
 
-    document.getElementById(
-        "site-email"
-    ).value =
-        DB.settings.contact_email || "";
+            contact_email:
+                "",
 
-    document.getElementById(
-        "allow-comments"
-    ).value =
-        DB.settings.allow_comments === false
-            ? "false"
-            : "true";
+            allow_comments:
+                true,
+
+            moderate_comments:
+                false
+
+        };
+
+
+    document
+        .getElementById(
+            "setting-name"
+        )
+        .value =
+            settings.site_name || "";
+
+
+    document
+        .getElementById(
+            "setting-description"
+        )
+        .value =
+            settings.site_description || "";
+
+
+    document
+        .getElementById(
+            "setting-email"
+        )
+        .value =
+            settings.contact_email || "";
+
+
+    document
+        .getElementById(
+            "setting-comments"
+        )
+        .checked =
+            settings.allow_comments !== false;
+
+
+    document
+        .getElementById(
+            "setting-moderate"
+        )
+        .checked =
+            !!settings.moderate_comments;
+
+
+    openModal(
+        "settings-modal"
+    );
 
 }
 
 
 async function saveSettings() {
 
-    if (!DB.settings) {
-
-        alert(
-            "لم يتم العثور على إعدادات الموقع."
-        );
-
-        return;
-
-    }
-
     const payload = {
 
+        id: 1,
+
         site_name:
-            document.getElementById(
-                "site-name"
-            ).value.trim(),
+            document
+                .getElementById(
+                    "setting-name"
+                )
+                .value
+                .trim(),
 
         site_description:
-            document.getElementById(
-                "site-description"
-            ).value.trim(),
+            document
+                .getElementById(
+                    "setting-description"
+                )
+                .value
+                .trim(),
 
         contact_email:
-            document.getElementById(
-                "site-email"
-            ).value.trim(),
+            document
+                .getElementById(
+                    "setting-email"
+                )
+                .value
+                .trim(),
 
         allow_comments:
-            document.getElementById(
-                "allow-comments"
-            ).value === "true",
+            document
+                .getElementById(
+                    "setting-comments"
+                )
+                .checked,
+
+        moderate_comments:
+            document
+                .getElementById(
+                    "setting-moderate"
+                )
+                .checked,
 
         updated_at:
             new Date().toISOString()
 
     };
 
+
     const {
         error
     } = await supabaseClient
+
         .from("site_settings")
-        .update(payload)
-        .eq("id", DB.settings.id);
+
+        .upsert(
+            payload,
+            {
+                onConflict: "id"
+            }
+        );
+
 
     if (error) {
 
         console.error(error);
 
-        alert(
-            "تعذر حفظ الإعدادات."
+        showToast(
+            "تعذر حفظ الإعدادات: " +
+            error.message
         );
 
         return;
-
     }
 
-    DB.settings = {
-        ...DB.settings,
-        ...payload
-    };
+
+    DB.settings =
+        payload;
+
+
+    closeModal(
+        "settings-modal"
+    );
+
+
+    showToast(
+        "تم حفظ إعدادات الموقع"
+    );
+
+
+    await loadSettings();
+
+    await renderCommentForm();
+
+}
+
+
+/* ============================================================
+   HOME
+   ============================================================ */
+
+function goHome() {
+
+    currentArticle = null;
+
+    document
+        .getElementById(
+            "article-view"
+        )
+        .classList.remove("visible");
+
+
+    document
+        .getElementById(
+            "home-view"
+        )
+        .style.display =
+            "block";
+
+
+    history.pushState(
+        {},
+        "",
+        window.location.pathname
+    );
+
 
     document.title =
-        payload.site_name ||
-        "البراق للقراءة والكتابة";
-
-    alert(
-        "تم حفظ إعدادات الموقع."
-    );
-
-}
+        "البراق | للقراءة والكتابة";
 
 
-/* =========================================================
-   THEME
-========================================================= */
-
-function toggleTheme() {
-
-    document.documentElement
-        .classList.toggle("dark");
-
-    const isDark =
-        document.documentElement
-            .classList.contains("dark");
-
-    localStorage.setItem(
-        "alburaq_theme",
-        isDark
-            ? "dark"
-            : "light"
-    );
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
 
 }
 
 
-function loadTheme() {
+/* ============================================================
+   ROUTER
+   ============================================================ */
 
-    const theme =
-        localStorage.getItem(
-            "alburaq_theme"
+async function handleRoute() {
+
+    const params =
+        new URLSearchParams(
+            window.location.search
         );
 
-    if (theme === "dark") {
 
-        document.documentElement
-            .classList.add("dark");
+    const slug =
+        params.get("article");
+
+
+    if (slug) {
+
+        await openArticle(
+            slug
+        );
+
+    } else {
+
+        goHome();
 
     }
 
 }
 
 
-/* =========================================================
-   UTILITIES
-========================================================= */
+window.addEventListener(
+    "popstate",
+    handleRoute
+);
 
-function formatDate(
-    date
-) {
 
-    if (!date) return "";
+/* ============================================================
+   HISTORY-FRIENDLY ARTICLE OPEN
+   ============================================================ */
 
-    try {
+const originalOpenArticle =
+    openArticle;
 
-        return new Intl.DateTimeFormat(
-            "ar-MA",
+
+/*
+   إعادة تعريف بسيطة حتى يصبح للرابط
+   تاريخ في المتصفح.
+*/
+
+openArticle = async function(slug) {
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+
+    if (
+        params.get("article") !== slug
+    ) {
+
+        history.pushState(
             {
-                year: "numeric",
-                month: "long",
-                day: "numeric"
-            }
-        ).format(
-            new Date(date)
+                article: slug
+            },
+            "",
+            getArticleURL(slug)
         );
 
-    } catch (error) {
+    }
 
-        return date;
+
+    await originalOpenArticle(
+        slug
+    );
+
+};
+
+
+/* ============================================================
+   INITIALIZATION
+   ============================================================ */
+
+async function initialize() {
+
+    loadTheme();
+
+
+    document
+        .getElementById(
+            "current-year"
+        )
+        .textContent =
+            new Date().getFullYear();
+
+
+    await checkAuth();
+
+
+    /*
+       تحميل التصنيفات والمقالات العامة.
+       المقالات المنشورة متاحة للزائر
+       بسبب سياسة RLS:
+       Published articles are publicly readable.
+    */
+
+    await loadCategories();
+
+    await loadArticles();
+
+    await loadSettings();
+
+
+    /*
+       إذا كان المدير قد سجل دخوله بالفعل
+       عند إعادة فتح الصفحة، نحمّل لوحة التحكم.
+    */
+
+    if (currentUser) {
+
+        await loadAdminData();
 
     }
 
-}
 
+    /*
+       معالجة رابط المقال الخارجي.
+    */
 
-function slugifyArabic(
-    text
-) {
-
-    return text
-        .toString()
-        .trim()
-        .toLowerCase()
-        .replace(/\s+/g, "-")
-        .replace(/[^\u0600-\u06FFa-z0-9-]/g, "")
-        .replace(/-+/g, "-");
+    await handleRoute();
 
 }
 
 
-function escapeHtml(
-    value
-) {
-
-    if (value === null ||
-        value === undefined) {
-
-        return "";
-
-    }
-
-    return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-
-}
+initialize();
 
 
-function escapeJs(
-    value
-) {
-
-    return String(value)
-        .replace(/\\/g, "\\\\")
-        .replace(/'/g, "\\'");
-
-}
-
-
-/* =========================================================
-   KEYBOARD / ESC
-========================================================= */
+/* ============================================================
+   KEYBOARD SHORTCUT
+   ============================================================ */
 
 document.addEventListener(
     "keydown",
-    function (event) {
+    event => {
 
-        if (event.key === "Escape") {
+        if (
+            event.key === "Escape"
+        ) {
 
-            closeReader();
-            closeLogin();
-            closeAdmin();
+            document
+                .querySelectorAll(
+                    ".modal.show"
+                )
+                .forEach(modal => {
+
+                    modal.classList.remove(
+                        "show"
+                    );
+
+                });
+
+            document.body.classList.remove(
+                "modal-open"
+            );
 
         }
 
